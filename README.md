@@ -1,10 +1,12 @@
-# TEAM TOADD team number
+# TEAM 4
 
 ## App name
 
+TOADD App name (maybe even logo)
+
 ## Team members
 
-TOADD names of the team members
+Carl Cai, Andre D’sa, Kevin Liu 
 TOADD picture of the team
 
 ## App description
