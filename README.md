@@ -1,12 +1,13 @@
 # TEAM 4
 
-## App name
+## FlowSpace
 
-TOADD App name (maybe even logo)
+TOADD App Logo Banner
 
 ## Team members
 
-Carl Cai, Andre D’sa, Kevin Liu 
+Carl Cai, Andre D’sa, Kevin Liu
+
 TOADD picture of the team
 
 ## App description
