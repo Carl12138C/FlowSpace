@@ -18,17 +18,17 @@ Introducing FlowSpace, our application will consolidate the processes involved i
 
 ## You will be able to:
 
-  Communicate with your team members 
+  * Communicate with your team members 
   
-    View your assigned task
+  * View your assigned task
   
-    Create task for people within your group
+  * Create task for people within your group
   
-    Create polls
+  * Create polls
   
-    Use Artifical Intelligence to have a more efficient flow.
+  * Use Artifical Intelligence to have a more efficient flow.
   
-    View a Calendar with all your task.
+  * View a Calendar with all your task.
   
 
 ## Idea Proposal
