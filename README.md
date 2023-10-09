@@ -14,8 +14,15 @@ TOADD picture of the team
 
 Working environments can be disorganized and frustrating when there is a lack of management. It is essential to maintain an organized and convenient workspace to promote better and faster workflow. In our case, we find a lack of technology that supports all functions and needs in a workspace such as task delegation, team communication, and polls for decision-making. We want to create an app that supports multiple features such that everything will be consolidated and organized. 
 
-Our application will consolidate the processes involved in a workspace under one environment to create a common ground for better communication and more efficient workflow. 
+Introducing FlowSpace, our application will consolidate the processes involved in a workspace in a seamless environment to create a common ground for better communication and more efficient workflow. 
 
+You will be able to:
+  -Communicate with your team members 
+  -View your assigned task
+  -Create task for people within your group
+  -Create polls
+  -Use Artifical Intelligence to have a more efficient flow.
+  -View a Calendar with all your task.
 
 ## Idea Proposal
 [Idea Proposal](https://docs.google.com/document/d/12kb-L6TrMY1ZIbMzLFE-d7--DhrUgkdp/edit)
@@ -54,7 +61,7 @@ Our application will consolidate the processes involved in a workspace under one
 
 ## Tools & APIs
 -FrontEnd: ReactJS, ViteJS
--Backend: NodeJS, Firebase
+-Backend: NodeJS
 
 ## Final delivery
 
