@@ -16,7 +16,7 @@ Working environments can be disorganized and frustrating when there is a lack of
 
 Introducing FlowSpace, our application will consolidate the processes involved in a workspace in a seamless environment to create a common ground for better communication and more efficient workflow. 
 
-## You will be able to:
+# You will be able to:
 
   * Communicate with your team members 
   
