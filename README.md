@@ -71,7 +71,7 @@ Introducing FlowSpace, our application will consolidate the processes involved i
 
 ## Tools & APIs
 -FrontEnd: ReactJS, ViteJS
--Backend: NodeJS
+-Backend: NodeJS, FireBase
 
 ## Final delivery
 
