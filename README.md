@@ -71,8 +71,8 @@ Introducing FlowSpace, our application will consolidate the processes involved i
 * [Sprint retrospective]()
 
 ## Tools & APIs
--FrontEnd: ReactJS, ViteJS
--Backend: NodeJS, FireBase
+* FrontEnd: ReactJS, ViteJS
+* Backend: NodeJS, FireBase
 
 ## Final delivery
 
