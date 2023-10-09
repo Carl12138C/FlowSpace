@@ -4,6 +4,7 @@
 
 TOADD App Logo Banner
 
+
 ## Team members
 
 Carl Cai, Andre D’sa, Kevin Liu
@@ -70,8 +71,8 @@ Introducing FlowSpace, our application will consolidate the processes involved i
 * [Sprint retrospective]()
 
 ## Tools & APIs
--FrontEnd: ReactJS, ViteJS
--Backend: NodeJS, FireBase
+* FrontEnd: ReactJS, ViteJS
+* Backend: NodeJS, FireBase
 
 ## Final delivery
 
