@@ -38,7 +38,8 @@ Introducing FlowSpace, our application will consolidate the processes involved i
 [Calendar](https://calendar.google.com/calendar/u/0?cid=aXZoMmU3NjhzMjRkdGlxZWYwcXZvbzhxcjBAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ)
 
 ## Product Backlog
-[Product Backlog]()
+[Product Backlog](https://docs.google.com/spreadsheets/d/1Wbs6DIA65byChgVr_F-rV9t5BU84cUO6A8Wg8sxLSMg/edit?usp=sharing)
+[Requirements Discovery](https://docs.google.com/document/d/1hswbGV27h_wxzdyXfXx72DJeoNI5apY41l44uFex8BQ/edit?usp=sharing)
 
 ## Architecture & Design
 [Architecture & Design]()
