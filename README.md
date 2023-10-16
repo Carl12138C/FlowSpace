@@ -2,7 +2,6 @@
 
 ## FlowSpace
 
-TOADD App Logo Banner
 ![App Logo](https://github.com/paceuniversity/cs389f2023team4/blob/main/image/Kirby%20Cropped.png)
 
 
