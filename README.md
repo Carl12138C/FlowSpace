@@ -73,6 +73,7 @@ Introducing FlowSpace, our application will consolidate the processes involved i
 ## Tools & APIs
 * FrontEnd: ReactJS, ViteJS
 * Backend: NodeJS, FireBase
+* Real Time Communication API: [WebSocket API](https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API)
 
 ## Final delivery
 
