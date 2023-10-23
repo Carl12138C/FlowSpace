@@ -1,10 +1,11 @@
 import './App.css'
-import Tile from './components/Tile.jsx'
 
 function App() {
 
   return (
     <>
+      {/* <Tile name="John" tid="123" size="M"/> */}
+      <ChatLog/>
       <div>Hello Mom!</div>
       <Tile></Tile>
     </>
