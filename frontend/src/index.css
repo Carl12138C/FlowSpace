@@ -11,9 +11,6 @@
 
 }
 
-body {
-  margin: 0;
+main {
   display: flex;
-  min-width: 320px;
-  min-height: 100vh;
 }

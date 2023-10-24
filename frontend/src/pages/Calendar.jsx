@@ -1,5 +1,5 @@
 
-function Calendar() {
+export default function Calendar() {
 
     return(
         <>

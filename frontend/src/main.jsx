@@ -1,7 +1,12 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App.jsx'
+import Chat from './pages/Chat.jsx'
+import Tasklist from './pages/Tasklist.jsx'
+import Calendar from './pages/Calendar.jsx'
 import './index.css'
+
+
 
 import {
   RouterProvider,
@@ -13,13 +18,20 @@ const routes = createBrowserRouter([
     path:"/",
     //login page
     element:<App/>,
+    errorElement:<Error/>,
     children:[
       {
-        path:"/chat",
+        path:"chat",
         element:<Chat/>,
-        children
       },
-
+      {
+        path:"tasklist",
+        element:<Tasklist/>,
+      },
+      {
+        path:"calendar",
+        element:<Calendar/>,
+      },
     ]
 
   }

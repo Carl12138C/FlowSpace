@@ -1,5 +1,5 @@
 
-function Tasklist() {
+export default function Tasklist() {
     
     return(
         <>

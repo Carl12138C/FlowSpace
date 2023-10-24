@@ -1,19 +1,18 @@
 import { Link } from "react-router-dom";
-
+import chat_button from "../../../image/chat_button.png";
+import task_button from "../../../image/task_button.png";
+import calendar_button from"../../../image/calendar_button.png";
 export default function NavBar() {
   return (
       <div id="nav">
         <Link to={"/chat"}>
-          <button>Chat</button>
+          <img src = {chat_button} ></img>
         </Link>
         <Link to={"/tasklist"}>
-          <button>Task</button>
+          <img id = "task_button" src = {task_button}></img>
         </Link>
         <Link to={"/calendar"}>
-          <button>Calendar</button>
-        </Link>
-        <Link to={"/"}>
-          <button>Test</button>
+          <img src = {calendar_button}></img>
         </Link>
       </div>
   );
