@@ -9,9 +9,7 @@
     justify-content: space-evenly;
 }
 
-body{
-    display: flex;
-}
+
 img{
     flex:1;
     width: 6vw;
