@@ -1,0 +1,23 @@
+#nav{
+    display: flex;
+    flex-direction: column;
+    
+    outline: 1px solid;
+    outline-color: black;
+    min-width: 6vw;
+    min-height: 95vh;
+    justify-content: space-evenly;
+}
+
+
+img{
+    flex:1;
+    width: 6vw;
+    display: block;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+#chat_button,#task_button{
+    width:5vw;
+}

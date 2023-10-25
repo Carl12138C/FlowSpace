@@ -10,11 +10,9 @@
   -webkit-text-size-adjust: 100%;
 
 }
-
-body {
-  margin: 0;
+body{
   display: flex;
-  justify-content: center;
-  min-width: 320px;
-  min-height: 100vh;
+}
+main {
+  display: flex;
 }
