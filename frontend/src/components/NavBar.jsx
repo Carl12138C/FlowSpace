@@ -6,7 +6,7 @@ export default function NavBar() {
   return (
       <div id="nav">
         <Link to={"/chat"}>
-          <img src = {chat_button} ></img>
+          <img id = "chat_button" src = {chat_button} ></img>
         </Link>
         <Link to={"/tasklist"}>
           <img id = "task_button" src = {task_button}></img>

@@ -15,4 +15,11 @@ body{
 img{
     flex:1;
     width: 6vw;
+    display: block;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+#chat_button,#task_button{
+    width:5vw;
 }
