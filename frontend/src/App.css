@@ -9,21 +9,12 @@
   justify-content: space-evenly;
 }
 
-<<<<<<< HEAD
-img{
-    flex:1;
-    width: 6vw;
-    display: block;
-    margin-right: auto;
-    margin-left: auto;
-=======
 img {
   flex: 1;
   width: 65px;
   display: block;
   margin-right: auto;
   margin-left: auto;
->>>>>>> ba6b43c516b21a66d321f68c2a59df3fd1d4f114
 }
 
 #chat_button,
