@@ -1,17 +1,13 @@
-body {
+body{
+  min-height:100%;
+  display: flex;
+}
+
+html{
   min-height: 100%;
   display: flex;
 }
 
-html {
-  min-height: 100%;
-  display: flex;
-}
-
-main {
-  display: flex;
-}
-
-#root {
-  display: flex;
+#root{
+  display:flex;
 }

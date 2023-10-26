@@ -1,6 +1,5 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import App from "./App.jsx";
 import Chat from "./pages/Chat.jsx";
 import Tasklist from "./pages/Tasklist.jsx";
 import Calendar from "./pages/Calendar.jsx";
@@ -8,6 +7,7 @@ import "./index.css";
 import Home from "./pages/Home.jsx";
 import MainLayout from "./layouts/MainLayout.jsx";
 import { AuthContext } from "./context/AuthContext.jsx";
+import "./app.css";
 
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 
