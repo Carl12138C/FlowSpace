@@ -6,8 +6,6 @@ import Tasklist from './pages/Tasklist.jsx'
 import Calendar from './pages/Calendar.jsx'
 import './index.css'
 
-
-
 import {
   RouterProvider,
   createBrowserRouter,
