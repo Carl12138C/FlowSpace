@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -9,9 +10,21 @@
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
 }
+=======
+>>>>>>> ba6b43c516b21a66d321f68c2a59df3fd1d4f114
 body{
+  min-height:100%;
   display: flex;
 }
-main {
+
+html{
+  min-height: 100%;
   display: flex;
 }
+<<<<<<< HEAD
+=======
+
+#root{
+  display:flex;
+}
+>>>>>>> ba6b43c516b21a66d321f68c2a59df3fd1d4f114
