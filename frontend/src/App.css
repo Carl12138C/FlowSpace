@@ -1,8 +1,8 @@
 #nav {
   display: flex;
   flex-direction: column;
-  outline: 1px solid;
-  outline-color: black;
+  border-style: solid;
+  border-width: 1px;
   max-width: 6vw;
   min-width: 80px;
   min-height: 95vh;
