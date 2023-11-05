@@ -1,6 +1,10 @@
 .calendar-root {
     --grid-gap: 2px;
+<<<<<<< HEAD
     --grid-height: 92%;
+=======
+    --grid-height: 87.5vh;
+>>>>>>> 923ceb8cdd94accebd9bbf01faf080a5f3dab9fb
     --text-color-light: rgba(0, 0, 0, 0.4);
     --text-color-primary: rgba(0, 0, 0, 0.7);
     --grid-background-color: rgb(211, 205, 198);
@@ -8,8 +12,12 @@
     --space-sm: 4px;
     --space-md: 8px;
     --space-lg: 16px;
+<<<<<<< HEAD
     width: 100%;
     height: calc(100% - 2px);
+=======
+    width: 92vw;
+>>>>>>> 923ceb8cdd94accebd9bbf01faf080a5f3dab9fb
     border-style: solid;
     border-width: 1px;
     border-left: hidden;
