@@ -1,5 +1,5 @@
 // import ";
-import "../calendar.css"
+import "../css/calendar.css"
 import { useState } from "react";
 import CalendarComponent from "../components/CalendarComponent";
 import { CalendarDayHeader } from "../components/CalendarComponent";

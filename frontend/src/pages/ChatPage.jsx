@@ -16,6 +16,7 @@ import {
 
 // import "stream-chat-react/dist/css/index.css";
 import "stream-chat-react/dist/css/v2/index.css";
+import "../css/chat.css";
 
 //Store in env later
 const apiKey = "8ncyw824q3x3";
