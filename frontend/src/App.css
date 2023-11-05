@@ -3,8 +3,10 @@
   flex-direction: column;
   border: 1px solid;
   width: 6vw;
+  border: solid;
+  border-width: 1px;
   min-width: 80px;
-  min-height: 95vh;
+  height: 95vh;
   justify-content: space-evenly;
 }
 
