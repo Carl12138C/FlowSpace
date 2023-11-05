@@ -14,19 +14,11 @@ import {
     useChannelActionContext,
 } from "stream-chat-react";
 
-<<<<<<< HEAD
-=======
-// import "stream-chat-react/dist/css/index.css";
->>>>>>> 923ceb8cdd94accebd9bbf01faf080a5f3dab9fb
 import "stream-chat-react/dist/css/v2/index.css";
 import "../css/chat.css";
 
 //Store in env later
-<<<<<<< HEAD
 const apiKey = import.meta.env.VITE_STREAM_KEY;
-=======
-const apiKey = "8ncyw824q3x3";
->>>>>>> 923ceb8cdd94accebd9bbf01faf080a5f3dab9fb
 
 const user = {
     id: "KevinTest",
@@ -42,11 +34,7 @@ export default function ChatPage() {
         members: { $in: [user.id] },
     });
 
-<<<<<<< HEAD
-    console.log(apiKey);
 
-=======
->>>>>>> 923ceb8cdd94accebd9bbf01faf080a5f3dab9fb
     useEffect(function connect() {
         async function init() {
             const chatCilent = new StreamChat.getInstance(apiKey);
