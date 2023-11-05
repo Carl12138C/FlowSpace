@@ -1,6 +1,6 @@
 .calendar-root {
     --grid-gap: 2px;
-    --grid-height: 91vh;
+    --grid-height: 87.5vh;
     --text-color-light: rgba(0, 0, 0, 0.4);
     --text-color-primary: rgba(0, 0, 0, 0.7);
     --grid-background-color: rgb(211, 205, 198);
@@ -13,7 +13,6 @@
     border-width: 1px;
     border-left: hidden;
     scroll-behavior: hidden;
-    /* height:95vh; */
   }
   
   /* | Sun | Mon | Tue | Wed | Thu | Fri | Sat  */
