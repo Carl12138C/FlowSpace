@@ -1,22 +1,15 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import Chat from "./pages/Chat.jsx";
+import ChatPage from "./pages/ChatPage.jsx";
 import Tasklist from "./pages/Tasklist.jsx";
 import Calendar from "./pages/Calendar.jsx";
 import "./index.css";
+import "./app.css";
 import Home from "./pages/Home.jsx";
 import MainLayout from "./layouts/MainLayout.jsx";
 import { AuthContext } from "./context/AuthContext.jsx";
-import "./app.css";
 
-<<<<<<< HEAD
-import {
-  RouterProvider,
-  createBrowserRouter,
-} from "react-router-dom";
-=======
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
->>>>>>> ba6b43c516b21a66d321f68c2a59df3fd1d4f114
 
 const routes = createBrowserRouter([
   {
@@ -32,7 +25,7 @@ const routes = createBrowserRouter([
         children: [
           {
             path: "chat",
-            element: <Chat />,
+            element: <ChatPage />,
           },
           {
             path: "tasklist",
