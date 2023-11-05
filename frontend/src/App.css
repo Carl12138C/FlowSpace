@@ -1,14 +1,8 @@
 #nav {
   display: flex;
   flex-direction: column;
-<<<<<<< HEAD
-  border-style: solid;
+  border: solid;
   border-width: 1px;
-=======
-  outline: 1px solid;
-  outline-color: black;
->>>>>>> ba6b43c516b21a66d321f68c2a59df3fd1d4f114
-  max-width: 6vw;
   min-width: 80px;
   min-height: 95vh;
   justify-content: space-evenly;
