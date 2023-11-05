@@ -4,11 +4,11 @@ import ProtectedRoute from "../components/ProtectedRoute";
 
 export default function MainLayout() {
   return (
-    <>
+    <div id="root" className="shadow">
       <ProtectedRoute>
         <NavBar />
         <Outlet />
       </ProtectedRoute>
-    </>
+    </div>
   );
 }

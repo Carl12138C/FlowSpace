@@ -10,11 +10,17 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "classnames": "^2.3.2",
+    "dayjs": "^1.11.10",
     "firebase": "^10.5.0",
     "font-awesome": "^4.7.0",
+    "prop-types": "^15.8.1",
+    "ramda": "^0.29.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.17.0"
+    "react-router-dom": "^6.17.0",
+    "stream-chat": "^8.13.1",
+    "stream-chat-react": "^10.15.0"
   },
   "devDependencies": {
     "@types/react": "^18.2.15",
