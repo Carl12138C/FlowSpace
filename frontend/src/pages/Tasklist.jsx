@@ -1,7 +1,7 @@
-import { Box, Button, Grid, Stack, Typography } from "@mui/material";
-import AddIcon from '@mui/icons-material/Add';
+import { Box, Grid, Stack, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import TaskItem from "../components/TaskItem";
+import TaskInput from "../components/TaskInput";
 
 const StyledDiv = styled("div")({
   // backgroundColor: 'aliceblue',
@@ -21,15 +21,7 @@ export default function Tasklist() {
             </Typography>
           </Grid>
           <Grid xs={3}>
-            <Button
-              color="primary"
-              aria-label="add to task list"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-            >
-              <AddIcon />
-            </Button>
+            <TaskInput />
           </Grid>
           <Grid xs={12}>
             <Stack spacing={2}>
