@@ -25,6 +25,7 @@ export default function Tasklist() {
   };
 
   function generateTaskItem (itemProps) {
+    console.log(itemProps);
     return (
     <TaskItem
       key={itemProps.id}
