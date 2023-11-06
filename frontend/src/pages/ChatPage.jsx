@@ -14,12 +14,11 @@ import {
     useChannelActionContext,
 } from "stream-chat-react";
 
-// import "stream-chat-react/dist/css/index.css";
 import "stream-chat-react/dist/css/v2/index.css";
 import "../css/chat.css";
 
 //Store in env later
-const apiKey = "8ncyw824q3x3";
+const apiKey = import.meta.env.VITE_STREAM_KEY;
 
 const user = {
     id: "KevinTest",
@@ -83,7 +82,6 @@ export default function ChatPage() {
 function Channels({ loadedChannels }) {
     const { channel: activeChannel, setActiveChannel } = useChatContext();
 
-    // console.log(activeChannel);
     return (
         <div className="channelList">
             <button
