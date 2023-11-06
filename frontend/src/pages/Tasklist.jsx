@@ -1,3 +1,4 @@
+import * as React from "react";
 import { Box, Grid, Stack, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import TaskItem from "../components/TaskItem";
@@ -11,6 +12,26 @@ const StyledDiv = styled("div")({
 });
 
 export default function Tasklist() {
+  const [itemList, setItems] = React.useState([
+    {id: 1, title: "Get Coffee", completed: false },
+    {id: 2, title: "Team Meeting", completed: false },
+    {id: 3, title: "Presentation", completed: false },
+    {id: 4, title: "Lunch", completed: false },
+  ])
+
+  const addTask = (newTitle) => {
+    const newTask = {title: newTitle, completed: false };
+    setItems( [...itemList, newTask] );
+  };
+
+  function generateTaskItem (itemProps) {
+    return (
+    <TaskItem
+      key={itemProps.id}
+      info={itemProps}
+    />
+    )}
+
   return (
     <StyledDiv>
       <Box sx={{ flexGrow: 1 }}>
@@ -21,15 +42,11 @@ export default function Tasklist() {
             </Typography>
           </Grid>
           <Grid xs={3}>
-            <TaskInput />
+            <TaskInput addTask= {addTask} />
           </Grid>
           <Grid xs={12}>
             <Stack spacing={2}>
-              <TaskItem />
-              <TaskItem />
-              <TaskItem />
-              <TaskItem />
-              <TaskItem />
+              { itemList.map(generateTaskItem) }
             </Stack>
           </Grid>
         </Grid>

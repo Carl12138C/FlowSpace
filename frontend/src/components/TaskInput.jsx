@@ -32,7 +32,7 @@ const names = [
     "Kevin"
 ];
 
-export default function TaskInput() {
+export default function TaskInput(props) {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -44,8 +44,19 @@ export default function TaskInput() {
     } = event;
     setPersonName(
       // On autofill we get a stringified value.
-      typeof value === 'string' ? value.split(',') : value,
+      typeof value === "string" ? value.split(",") : value
     );
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    props.addTask({
+      title: data.get("task-title"),
+      description: data.get("task-des"),
+    });
+    console.log(props);
+    setOpen(false);
   };
 
   return (
@@ -66,7 +77,7 @@ export default function TaskInput() {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <Box sx={style}>
+    <Box component="form" onSubmit={handleSubmit} sx={style}>
           <Stack spacing={2}>
             <Typography id="modal-modal-title" variant="h6" component="h2">
               Create A Task
@@ -74,7 +85,7 @@ export default function TaskInput() {
             <FormControl fullWidth sx={{ m: 1 }}>
               <InputLabel id="name-selector-label">Assignees</InputLabel>
               <Select
-              labelId="name-selector-label"
+                labelId="name-selector-label"
                 id="name-selector"
                 multiple
                 value={personName}
@@ -88,14 +99,16 @@ export default function TaskInput() {
                 ))}
               </Select>
             </FormControl>
-            <TextField fullWidth label="Title" id="new-task-title" />
+            <TextField fullWidth label="Title" id="task-title" name="task-title" />
             <TextField
               fullWidth
-              id="new-task-des"
+              id="task-des"
+              name="task-des"
               label="Description"
               multiline
               rows={4}
             />
+            <Button type="submit">Create</Button>
           </Stack>
         </Box>
       </Modal>

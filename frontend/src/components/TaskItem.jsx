@@ -11,13 +11,18 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 
-export default function TaskItem() {    
+// const handleChange = (event) => {
+
+// };
+
+export default function TaskItem(info) {
+  
     return (
       <>
         <Item>
           <FormControlLabel
-            control={<Checkbox defaultChecked />}
-            label="Example Task"
+            control={<Checkbox />}
+            label={info.title}
           />
         </Item>
       </>
