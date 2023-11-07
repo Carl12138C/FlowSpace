@@ -50,18 +50,17 @@ Introducing FlowSpace, our application will consolidate the processes involved i
 ## Process
 
 ### Sprint 1
-Goals: 
-* Setup Protected Routes and Navigation Bar for page navigation
-* Develop UI for Login Page
-* Develop UI for Chat Page 
-* Develop UI for TaskList Page
-* Develop UI for Calendar Page
+
+![Sprint 1 Login page](/image/FlowSpaceSprint1-Login.jpg)
+![Sprint 1 Chat page](/image/FlowSpaceSprint1-Chat.jpg)
+![Sprint 1 TaskList page](/image/FlowSpaceSprint1-Task.jpg)
+![Sprint 1 Calendar page](/image/FlowSpaceSprint1-Calendar.jpg)
 
 
 * [Sprint planning](https://docs.google.com/spreadsheets/d/1Wbs6DIA65byChgVr_F-rV9t5BU84cUO6A8Wg8sxLSMg/edit#gid=1056044682)
 * [Scrums](https://docs.google.com/document/d/1BN__wVh9CegJbTzvGOroZXg6wD0czr8wNKAvgQ8I1_A/edit)
 * [Sprint demo video]()
-* [Sprint retrospective]()
+* [Sprint retrospective](https://docs.google.com/document/d/1yAktnjtpXRoRM7zFFZbFwLaH0YIg9gIjHZcDZPW-piY/edit)
 
 ### Sprint 2
 
