@@ -1,7 +1,7 @@
 import { getUserContext } from "../context/AuthContext";
 import { useNavigate } from "react-router";
 import { Avatar, Box, Card, CardContent, Stack, TextField, Typography } from "@mui/material";
-import Kirby from "../../../image/Kirby Full.png"
+import Kirby from "../../../image/Desk_Kirby.png"
 
 export default function Home() {
   const UserContext = getUserContext();

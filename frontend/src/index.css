@@ -1,6 +1,6 @@
 body{
-  min-height:100%;
   display: flex;
+  width: 100%;
 }
 
 html{
@@ -9,5 +9,7 @@ html{
 }
 
 #root{
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   display:flex;
+  width: 100%;
 }

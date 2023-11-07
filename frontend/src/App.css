@@ -1,11 +1,12 @@
 #nav {
   display: flex;
   flex-direction: column;
-  outline: 1px solid;
-  outline-color: black;
-  max-width: 6vw;
+  border: 1px solid;
+  min-width: 100px;
+  max-width: 100px;
+  border: solid;
+  border-width: 1px;
   min-width: 80px;
-  min-height: 95vh;
   justify-content: space-evenly;
 }
 
@@ -21,3 +22,4 @@ img {
 #task_button {
   min-width: 55px;
 }
+
