@@ -15,13 +15,13 @@ const Item = styled(Paper)(({ theme }) => ({
 
 // };
 
-export default function TaskItem(info) {
+export default function TaskItem({info}) {
     return (
       <>
         <Item>
           <FormControlLabel
             control={<Checkbox />}
-            label={info.info.title}
+            label={info.title}
           />
         </Item>
       </>
