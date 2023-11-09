@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { getUserContext } from "../context/AuthContext";
 import { StreamChat } from "stream-chat";
 import {
     Channel,
@@ -13,60 +14,59 @@ import {
     useChatContext,
     useChannelActionContext,
 } from "stream-chat-react";
-
 import "stream-chat-react/dist/css/v2/index.css";
 import "../css/chat.css";
 
-//Store in env later
 const apiKey = import.meta.env.VITE_STREAM_KEY;
 
 const user = {
-    id: "KevinTest",
-    name: "Kevin Test",
-};
+    id:"Kevin_User",
+    name: "Kevin_User"
+}
 
-
+// client
 export default function ChatPage() {
-    const [cilent, setCilent] = useState();
+    const {userData} = getUserContext();
+    const [client, setClient] = useState();
     const [sort, setSort] = useState({ last_message_at: -1 });
     const [filter, setFiler] = useState({
         type: "messaging",
-        members: { $in: [user.id] },
+        members: { $in: [userData.id] },
     });
 
 
     useEffect(function connect() {
         async function init() {
-            const chatCilent = new StreamChat.getInstance(apiKey);
+            const chatClient = new StreamChat.getInstance(apiKey);
 
-            await chatCilent.connectUser(user, chatCilent.devToken(user.id));
+            await chatClient.connectUser(user, chatClient.devToken(user.id));
 
-            const chatChannel = chatCilent.channel(
+            const chatChannel = chatClient.channel(
                 "messaging",
                 "test-channel",
                 {
-                    name: "Channel for Testing Purposes",
+                    name: "Personal Channel",
                     members: [user.id],
                 }
             );
 
             await chatChannel.watch();
 
-            setCilent(chatCilent);
+            setClient(chatClient);
         }
         init();
 
         return function cleanUp() {
-            if (cilent) {
-                cilent.disconnectUser();
+            if (client) {
+                client.disconnectUser();
             }
         };
     }, []);
 
-    if (!cilent) return <LoadingIndicator />;
+    if (!client) return <LoadingIndicator />;
 
     return (
-        <Chat client={cilent} theme="messaging light">
+        <Chat client={client} theme="messaging light">
             <ChannelList
                 List={Channels}
                 sendChannelsToList
@@ -151,7 +151,7 @@ function ChannelInner() {
         <>
             <Window>
                 <ChannelHeader />
-                <MessageList />
+                <MessageList hideDeletedMessages/>
                 <MessageInput
                     focus
                     overrideSubmitHandler={overrideSubmitHandler}

@@ -5,9 +5,10 @@ export default function ProtectedRoute({children}) {
     const authData = getUserContext();
 
     // console.log(authData);
+    //authData.userData.uid
     return(
         <>
-            {( authData.userData ) ? children : <Navigate to="/"/>}
+            {( true ) ? children : <Navigate to="/"/>}
         </>
     );
 }
