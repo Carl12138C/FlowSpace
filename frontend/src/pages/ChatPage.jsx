@@ -19,40 +19,41 @@ import "../css/chat.css";
 
 const apiKey = import.meta.env.VITE_STREAM_KEY;
 
-const user = {
-    id:"Kevin_User",
-    name: "Kevin_User"
-}
+// temp rand user
+const userData = {email: "liukevin.nyc@gmail.com", password: "abc123456", uid: "q3rapw6AApPGN5q5rfWLXpycneA3"}
 
 // client
 export default function ChatPage() {
-    const {userData} = getUserContext();
+    // const {userData} = getUserContext();
     const [client, setClient] = useState();
     const [sort, setSort] = useState({ last_message_at: -1 });
     const [filter, setFiler] = useState({
         type: "messaging",
-        members: { $in: [userData.id] },
+        members: { $in: [userData.uid] },
     });
 
-
     useEffect(function connect() {
+        console.log(userData);
         async function init() {
             const chatClient = new StreamChat.getInstance(apiKey);
 
-            await chatClient.connectUser(user, chatClient.devToken(user.id));
+            let isInterupted = false;
+            const connection = chatClient.connectUser({id:userData.uid, name:userData.email}, chatClient.devToken(userData.uid)).then(() => {
+                if(isInterupted) return;
+                setClient(chatClient);
+            });
 
-            const chatChannel = chatClient.channel(
-                "messaging",
-                "test-channel",
-                {
-                    name: "Personal Channel",
-                    members: [user.id],
-                }
-            );
+            //Create Channel
+            // const chatChannel = chatClient.channel(
+            //     "messaging",
+            //     "test-channel3",
+            //     {
+            //         name: "Personal Channel",
+            //         members: [userData.uid],
+            //     }
+            // );
+            // await chatChannel.watch();
 
-            await chatChannel.watch();
-
-            setClient(chatClient);
         }
         init();
 

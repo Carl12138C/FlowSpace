@@ -10,7 +10,6 @@ import {
     Typography,
 } from "@mui/material";
 import Kirby from "../../../image/Desk_Kirby.png";
-import { createUserWithEmailAndPassword } from "firebase/auth";
 import { useRef } from "react";
 
 export default function Home() {
@@ -19,19 +18,13 @@ export default function Home() {
 
     const emailRef = useRef();
     const passwordRef = useRef();
-    const nameRef = useRef();
 
     async function login() {
-
         try{
-          const userCreation = await createUserWithEmailAndPassword(UserContext.auth, emailRef.current.value, passwordRef.current.value)
-          console.log(userCreation);
-          const arr = emailRef.current.value.split('@');
-
           UserContext.setUserData({
             email: emailRef.current.value,
             password: passwordRef.current.value,
-            uid: userCreation.user.uid,
+            uid: "1234567890"
           });
 
         } catch(e) {
