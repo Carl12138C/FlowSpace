@@ -20,11 +20,11 @@ import "../css/chat.css";
 const apiKey = import.meta.env.VITE_STREAM_KEY;
 
 // temp rand user
-const userData = {email: "liukevin.nyc@gmail.com", password: "abc123456", uid: "q3rapw6AApPGN5q5rfWLXpycneA3"}
+// const userData = {email: "liukevin.nyc@gmail.com", password: "abc123456", uid: "q3rapw6AApPGN5q5rfWLXpycneA3"}
 
 // client
 export default function ChatPage() {
-    // const {userData} = getUserContext();
+    const {userData} = getUserContext();
     const [client, setClient] = useState();
     const [sort, setSort] = useState({ last_message_at: -1 });
     const [filter, setFiler] = useState({
@@ -43,16 +43,16 @@ export default function ChatPage() {
                 setClient(chatClient);
             });
 
-            //Create Channel
-            // const chatChannel = chatClient.channel(
-            //     "messaging",
-            //     "test-channel3",
-            //     {
-            //         name: "Personal Channel",
-            //         members: [userData.uid],
-            //     }
-            // );
-            // await chatChannel.watch();
+            // Create Channel
+            const chatChannel = chatClient.channel(
+                "messaging",
+                "test-channel-" + userData.uid,
+                {
+                    name: "Personal Channel",
+                    members: [userData.uid],
+                }
+            );
+            await chatChannel.watch();
 
         }
         init();

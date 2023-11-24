@@ -20,19 +20,81 @@ export default function Home() {
     const passwordRef = useRef();
 
     async function login() {
-        try{
-          UserContext.setUserData({
-            email: emailRef.current.value,
-            password: passwordRef.current.value,
-            uid: "1234567890"
-          });
+        try {
+            const body = {
+                'email': emailRef.current.value,
+                'password': passwordRef.current.value,
+            }
+            const response = await fetch(
+                import.meta.env.VITE_SERVER + "/firebase/login",
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Accept-type": "application/json",
+                    },
+                    body: JSON.stringify(body),
+                }
+            );
+            if(response.ok) {
+                const newUser = await response.json();
+                
+                if(newUser.user == "") {
+                    console.log("Invalid Login Credentials");
+                    return;
+                }
 
-        } catch(e) {
-          console.log(e.code);
-          console.log(e.message);
+                UserContext.setUserData({
+                    email: emailRef.current.value,
+                    uid: newUser.user.uid,
+                });
+                console.log(newUser.user.uid);
+                // navigate("/chat");
+            }
+        } catch (error) {
+            console.log(error.code);
+            console.log(error.message);
         }
 
-        navigate("/chat");
+    }
+
+    async function signUp() {
+        try {
+            const body = {
+                'email': emailRef.current.value,
+                'password': passwordRef.current.value,
+            }
+            const response = await fetch(
+                import.meta.env.VITE_SERVER + "/firebase/signup",
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Accept-type": "application/json",
+                    },
+                    body: JSON.stringify(body),
+                }
+            );
+            if(response.ok) {
+                const newUser = await response.json();
+                
+                if(newUser.user == "") {
+                    console.log("User Already Exists");
+                    return;
+                }
+
+                UserContext.setUserData({
+                    email: emailRef.current.value,
+                    uid: newUser.user.uid,
+                });
+
+                navigate("/chat");
+            }
+        } catch (error) {
+            console.log(error.code);
+            console.log(error.message);
+        }
+
     }
 
     return (
@@ -62,6 +124,9 @@ export default function Home() {
                                 label="Password"
                                 inputRef={passwordRef}
                             />
+                            <button onClick={signUp} style={{ height: "20px" }}>
+                                Sign Up
+                            </button>
                             <button onClick={login} style={{ height: "20px" }}>
                                 Login
                             </button>
