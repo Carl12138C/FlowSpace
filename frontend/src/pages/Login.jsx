@@ -49,7 +49,7 @@ export default function Home() {
                     uid: newUser.user.uid,
                 });
                 console.log(newUser.user.uid);
-                // navigate("/chat");
+                navigate("/chat");
             }
         } catch (error) {
             console.log(error.code);
