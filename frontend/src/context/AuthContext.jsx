@@ -4,7 +4,7 @@ import { createContext, useContext, useState } from "react";
 const UserContext = createContext(null);
 
 export function AuthContext({ children }) {
-    const [userData, setUserData] = useState({id:"28734892"});
+    const [userData, setUserData] = useState();
     
     return(
         <UserContext.Provider value={{userData, setUserData}}>
