@@ -3,6 +3,9 @@ const express = require("express");
 // import { initializeApp } from 'firebase';
 const firebase = require("firebase/app");
 const firebaseAuth = require("firebase/auth");
+const database = require("firebase/database");
+
+
 
 const firebaseRouter = express.Router();
 
@@ -17,6 +20,9 @@ const app = firebase.initializeApp({
 });
 
 const auth = firebaseAuth.getAuth(app);
+const db = database.getDatabase();
+
+
 // firebaseRouter.use(function incoming(req, res, next) {
 //     console.log('Current Time: ' + Date.now());
 //     next();
@@ -65,6 +71,23 @@ firebaseRouter.post("/signup", async function incoming(req, res) {
         const errorMessage = error.message;
         res.json({user: "", errorCode: errorCode, errorMessage: errorMessage });
     }
+});
+
+firebaseRouter.get("/getdata", async function incoming(req, res){
+    console.log(req);
+    const reference = database.ref(db, "users/" + req.query.uid);
+    database.onValue(reference,(snapshot) => {
+        const data = snapshot.val();
+        res.json({data:data, errorCode:"", errorMessage: ""});
+    });
+});
+firebaseRouter.post("/setdata", async function(req,res){
+    const reference = database.ref(db, "users/" + req.body.uid );
+    database.set(reference,{test: "hello I like money!"});
+});
+firebaseRouter.post("/registerdata", async function(req,res){
+    const reference = database.ref(db, "users/" + req.body.uid );
+    database.set(reference,{friendslist: [{}]});
 });
 
 module.exports = firebaseRouter;
