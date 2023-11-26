@@ -18,13 +18,15 @@ export default function Home() {
 
     const emailRef = useRef();
     const passwordRef = useRef();
+    const usernameRef = useRef();
 
     async function login() {
         try {
             const body = {
-                'email': emailRef.current.value,
-                'password': passwordRef.current.value,
-            }
+                email: emailRef.current.value,
+                password: passwordRef.current.value,
+                username: usernameRef.current.value,
+            };
             const response = await fetch(
                 import.meta.env.VITE_SERVER + "/firebase/login",
                 {
@@ -36,10 +38,10 @@ export default function Home() {
                     body: JSON.stringify(body),
                 }
             );
-            if(response.ok) {
+            if (response.ok) {
                 const newUser = await response.json();
-                
-                if(newUser.user == "") {
+
+                if (newUser.user == "") {
                     console.log("Invalid Login Credentials");
                     return;
                 }
@@ -47,23 +49,25 @@ export default function Home() {
                 UserContext.setUserData({
                     email: emailRef.current.value,
                     uid: newUser.user.uid,
+                    streamToken: newUser.token,
+                    username: usernameRef.current.value
                 });
-                console.log(newUser.user.uid);
+
                 navigate("/chat");
             }
         } catch (error) {
             console.log(error.code);
             console.log(error.message);
         }
-
     }
 
     async function signUp() {
         try {
             const body = {
-                'email': emailRef.current.value,
-                'password': passwordRef.current.value,
-            }
+                email: emailRef.current.value,
+                password: passwordRef.current.value,
+                username: usernameRef.current.value,
+            };
             const response = await fetch(
                 import.meta.env.VITE_SERVER + "/firebase/signup",
                 {
@@ -75,10 +79,11 @@ export default function Home() {
                     body: JSON.stringify(body),
                 }
             );
-            if(response.ok) {
+            
+            if (response.ok) {
                 const newUser = await response.json();
-                
-                if(newUser.user == "") {
+
+                if (newUser.user == "") {
                     console.log("User Already Exists");
                     return;
                 }
@@ -86,6 +91,8 @@ export default function Home() {
                 UserContext.setUserData({
                     email: emailRef.current.value,
                     uid: newUser.user.uid,
+                    streamToken: newUser.token,
+                    username: usernameRef.current.value
                 });
 
                 navigate("/chat");
@@ -94,7 +101,6 @@ export default function Home() {
             console.log(error.code);
             console.log(error.message);
         }
-
     }
 
     return (
@@ -119,11 +125,9 @@ export default function Home() {
                             Welcome to FlowSpace
                         </Typography>
                         <Stack spacing={2}>
-                            <TextField label="Username" inputRef={emailRef} />
-                            <TextField
-                                label="Password"
-                                inputRef={passwordRef}
-                            />
+                            <TextField label="Userame" inputRef={usernameRef} />
+                            <TextField label="Email" inputRef={emailRef} />
+                            <TextField label="Password" inputRef={passwordRef} />
                             <button onClick={signUp} style={{ height: "20px" }}>
                                 Sign Up
                             </button>

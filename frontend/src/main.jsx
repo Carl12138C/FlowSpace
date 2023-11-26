@@ -22,6 +22,7 @@ const routes = createBrowserRouter([
       },
       {
         element: <MainLayout />,
+        errorElement: <Error />,
         children: [
           {
             path: "chat",
@@ -46,5 +47,5 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     <AuthContext>
       <RouterProvider router={routes} />
     </AuthContext>
-  </React.StrictMode>
+  </React.StrictMode> 
 );
