@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { getUserContext } from "../context/AuthContext";
 import { StreamChat } from "stream-chat";
 import {
     Channel,
@@ -13,60 +14,60 @@ import {
     useChatContext,
     useChannelActionContext,
 } from "stream-chat-react";
-
 import "stream-chat-react/dist/css/v2/index.css";
 import "../css/chat.css";
 
-//Store in env later
 const apiKey = import.meta.env.VITE_STREAM_KEY;
 
-const user = {
-    id: "KevinTest",
-    name: "Kevin Test",
-};
+// temp rand user
+// const userData = {email: "liukevin.nyc@gmail.com", password: "abc123456", uid: "q3rapw6AApPGN5q5rfWLXpycneA3"}
 
-
+// client
 export default function ChatPage() {
-    const [cilent, setCilent] = useState();
+    const {userData} = getUserContext();
+    const [client, setClient] = useState();
     const [sort, setSort] = useState({ last_message_at: -1 });
     const [filter, setFiler] = useState({
         type: "messaging",
-        members: { $in: [user.id] },
+        members: { $in: [userData.uid] },
     });
 
-
     useEffect(function connect() {
+        console.log(userData);
         async function init() {
-            const chatCilent = new StreamChat.getInstance(apiKey);
+            const chatClient = new StreamChat.getInstance(apiKey);
 
-            await chatCilent.connectUser(user, chatCilent.devToken(user.id));
+            let isInterupted = false;
+            const connection = chatClient.connectUser({id:userData.uid, name:userData.email}, chatClient.devToken(userData.uid)).then(() => {
+                if(isInterupted) return;
+                setClient(chatClient);
+            });
 
-            const chatChannel = chatCilent.channel(
+            // Create Channel
+            const chatChannel = chatClient.channel(
                 "messaging",
-                "test-channel",
+                "test-channel-" + userData.uid,
                 {
-                    name: "Channel for Testing Purposes",
-                    members: [user.id],
+                    name: "Personal Channel",
+                    members: [userData.uid],
                 }
             );
-
             await chatChannel.watch();
 
-            setCilent(chatCilent);
         }
         init();
 
         return function cleanUp() {
-            if (cilent) {
-                cilent.disconnectUser();
+            if (client) {
+                client.disconnectUser();
             }
         };
     }, []);
 
-    if (!cilent) return <LoadingIndicator />;
+    if (!client) return <LoadingIndicator />;
 
     return (
-        <Chat client={cilent} theme="messaging light">
+        <Chat client={client} theme="messaging light">
             <ChannelList
                 List={Channels}
                 sendChannelsToList
@@ -151,7 +152,7 @@ function ChannelInner() {
         <>
             <Window>
                 <ChannelHeader />
-                <MessageList />
+                <MessageList hideDeletedMessages/>
                 <MessageInput
                     focus
                     overrideSubmitHandler={overrideSubmitHandler}

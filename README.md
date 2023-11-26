@@ -59,7 +59,7 @@ Introducing FlowSpace, our application will consolidate the processes involved i
 
 * [Sprint planning](https://docs.google.com/spreadsheets/d/1Wbs6DIA65byChgVr_F-rV9t5BU84cUO6A8Wg8sxLSMg/edit#gid=1056044682)
 * [Scrums](https://docs.google.com/document/d/1BN__wVh9CegJbTzvGOroZXg6wD0czr8wNKAvgQ8I1_A/edit)
-* [Sprint demo video]()
+* [Sprint demo video](https://www.youtube.com/watch?v=i76Ho1iZAtI)
 * [Sprint retrospective](https://docs.google.com/document/d/1yAktnjtpXRoRM7zFFZbFwLaH0YIg9gIjHZcDZPW-piY/edit)
 
 ### Sprint 2
