@@ -19,8 +19,8 @@ export default function Tasklist() {
     {id: 4, title: "Lunch", completed: false },
   ])
 
-  const addTask = (newTitle) => {
-    const newTask = {title: newTitle, completed: false };
+  const addTask = (taskInfo) => {
+    const newTask = {title: taskInfo.title, completed: false };
     setItems( [...itemList, newTask] );
   };
 
