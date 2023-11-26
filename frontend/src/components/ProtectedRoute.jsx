@@ -6,7 +6,7 @@ export default function ProtectedRoute({children}) {
 
     return(
         <>
-            {( userData === null ) ? children : <Navigate to="/"/>}
+            {( userData ) ? children : <Navigate to="/"/>}
         </>
     );
 }
