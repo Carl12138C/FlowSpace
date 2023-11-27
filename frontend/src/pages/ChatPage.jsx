@@ -93,7 +93,7 @@ function Channels({ loadedChannels }) {
                         <h2 id="child-modal-title">Create New Group Chat</h2>
                         <Stack sx={{alignItems: "center"}} spacing={2}>
                             <TextField sx={{minWidth: 500}} label="Group Chat Name" inputRef={groupNameRef}/>
-                            <TextField sx={{minWidth: 500}} label="Members" inputRef={memberRef}/>
+                            <TextField sx={{minWidth: 500}} label="Member(s) to Add" inputRef={memberRef}/>
                             <Button
                                 onClick={function () {
                                     createChannel()
@@ -148,7 +148,6 @@ function ChannelInner() {
     const { sendMessage } = useChannelActionContext();
 
     function overrideSubmitHandler(userInput) {
-        console.log(`Sending Message:\n ${userInput.text} \n to Backend DB`);
 
         const message = {
             text: userInput.text,

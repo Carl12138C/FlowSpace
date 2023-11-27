@@ -26,7 +26,7 @@ export function AuthContext({ children }) {
         let isInterrupted = false;
 
         const connection = chat
-            .connectUser({id: userData.username}, userData.streamToken)
+            .connectUser({ id: userData.username }, userData.streamToken)
             .then(() => {
                 if (isInterrupted) {
                     return;
@@ -44,7 +44,9 @@ export function AuthContext({ children }) {
     }, [userData]);
 
     return (
-        <UserContext.Provider value={{ userData, setUserData, streamChat }}>
+        <UserContext.Provider
+            value={{ userData, setUserData, streamChat, setStreamChat }}
+        >
             {children}
         </UserContext.Provider>
     );
@@ -53,3 +55,4 @@ export function AuthContext({ children }) {
 export function getUserContext() {
     return useContext(UserContext);
 }
+

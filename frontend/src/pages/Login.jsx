@@ -10,15 +10,19 @@ import {
     Typography,
 } from "@mui/material";
 import Kirby from "../../../image/Desk_Kirby.png";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 
 export default function Home() {
     const UserContext = getUserContext();
     const navigate = useNavigate();
 
+    const emailRegex = /[a-zA-Z0-9]+@(?:[a-zA-Z0-9]+\.)+[A-Za-z]+/g
+
     const emailRef = useRef();
     const passwordRef = useRef();
     const usernameRef = useRef();
+
+    const [error, setError] = useState(false);
 
     async function login() {
         try {
@@ -49,7 +53,7 @@ export default function Home() {
                 UserContext.setUserData({
                     email: emailRef.current.value,
                     uid: newUser.user.uid,
-                    streamToken: newUser.token,
+                    streamToken: newUser.streamToken,
                     username: usernameRef.current.value
                 });
 
@@ -91,7 +95,7 @@ export default function Home() {
                 UserContext.setUserData({
                     email: emailRef.current.value,
                     uid: newUser.user.uid,
-                    streamToken: newUser.token,
+                    streamToken: newUser.streamToken,
                     username: usernameRef.current.value
                 });
 
@@ -126,12 +130,14 @@ export default function Home() {
                         </Typography>
                         <Stack spacing={2}>
                             <TextField label="Userame" inputRef={usernameRef} />
-                            <TextField label="Email" inputRef={emailRef} />
-                            <TextField label="Password" inputRef={passwordRef} />
-                            <button onClick={signUp} style={{ height: "20px" }}>
+                            <TextField label="Email" inputRef={emailRef} error={error} onBlur={() => {
+                                setError(!emailRegex.test(emailRef.current.value));
+                            }}/>
+                            <TextField label="Password" type="password" inputRef={passwordRef} />
+                            <button onClick={signUp} style={{ height: "20px" }} disabled={error}>
                                 Sign Up
                             </button>
-                            <button onClick={login} style={{ height: "20px" }}>
+                            <button onClick={login} style={{ height: "20px" }} disabled={error}>
                                 Login
                             </button>
                         </Stack>
