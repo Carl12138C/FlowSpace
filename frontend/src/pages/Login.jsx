@@ -100,6 +100,8 @@ export default function Home() {
                     username: usernameRef.current.value,
                 });
 
+                await RegisterData(newUser.user.uid);
+                
                 navigate("/chat");
             }
         } catch (error) {
