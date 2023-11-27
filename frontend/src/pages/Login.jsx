@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import Kirby from "../../../image/Desk_Kirby.png";
 import { useRef } from "react";
-import { RegisterData, getData } from "../FirebaseUtil";
+import { RegisterData, getUserData } from "../FirebaseUtil";
 
 export default function Home() {
   const UserContext = getUserContext();
@@ -39,8 +39,6 @@ export default function Home() {
       );
       if (response.ok) {
         const newUser = await response.json();
-        const data = await getData(newUser.user.uid);
-        console.log(data.data);
         if (newUser.user == "") {
           console.log("Invalid Login Credentials");
           return;
@@ -50,8 +48,6 @@ export default function Home() {
           email: emailRef.current.value,
           uid: newUser.user.uid,
         });
-        console.log(newUser.user.uid);
-
         navigate("/chat");
       }
     } catch (error) {
@@ -90,7 +86,6 @@ export default function Home() {
           uid: newUser.user.uid,
         });
         await RegisterData(newUser.user.uid);
-        console.log("what uid? " + newUser.user.uid);
         navigate("/chat");
       }
     } catch (error) {

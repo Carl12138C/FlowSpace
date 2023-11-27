@@ -73,21 +73,30 @@ firebaseRouter.post("/signup", async function incoming(req, res) {
     }
 });
 
-firebaseRouter.get("/getdata", async function incoming(req, res){
-    console.log(req);
+firebaseRouter.post("/registerdata", async function(req,res){
+    var reference = database.ref(db, "users/" + req.body.uid );
+    database.set(reference,{friendslist: [{default:"default"}]});
+    reference = database.ref(db, "tasklist/" + req.body.uid);
+    database.set(reference,{tasklist: [{default:"default"}]});
+});
+firebaseRouter.get("/getuserdata", async function incoming(req, res){
     const reference = database.ref(db, "users/" + req.query.uid);
     database.onValue(reference,(snapshot) => {
         const data = snapshot.val();
-        res.json({data:data, errorCode:"", errorMessage: ""});
+        res.json({data:data});
     });
 });
-firebaseRouter.post("/setdata", async function(req,res){
-    const reference = database.ref(db, "users/" + req.body.uid );
-    database.set(reference,{test: "hello I like money!"});
+firebaseRouter.put("/updatetask", async function(req,res){
+    const reference = database.ref(db, "tasklist/" + req.body.uid );
+    database.set(reference,req.body.data);
 });
-firebaseRouter.post("/registerdata", async function(req,res){
-    const reference = database.ref(db, "users/" + req.body.uid );
-    database.set(reference,{friendslist: [{}]});
+firebaseRouter.get("/getusertask", async function incoming(req, res){
+    const reference = database.ref(db, "tasklist/" + req.query.uid);
+    database.onValue(reference,(snapshot) => {
+        const data = snapshot.val();
+        res.json({data:data});
+    });
 });
+
 
 module.exports = firebaseRouter;
