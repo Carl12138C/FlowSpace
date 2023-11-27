@@ -11,12 +11,13 @@ import {
 } from "@mui/material";
 import Kirby from "../../../image/Desk_Kirby.png";
 import { useRef, useState } from "react";
+import { RegisterData, getUserData } from "../FirebaseUtil";
 
 export default function Home() {
     const UserContext = getUserContext();
     const navigate = useNavigate();
 
-    const emailRegex = /[a-zA-Z0-9]+@(?:[a-zA-Z0-9]+\.)+[A-Za-z]+/g
+    const emailRegex = /[a-zA-Z0-9]+@(?:[a-zA-Z0-9]+\.)+[A-Za-z]+/g;
 
     const emailRef = useRef();
     const passwordRef = useRef();
@@ -54,7 +55,7 @@ export default function Home() {
                     email: emailRef.current.value,
                     uid: newUser.user.uid,
                     streamToken: newUser.streamToken,
-                    username: usernameRef.current.value
+                    username: usernameRef.current.value,
                 });
 
                 navigate("/chat");
@@ -83,7 +84,7 @@ export default function Home() {
                     body: JSON.stringify(body),
                 }
             );
-            
+
             if (response.ok) {
                 const newUser = await response.json();
 
@@ -96,7 +97,7 @@ export default function Home() {
                     email: emailRef.current.value,
                     uid: newUser.user.uid,
                     streamToken: newUser.streamToken,
-                    username: usernameRef.current.value
+                    username: usernameRef.current.value,
                 });
 
                 navigate("/chat");
@@ -126,21 +127,59 @@ export default function Home() {
                             color="text.secondary"
                             gutterBottom
                         >
-                            Welcome to FlowSpace
+                            <Avatar
+                                sx={{ m: 1, width: 150, height: 150 }}
+                                src={Kirby}
+                            />
+                            <Card>
+                                <CardContent>
+                                    <Typography
+                                        sx={{ fontSize: 28 }}
+                                        color="text.secondary"
+                                        gutterBottom
+                                    >
+                                        Welcome to FlowSpace
+                                    </Typography>
+                                    <Stack spacing={2}>
+                                        <TextField
+                                            label="Userame"
+                                            inputRef={usernameRef}
+                                        />
+                                        <TextField
+                                            label="Email"
+                                            inputRef={emailRef}
+                                            error={error}
+                                            onBlur={() => {
+                                                setError(
+                                                    !emailRegex.test(
+                                                        emailRef.current.value
+                                                    )
+                                                );
+                                            }}
+                                        />
+                                        <TextField
+                                            label="Password"
+                                            type="password"
+                                            inputRef={passwordRef}
+                                        />
+                                        <button
+                                            onClick={signUp}
+                                            style={{ height: "20px" }}
+                                            disabled={error}
+                                        >
+                                            Sign Up
+                                        </button>
+                                        <button
+                                            onClick={login}
+                                            style={{ height: "20px" }}
+                                            disabled={error}
+                                        >
+                                            Login
+                                        </button>
+                                    </Stack>
+                                </CardContent>
+                            </Card>
                         </Typography>
-                        <Stack spacing={2}>
-                            <TextField label="Userame" inputRef={usernameRef} />
-                            <TextField label="Email" inputRef={emailRef} error={error} onBlur={() => {
-                                setError(!emailRegex.test(emailRef.current.value));
-                            }}/>
-                            <TextField label="Password" type="password" inputRef={passwordRef} />
-                            <button onClick={signUp} style={{ height: "20px" }} disabled={error}>
-                                Sign Up
-                            </button>
-                            <button onClick={login} style={{ height: "20px" }} disabled={error}>
-                                Login
-                            </button>
-                        </Stack>
                     </CardContent>
                 </Card>
             </Box>
