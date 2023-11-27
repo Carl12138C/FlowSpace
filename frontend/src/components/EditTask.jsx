@@ -12,7 +12,8 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import AddIcon from "@mui/icons-material/Add";
+import IconButton from "@mui/material/IconButton";
+import EditIcon from "@mui/icons-material/Edit";
 
 const style = {
   position: "absolute",
@@ -28,7 +29,7 @@ const style = {
 
 const names = ["Andre", "Carl", "Kevin"];
 
-export default function TaskInput({addTask}) {
+export default function EditTask({ editTask, taskInfo }) {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -47,8 +48,8 @@ export default function TaskInput({addTask}) {
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    addTask({
-      id: Math.floor(Math.random() * 10000),
+    editTask({
+      id: taskInfo.id,
       title: data.get("task-title"),
       description: data.get("task-des"),
     });
@@ -58,16 +59,9 @@ export default function TaskInput({addTask}) {
 
   return (
     <div>
-      <Button
-        onClick={handleOpen}
-        color="primary"
-        aria-label="add to task list"
-        fullWidth
-        variant="contained"
-        sx={{ mt: 3, mb: 2 }}
-      >
-        <AddIcon />
-      </Button>
+      <IconButton onClick={handleOpen}>
+        <EditIcon />
+      </IconButton>
       <Modal
         open={open}
         onClose={handleClose}
@@ -77,7 +71,7 @@ export default function TaskInput({addTask}) {
         <Box component="form" onSubmit={handleSubmit} sx={style}>
           <Stack spacing={2}>
             <Typography id="modal-modal-title" variant="h6" component="h2">
-              Create A Task
+              Edit Task
             </Typography>
             <FormControl fullWidth sx={{ m: 1 }}>
               <InputLabel id="name-selector-label">Assignees</InputLabel>
@@ -98,6 +92,7 @@ export default function TaskInput({addTask}) {
             </FormControl>
             <TextField
               fullWidth
+              defaultValue={taskInfo.title}
               label="Title"
               id="task-title"
               name="task-title"
@@ -110,7 +105,7 @@ export default function TaskInput({addTask}) {
               multiline
               rows={4}
             />
-            <Button type="submit">Create</Button>
+            <Button type="submit">Edit</Button>
           </Stack>
         </Box>
       </Modal>
