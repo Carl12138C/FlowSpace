@@ -25,7 +25,7 @@ export default function Tasklist() {
   };
 
   const editTask = (taskInfo) => {
-    const newTask = { title: taskInfo.title};
+    const newTask = { id: taskInfo.id, title: taskInfo.title};
     setItems((prev) =>
       prev.map((anItem) => (anItem.id === taskInfo.id ? newTask : anItem))
     );
