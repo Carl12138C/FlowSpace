@@ -13,30 +13,39 @@ const StyledDiv = styled("div")({
 
 export default function Tasklist() {
   const [itemList, setItems] = React.useState([
-    {id: 1, title: "Get Coffee", completed: false },
-    {id: 2, title: "Team Meeting", completed: false },
-    {id: 3, title: "Presentation", completed: false },
-    {id: 4, title: "Lunch", completed: false },
-  ])
+    { id: 1, title: "Get Coffee", completed: false },
+    { id: 2, title: "Team Meeting", completed: false },
+    { id: 3, title: "Presentation", completed: false },
+    { id: 4, title: "Lunch", completed: false },
+  ]);
 
   const addTask = (taskInfo) => {
-    const newTask = {title: taskInfo.title, completed: false };
-    setItems( [...itemList, newTask] );
+    const newTask = { title: taskInfo.title, completed: false };
+    setItems([...itemList, newTask]);
+  };
+
+  const editTask = (taskInfo) => {
+    const newTask = { title: taskInfo.title};
+    setItems((prev) =>
+      prev.map((anItem) => (anItem.id === taskInfo.id ? newTask : anItem))
+    );
   };
 
   const removeTask = (taskId) => {
-    const newList = [...itemList].filter(anItem => anItem.id !== taskId);
+    const newList = [...itemList].filter((anItem) => anItem.id !== taskId);
     setItems(newList);
-  }
+  };
 
-  function generateTaskItem (itemProps) {
+  function generateTaskItem(itemProps) {
     return (
-    <TaskItem
-      key={itemProps.id}
-      info={itemProps}
-      removeTask = {removeTask}
-    />
-    )}
+      <TaskItem
+        key={itemProps.id}
+        info={itemProps}
+        editTask={editTask}
+        removeTask={removeTask}
+      />
+    );
+  }
 
   return (
     <StyledDiv>
@@ -48,12 +57,10 @@ export default function Tasklist() {
             </Typography>
           </Grid>
           <Grid item xs={3}>
-            <TaskInput addTask= {addTask} />
+            <TaskInput addTask={addTask} />
           </Grid>
           <Grid item xs={12}>
-            <Stack spacing={2}>
-              { itemList.map(generateTaskItem) }
-            </Stack>
+            <Stack spacing={2}>{itemList.map(generateTaskItem)}</Stack>
           </Grid>
         </Grid>
       </Box>
