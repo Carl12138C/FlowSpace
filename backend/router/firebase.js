@@ -26,29 +26,33 @@ firebaseRouter.post("/login", async function incoming(req, res) {
     var password = req.body.password;
     var username = req.body.username;
     try {
+        const existingUsers = await client.queryUsers({
+            id: { $eq: username },
+        });
+        if (existingUsers.users.length == 0) {
+            return res.status(400).send("Invalid Username");
+        }
+
         const loginUser = await firebaseAuth.signInWithEmailAndPassword(
             auth,
             email,
             password
         );
 
-        //TODO - grab username from databse and use that instead
         const token = client.createToken(username);
         TOKEN_MAP.set(token, username);
 
         res.json({
             user: loginUser.user,
-            token: token,
+            streamToken: token,
             errorCode: "",
             errorMessage: "",
         });
     } catch (error) {
-        const errorCode = error.code;
-        const errorMessage = error.message;
         res.json({
             user: "",
-            errorCode: errorCode,
-            errorMessage: errorMessage,
+            errorCode: error.code,
+            errorMessage: error.message,
         });
     }
 });
@@ -71,9 +75,8 @@ firebaseRouter.post("/signup", async function incoming(req, res) {
             password
         );
 
-        client.upsertUser({ id: username, name: email });
+        client.upsertUser({ id: username, name: username });
         const token = client.createToken(username);
-        console.log(token);
         const channel = client.channel("messaging", "personal-channel" + newUser.user.uid, {members: [username], name: "Personnel Channel", created_by_id: username })
         await channel.create()
 
@@ -81,18 +84,15 @@ firebaseRouter.post("/signup", async function incoming(req, res) {
 
         res.json({
             user: newUser.user,
-            token: token,
+            streamToken: token,
             errorCode: "",
             errorMessage: "",
         });
     } catch (error) {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log(error);
         res.json({
             user: "",
-            errorCode: errorCode,
-            errorMessage: errorMessage,
+            errorCode: error.code,
+            errorMessage: error.message,
         });
     }
 });
