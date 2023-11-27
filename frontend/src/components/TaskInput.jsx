@@ -52,6 +52,7 @@ export default function TaskInput(props) {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     props.addTask({
+      id: Math.floor(Math.random() * 10000),
       title: data.get("task-title"),
       description: data.get("task-des"),
     });

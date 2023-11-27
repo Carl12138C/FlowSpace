@@ -24,12 +24,17 @@ export default function Tasklist() {
     setItems( [...itemList, newTask] );
   };
 
+  const removeTask = (taskId) => {
+    const newList = [...itemList].filter(anItem => anItem.id !== taskId);
+    setItems(newList);
+  }
+
   function generateTaskItem (itemProps) {
-    console.log(itemProps);
     return (
     <TaskItem
       key={itemProps.id}
       info={itemProps}
+      removeTask = {removeTask}
     />
     )}
 
@@ -37,15 +42,15 @@ export default function Tasklist() {
     <StyledDiv>
       <Box sx={{ flexGrow: 1 }}>
         <Grid container spacing={1}>
-          <Grid xs={9}>
+          <Grid item xs={9}>
             <Typography variant="h4" gutterBottom>
               My Tasks
             </Typography>
           </Grid>
-          <Grid xs={3}>
+          <Grid item xs={3}>
             <TaskInput addTask= {addTask} />
           </Grid>
-          <Grid xs={12}>
+          <Grid item xs={12}>
             <Stack spacing={2}>
               { itemList.map(generateTaskItem) }
             </Stack>
