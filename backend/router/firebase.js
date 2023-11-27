@@ -1,25 +1,12 @@
-const { auth, client } = require("../setUp");
+const { auth, client, db } = require("../setUp");
 const firebaseAuth = require("firebase/auth");
+const database = require("firebase/database");
 const express = require("express");
 
 const firebaseRouter = express.Router();
 
 const TOKEN_MAP = new Map();
 
-const database = require("firebase/database");
-
-const app = firebase.initializeApp({
-    apiKey: process.env.apiKey,
-    authDomain: process.env.authDomain,
-    databaseURL: process.env.databaseURL,
-    projectId: process.env.projectId,
-    storageBucket: process.env.storageBucket,
-    messagingSenderId: process.env.messagingSenderId,
-    appId: process.env.appId,
-});
-
-const auth = firebaseAuth.getAuth(app);
-const db = database.getDatabase();
 
 // firebaseRouter.use(function incoming(req, res, next) {
 //     console.log('Current Time: ' + Date.now());

@@ -1,6 +1,7 @@
 require("dotenv").config();
 const firebase = require("firebase/app");
 const firebaseAuth = require("firebase/auth");
+const database = require("firebase/database");
 const StreamChat = require("stream-chat").StreamChat;
 
 const app = firebase.initializeApp({
@@ -20,4 +21,6 @@ const client = StreamChat.getInstance(
     process.env.streamSecretKey
 );
 
-module.exports = {auth ,client}
+const db = database.getDatabase();
+
+module.exports = {auth ,client, db}

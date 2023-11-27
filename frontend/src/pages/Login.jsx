@@ -127,59 +127,40 @@ export default function Home() {
                             color="text.secondary"
                             gutterBottom
                         >
-                            <Avatar
-                                sx={{ m: 1, width: 150, height: 150 }}
-                                src={Kirby}
-                            />
-                            <Card>
-                                <CardContent>
-                                    <Typography
-                                        sx={{ fontSize: 28 }}
-                                        color="text.secondary"
-                                        gutterBottom
-                                    >
-                                        Welcome to FlowSpace
-                                    </Typography>
-                                    <Stack spacing={2}>
-                                        <TextField
-                                            label="Userame"
-                                            inputRef={usernameRef}
-                                        />
-                                        <TextField
-                                            label="Email"
-                                            inputRef={emailRef}
-                                            error={error}
-                                            onBlur={() => {
-                                                setError(
-                                                    !emailRegex.test(
-                                                        emailRef.current.value
-                                                    )
-                                                );
-                                            }}
-                                        />
-                                        <TextField
-                                            label="Password"
-                                            type="password"
-                                            inputRef={passwordRef}
-                                        />
-                                        <button
-                                            onClick={signUp}
-                                            style={{ height: "20px" }}
-                                            disabled={error}
-                                        >
-                                            Sign Up
-                                        </button>
-                                        <button
-                                            onClick={login}
-                                            style={{ height: "20px" }}
-                                            disabled={error}
-                                        >
-                                            Login
-                                        </button>
-                                    </Stack>
-                                </CardContent>
-                            </Card>
+                            Welcome to FlowSpace
                         </Typography>
+                        <Stack spacing={2}>
+                            <TextField label="Userame" inputRef={usernameRef} />
+                            <TextField
+                                label="Email"
+                                inputRef={emailRef}
+                                error={error}
+                                onBlur={() => {
+                                    setError(
+                                        !emailRegex.test(emailRef.current.value)
+                                    );
+                                }}
+                            />
+                            <TextField
+                                label="Password"
+                                type="password"
+                                inputRef={passwordRef}
+                            />
+                            <button
+                                onClick={signUp}
+                                style={{ height: "20px" }}
+                                disabled={error}
+                            >
+                                Sign Up
+                            </button>
+                            <button
+                                onClick={login}
+                                style={{ height: "20px" }}
+                                disabled={error}
+                            >
+                                Login
+                            </button>
+                        </Stack>
                     </CardContent>
                 </Card>
             </Box>
