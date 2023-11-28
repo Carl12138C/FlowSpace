@@ -75,27 +75,45 @@ firebaseRouter.post("/registerdata", async function (req, res) {
   database.set(reference, { friendslist: [{ default: "default" }] });
   reference = database.ref(db, "tasklist/" + req.body.uid);
   database.set(reference, { tasklist: [{ default: "default" }] });
+  res.status(201).json();
 });
 
 firebaseRouter.get("/getuserdata", async function incoming(req, res) {
-  const reference = database.ref(db, "users/" + req.query.uid);
-  database.onValue(reference, (snapshot) => {
-    const data = snapshot.val();
-    res.json({ data: data });
-  });
+  const reference = database.ref(db);
+  database.get(database.child(reference, "users/" + req.query.uid))
+        .then((snapshot) => {
+            if (snapshot.exists()) {
+                res.status(200).json({data: snapshot.val()});
+            } else {
+                console.log("No data available");
+            }
+        })
+        .catch((error) => {
+            console.error(error);
+            next(error);
+        });
 });
 
 firebaseRouter.put("/updatetask", async function (req, res) {
   const reference = database.ref(db, "tasklist/" + req.body.uid);
   database.set(reference, req.body.data);
+  res.status(201).json();
 });
 
 firebaseRouter.get("/getusertask", async function incoming(req, res) {
-  const reference = database.ref(db, "tasklist/" + req.query.uid);
-  database.onValue(reference, (snapshot) => {
-    const data = snapshot.val();
-    res.json({ data: data });
-  });
+  const reference = database.ref(db);
+  database.get(database.child(reference, "tasklist/" + req.query.uid))
+        .then((snapshot) => {
+            if (snapshot.exists()) {
+                res.status(200).json({data: snapshot.val()});
+            } else {
+                console.log("No data available");
+            }
+        })
+        .catch((error) => {
+            console.error(error);
+            next(error);
+        });
 });
 
 module.exports = firebaseRouter;
