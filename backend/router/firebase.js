@@ -112,7 +112,7 @@ firebaseRouter.post("/registerdata", async function (req, res) {
     database.set(reference, { friendslist: [{ default: "default" }] });
     reference = database.ref(db, "tasklist/" + req.body.uid);
     database.set(reference, { tasklist: [{ default: "default" }] });
-    res.status(201).json();
+    return res.status(201).json();
 });
 
 firebaseRouter.get("/getuserdata", async function incoming(req, res) {
@@ -120,9 +120,10 @@ firebaseRouter.get("/getuserdata", async function incoming(req, res) {
     database.get(database.child(reference, "users/" + req.query.uid))
         .then((snapshot) => {
             if (snapshot.exists()) {
-                res.status(200).json({data: snapshot.val()});
+                 return res.status(200).json({data: snapshot.val()});
             } else {
                 console.log("No data available");
+                return res.status(204).json({data: null});
             }
         })
         .catch((error) => {
@@ -134,7 +135,7 @@ firebaseRouter.get("/getuserdata", async function incoming(req, res) {
 firebaseRouter.put("/updatetask", async function (req, res) {
     const reference = database.ref(db, "tasklist/" + req.body.uid);
     database.set(reference, req.body.data);
-    res.status(201).json();
+    return res.status(201).json();
 });
 
 firebaseRouter.get("/getusertask", async function incoming(req, res) {
@@ -142,9 +143,10 @@ firebaseRouter.get("/getusertask", async function incoming(req, res) {
     database.get(database.child(reference, "tasklist/" + req.query.uid))
         .then((snapshot) => {
             if (snapshot.exists()) {
-                res.status(200).json({data: snapshot.val()});
+                return res.status(200).json({data: snapshot.val()});
             } else {
                 console.log("No data available");
+                return res.status(204).json({data: null});
             }
         })
         .catch((error) => {
@@ -159,8 +161,7 @@ firebaseRouter.post("/logout", async function incoming(req, res) {
     const id = TOKEN_MAP.get(token);
     if (id == null) return res.send("ID is not logged in.");
     await client.revokeUserToken(id, new Date());
-
-    return;
+    return; 
 });
 
 module.exports = firebaseRouter;
