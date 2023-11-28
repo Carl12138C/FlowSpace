@@ -1,13 +1,13 @@
 import { getUserContext } from "../context/AuthContext";
 import { useNavigate } from "react-router";
 import {
-    Avatar,
-    Box,
-    Card,
-    CardContent,
-    Stack,
-    TextField,
-    Typography,
+  Avatar,
+  Box,
+  Card,
+  CardContent,
+  Stack,
+  TextField,
+  Typography,
 } from "@mui/material";
 import Kirby from "../../../image/Desk_Kirby.png";
 import { useRef, useState } from "react";

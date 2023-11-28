@@ -20,7 +20,7 @@ const TOKEN_MAP = new Map();
 //              res = your response to the call.
 */
 firebaseRouter.get("/user/:id", function incoming(req, res) {
-    return res.send("Hello " + req.params.id);
+  res.send("Hello " + req.params.id);
 });
 
 firebaseRouter.post("/login", async function incoming(req, res) {
@@ -112,29 +112,47 @@ firebaseRouter.post("/registerdata", async function (req, res) {
     database.set(reference, { friendslist: [{ default: "default" }] });
     reference = database.ref(db, "tasklist/" + req.body.uid);
     database.set(reference, { tasklist: [{ default: "default" }] });
-    return;
+    return res.status(201).json();
 });
 
 firebaseRouter.get("/getuserdata", async function incoming(req, res) {
-    const reference = database.ref(db, "users/" + req.query.uid);
-    database.onValue(reference, (snapshot) => {
-        const data = snapshot.val();
-        return res.json({ data: data });
-    });
+    const reference = database.ref(db);
+    database.get(database.child(reference, "users/" + req.query.uid))
+        .then((snapshot) => {
+            if (snapshot.exists()) {
+                 return res.status(200).json({data: snapshot.val()});
+            } else {
+                console.log("No data available");
+                return res.status(204).json({data: null});
+            }
+        })
+        .catch((error) => {
+            console.error(error);
+            next(error);
+        });
 });
 
 firebaseRouter.put("/updatetask", async function (req, res) {
     const reference = database.ref(db, "tasklist/" + req.body.uid);
     database.set(reference, req.body.data);
-    return;
+    return res.status(201).json();
 });
 
 firebaseRouter.get("/getusertask", async function incoming(req, res) {
-    const reference = database.ref(db, "tasklist/" + req.query.uid);
-    database.onValue(reference, (snapshot) => {
-        const data = snapshot.val();
-        return res.json({ data: data });
-    });
+    const reference = database.ref(db);
+    database.get(database.child(reference, "tasklist/" + req.query.uid))
+        .then((snapshot) => {
+            if (snapshot.exists()) {
+                return res.status(200).json({data: snapshot.val()});
+            } else {
+                console.log("No data available");
+                return res.status(204).json({data: null});
+            }
+        })
+        .catch((error) => {
+            console.error(error);
+            next(error);
+        });
 });
 
 firebaseRouter.post("/logout", async function incoming(req, res) {
@@ -143,8 +161,7 @@ firebaseRouter.post("/logout", async function incoming(req, res) {
     const id = TOKEN_MAP.get(token);
     if (id == null) return res.send("ID is not logged in.");
     await client.revokeUserToken(id, new Date());
-
-    return;
+    return; 
 });
 
 module.exports = firebaseRouter;
