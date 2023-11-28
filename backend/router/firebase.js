@@ -7,8 +7,6 @@ const firebaseRouter = express.Router();
 
 const TOKEN_MAP = new Map();
 
-const auth = firebaseAuth.getAuth(app);
-const db = database.getDatabase();
 
 // firebaseRouter.use(function incoming(req, res, next) {
 //     console.log('Current Time: ' + Date.now());
