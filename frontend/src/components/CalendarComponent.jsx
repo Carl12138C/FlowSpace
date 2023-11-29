@@ -9,20 +9,23 @@ import {
   getMonthDropdownOptions,
   getYearDropdownOptions
 } from "./CalendarHelpers";
+import { useState } from "react";
 
 CalendarComponent.propTypes = {
   className: PropTypes.string,
   yearAndMonth: PropTypes.arrayOf(PropTypes.number).isRequired, // e.g. [2021, 6] for June 2021
   onYearAndMonthChange: PropTypes.func.isRequired,
-  renderDay: PropTypes.func
+  renderDay: PropTypes.func,
 };
 export default function CalendarComponent({
   className = "",
   yearAndMonth = [2021, 6],
   onYearAndMonthChange,
-  renderDay = () => null
+  renderDay = () => null,
+  userTask = null
 }) {
   const [year, month] = yearAndMonth;
+  const [isOpen,setIsOpen] = useState(false);
 
   let currentMonthDays = createDaysForCurrentMonth(year, month);
   let previousMonthDays = createDaysForPreviousMonth(
@@ -73,8 +76,8 @@ export default function CalendarComponent({
     <div className="calendar-root">
       <div className="navigation-header">
         <div className="month-nav-arrow-buttons">
-          <button onClick={handleMonthNavBackButtonClick}> prev </button>
-          <button onClick={handleMonthNavForwardButtonClick}>next</button>
+          <button onClick={handleMonthNavBackButtonClick}> Prev </button>
+          <button onClick={handleMonthNavForwardButtonClick}> Next</button>
         </div>
         <select
           className="month-select"
@@ -119,11 +122,22 @@ export default function CalendarComponent({
               "weekend-day": isWeekendDay(day.dateString),
               "current-month": day.isCurrentMonth
             })}
+            onClick= {()=>{setIsOpen(true);console.log(day);}}
           >
             <div className="day-content-wrapper">{renderDay(day)}</div>
           </div>
         ))}
       </div>
+      {isOpen&&(
+            <div className = 'modal'>
+                <div className = 'overlay' onClick= {()=>setIsOpen(false)} ></div>
+                <div className = "modal-content">
+                    
+                  <button className = 'close-modal' onClick= {()=>setIsOpen(false)}> Close </button>
+            </div>
+
+        </div>
+        )}
     </div>
   );
 }
