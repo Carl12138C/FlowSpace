@@ -24,10 +24,10 @@ export default function TaskItem({ info, editTask, removeTask }) {
     <>
       <Item>
         <Grid container spacing={2}>
-          <Grid item xs="10">
+          <Grid item xs={10}>
             <FormControlLabel control={<Checkbox />} label={info.title} />
           </Grid>
-          <Grid item xs="2">
+          <Grid item xs={2}>
             <Grid container justifyContent="flex-end">
               <EditTask taskInfo={info} editTask={editTask}/>
               <IconButton onClick={() => removeTask(info.id)}>
