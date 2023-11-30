@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { StreamChat } from "stream-chat";
+import { useRef, useState } from "react";
+import { getUserContext } from "../context/AuthContext";
 import {
     Channel,
     ChannelList,
@@ -13,59 +13,35 @@ import {
     useChatContext,
     useChannelActionContext,
 } from "stream-chat-react";
-
 import "stream-chat-react/dist/css/v2/index.css";
 import "../css/chat.css";
+import { Box, Button, Modal, Stack, TextField } from "@mui/material";
 
-//Store in env later
-const apiKey = import.meta.env.VITE_STREAM_KEY;
-
-const user = {
-    id: "KevinTest",
-    name: "Kevin Test",
+const style = {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: 500,
+    bgcolor: "background.paper",
+    border: "2px solid",
+    borderRadius: "15px",
+    boxShadow: 24,
+    p: 4,
 };
 
-
 export default function ChatPage() {
-    const [cilent, setCilent] = useState();
+    const { userData, streamChat } = getUserContext();
     const [sort, setSort] = useState({ last_message_at: -1 });
     const [filter, setFiler] = useState({
         type: "messaging",
-        members: { $in: [user.id] },
+        members: { $in: [userData.username] },
     });
 
-    useEffect(function connect() {
-        async function init() {
-            const chatCilent = new StreamChat.getInstance(apiKey);
-
-            await chatCilent.connectUser(user, chatCilent.devToken(user.id));
-
-            const chatChannel = chatCilent.channel(
-                "messaging",
-                "test-channel",
-                {
-                    name: "Channel for Testing Purposes",
-                    members: [user.id],
-                }
-            );
-
-            await chatChannel.watch();
-
-            setCilent(chatCilent);
-        }
-        init();
-
-        return function cleanUp() {
-            if (cilent) {
-                cilent.disconnectUser();
-            }
-        };
-    }, []);
-
-    if (!cilent) return <LoadingIndicator />;
+    if (!streamChat) return <LoadingIndicator />;
 
     return (
-        <Chat client={cilent} theme="messaging light">
+        <Chat client={streamChat} theme="messaging light">
             <ChannelList
                 List={Channels}
                 sendChannelsToList
@@ -81,17 +57,54 @@ export default function ChatPage() {
 
 function Channels({ loadedChannels }) {
     const { channel: activeChannel, setActiveChannel } = useChatContext();
+    const { userData, streamChat } = getUserContext();
+
+    const [open, setOpen] = useState(false);
+    const memberRef = useRef();
+    const groupNameRef = useRef();
+
+    async function createChannel() {
+        const channel = await streamChat.channel("messaging", {members: [userData.username, memberRef.current.value], name: groupNameRef.current.value});
+        await channel.create();
+        setOpen(false);
+    }
 
     return (
         <div className="channelList">
-            <button
-                className="channelList-button"
-                onClick={() => {
-                    console.log("creating channel");
-                }}
-            >
-                New Conversation
-            </button>
+            <div id="modal">
+                <button
+                    className="channelList-button"
+                    onClick={() => {
+                        setOpen(true);
+                        console.log("creating channel");
+                    }}
+                >
+                    New Conversation
+                </button>
+                <Modal
+                    open={open}
+                    onClose={() => {
+                        setOpen(false);
+                    }}
+                    aria-labelledby="child-modal-title"
+                    aria-describedby="child-modal-description"
+                >
+                    <Box sx={{ ...style }}>
+                        <h2 id="child-modal-title">Create New Group Chat</h2>
+                        <Stack sx={{alignItems: "center"}} spacing={2}>
+                            <TextField sx={{minWidth: 500}} label="Group Chat Name" inputRef={groupNameRef}/>
+                            <TextField sx={{minWidth: 500}} label="Member(s) to Add" inputRef={memberRef}/>
+                            <Button
+                                onClick={function () {
+                                    createChannel()
+                                }}
+                            >
+                                Create Group Chat
+                            </Button>
+                        </Stack>
+                    </Box>
+                </Modal>
+            </div>
             <div className="channelList-container">
                 {loadedChannels != null && loadedChannels.length > 0
                     ? loadedChannels.map((channel) => {
@@ -126,6 +139,7 @@ function Channels({ loadedChannels }) {
                       })
                     : "No Conversations"}
             </div>
+
         </div>
     );
 }
@@ -134,7 +148,6 @@ function ChannelInner() {
     const { sendMessage } = useChannelActionContext();
 
     function overrideSubmitHandler(userInput) {
-        console.log(`Sending Message:\n ${userInput.text} \n to Backend DB`);
 
         const message = {
             text: userInput.text,
@@ -149,7 +162,7 @@ function ChannelInner() {
         <>
             <Window>
                 <ChannelHeader />
-                <MessageList />
+                <MessageList hideDeletedMessages />
                 <MessageInput
                     focus
                     overrideSubmitHandler={overrideSubmitHandler}

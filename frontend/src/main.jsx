@@ -5,7 +5,7 @@ import Tasklist from "./pages/Tasklist.jsx";
 import Calendar from "./pages/Calendar.jsx";
 import "./index.css";
 import "./app.css";
-import Home from "./pages/Home.jsx";
+import Login from "./pages/Login.jsx";
 import MainLayout from "./layouts/MainLayout.jsx";
 import { AuthContext } from "./context/AuthContext.jsx";
 
@@ -18,10 +18,11 @@ const routes = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <Home />,
+        element: <Login />,
       },
       {
         element: <MainLayout />,
+        errorElement: <Error />,
         children: [
           {
             path: "chat",
@@ -46,5 +47,5 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     <AuthContext>
       <RouterProvider router={routes} />
     </AuthContext>
-  </React.StrictMode>
+  </React.StrictMode> 
 );
