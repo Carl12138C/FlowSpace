@@ -1,28 +1,23 @@
 // import ";
-import "../css/calendar.css"
+import "../css/calendar.css";
 import { useEffect, useState } from "react";
 import CalendarComponent from "../components/CalendarComponent";
 import { CalendarDayHeader } from "../components/CalendarComponent";
 import { getUserContext } from "../context/AuthContext";
-import { getUserData,getUserTask,updateUserTask } from "../FirebaseUtil";
-
-
-
-  
+import { getUserData, getUserTask, updateUserTask } from "../FirebaseUtil";
 
 export default function Calendar() {
-  const [yearAndMonth, setYearAndMonth] = useState([2023, 10]);
-  const [userTask, setUserTask] = useState([]);
   const uid = getUserContext().userData.uid;
-  useEffect(()=>{
-    const fetchData = async () =>{
-      const userTask = await getUserTask(uid);
-      setUserTask(userTask.data);
-    }
-    fetchData();
-    // console.log(userTask);
-    return;
-  },[]);
+  const [yearAndMonth, setYearAndMonth] = useState([2023, 10]);
+  const [userTask, setUserTask] = useState(getUserContext().userData.userTask ?? {data:[], dateTask:{}});
+  const [isOpen, setIsOpen] = useState(false);
+  console.log(userTask);
+
+  async function fetchData() {
+    const userTaskData = await getUserTask(uid);
+    setUserTask(userTaskData);
+  }
+  useEffect(() => {}, []);
   return (
     <>
       <CalendarComponent
@@ -33,7 +28,10 @@ export default function Calendar() {
             <CalendarDayHeader calendarDayObject={calendarDayObject} />
           </div>
         )}
-        userTask = {userTask}
+        userTask={userTask}
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
+        fetchData={fetchData}
       />
     </>
   );

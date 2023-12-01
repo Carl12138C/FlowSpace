@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import Kirby from "../../../image/Desk_Kirby.png";
 import { useRef, useState } from "react";
-import { RegisterData, getUserData } from "../FirebaseUtil";
+import { RegisterData, getUserData, getUserTask } from "../FirebaseUtil";
 
 export default function Home() {
     const UserContext = getUserContext();
@@ -50,13 +50,16 @@ export default function Home() {
                     console.log("Invalid Login Credentials");
                     return;
                 }
-
-                UserContext.setUserData({
+                console.log(newUser.user.uid);
+                const newUserTask = await getUserTask(newUser.user.uid);
+                    UserContext.setUserData({
                     email: emailRef.current.value,
                     uid: newUser.user.uid,
                     streamToken: newUser.streamToken,
                     username: usernameRef.current.value,
+                    userTask : newUserTask
                 });
+
 
                 navigate("/chat");
             }
@@ -92,15 +95,12 @@ export default function Home() {
                     console.log("User Already Exists");
                     return;
                 }
-
                 UserContext.setUserData({
                     email: emailRef.current.value,
                     uid: newUser.user.uid,
                     streamToken: newUser.streamToken,
                     username: usernameRef.current.value,
                 });
-
-                await RegisterData(newUser.user.uid);
                 
                 navigate("/chat");
             }

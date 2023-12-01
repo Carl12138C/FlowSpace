@@ -7,9 +7,8 @@ import {
   createDaysForPreviousMonth,
   isWeekendDay,
   getMonthDropdownOptions,
-  getYearDropdownOptions
+  getYearDropdownOptions,
 } from "./CalendarHelpers";
-import { useState } from "react";
 
 CalendarComponent.propTypes = {
   className: PropTypes.string,
@@ -22,11 +21,13 @@ export default function CalendarComponent({
   yearAndMonth = [2021, 6],
   onYearAndMonthChange,
   renderDay = () => null,
-  userTask = null
+  userTask = null,
+  isOpen = null,
+  setIsOpen,
+  fetchData,
 }) {
   const [year, month] = yearAndMonth;
-  const [isOpen,setIsOpen] = useState(false);
-
+  console.log(userTask);
   let currentMonthDays = createDaysForCurrentMonth(year, month);
   let previousMonthDays = createDaysForPreviousMonth(
     year,
@@ -37,7 +38,7 @@ export default function CalendarComponent({
   let calendarGridDayObjects = [
     ...previousMonthDays,
     ...currentMonthDays,
-    ...nextMonthDays
+    ...nextMonthDays,
   ];
 
   const handleMonthNavBackButtonClick = () => {
@@ -107,7 +108,7 @@ export default function CalendarComponent({
           <div
             key={day}
             className={classNames("day-of-week-header-cell", {
-              "weekend-day": [6, 0].includes(index)
+              "weekend-day": [6, 0].includes(index),
             })}
           >
             {day}
@@ -120,30 +121,33 @@ export default function CalendarComponent({
             key={day.dateString}
             className={classNames("day-grid-item-container", {
               "weekend-day": isWeekendDay(day.dateString),
-              "current-month": day.isCurrentMonth
+              "current-month": day.isCurrentMonth,
             })}
-            onClick= {()=>{setIsOpen(true);console.log(day);}}
+            onClick={() => {
+              setIsOpen(true);
+            }}
           >
-            <div className="day-content-wrapper">{renderDay(day)}</div>
+            <div className="day-content-wrapper">{renderDay(day)} {userTask.dateTask[day.dateString]?.titles}</div>
           </div>
         ))}
       </div>
-      {isOpen&&(
-            <div className = 'modal'>
-                <div className = 'overlay' onClick= {()=>setIsOpen(false)} ></div>
-                <div className = "modal-content">
-                    
-                  <button className = 'close-modal' onClick= {()=>setIsOpen(false)}> Close </button>
-            </div>
-
+      {isOpen && (
+        <div className="modal">
+          <div className="overlay" onClick={() => setIsOpen(false)}></div>
+          <div className="modal-content">
+            <button className="close-modal" onClick={() => setIsOpen(false)}>
+              {" "}
+              Close{" "}
+            </button>
+          </div>
         </div>
-        )}
+      )}
     </div>
   );
 }
 
 CalendarDayHeader.propTypes = {
-  calendarDayObject: PropTypes.object.isRequired
+  calendarDayObject: PropTypes.object.isRequired,
 };
 export function CalendarDayHeader({ calendarDayObject }) {
   return (
