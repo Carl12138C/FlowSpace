@@ -155,13 +155,68 @@ firebaseRouter.get("/getusertask", async function incoming(req, res) {
         });
 });
 
+firebaseRouter.get("/friends", async function incoming(req, res) {
+    const reference = database.ref(db);
+    database.get(database.child(reference, "users/" + req.query.uid + "/friendslist"))
+        .then((snapshot) => {
+            if (snapshot.exists()) {
+                return res.status(200).json({data: snapshot.val()});
+            } else {
+                console.log("No data available");
+                return res.status(204).json({data: null});
+            }
+        })
+        .catch((error) => {
+            console.error(error);
+            next(error);
+        });
+})
+
+// firebaseRouter.post("/registerdata", async function (req, res) {
+//     var reference = database.ref(db, "users/" + req.body.uid);
+//     database.set(reference, { friendslist: [{ default: "default" }] });
+//     reference = database.ref(db, "tasklist/" + req.body.uid);
+//     database.set(reference, { tasklist: [{ default: "default" }] });
+//     return res.status(201).json();
+// });
+
+firebaseRouter.post("/friends/add", async function incoming(req, res) {
+    var reference = database.ref(db, "users/" + req.body.uid + "/friendslist");
+
+    const existingUsers = await client.queryUsers({
+        id: { $eq: req.body.data.friendName }
+    });
+    if (existingUsers.users.length == 0) {
+        return res.status(400).send("User doesn't exist");
+    }
+
+    database.get(database.child(reference, "/" + req.body.data.friendName))
+        .then((snapshot) => {
+            if (snapshot.exists()) {
+                if(snapshot.val()){
+                    return res.status(403).send("Friend Already Added");
+                }
+            } else {
+                var data = {}
+                data[req.body.data.friendName] = true;
+                database.update(reference, data);
+                return res.status(201).send("Successfully added");
+            }
+        })
+        .catch((error) => {
+            console.error(error);
+            next(error);
+        });
+})
+
 firebaseRouter.post("/logout", async function incoming(req, res) {
     var token = req.body.token;
-
     const id = TOKEN_MAP.get(token);
+
     if (id == null) return res.send("ID is not logged in.");
     await client.revokeUserToken(id, new Date());
-    return; 
+    
+    return res.status(200).json({message:"Successfully Logged Out"});
 });
 
 module.exports = firebaseRouter;

@@ -29,21 +29,8 @@ streamAPIRouter.post(
     }
 );
 
-streamAPIRouter.post("/channel/signup", async function incoming(req, res) {
-    try {
-        var userEmail = req.body.email;
-        var userName = req.body.userName;
-
-        const channel = client.channel(
-            "messaging",
-            "personal-channel-" + userName,
-            { members: [userName] }
-        );
-        const response = await channel.watch();
-        res.send("Channel response:" + response);
-    } catch (e) {
-        console.log(e);
-    }
+streamAPIRouter.post("/channel/leave", async function incoming(req, res) {
+    res.status(200).send("You reached here");
 });
 
 module.exports = streamAPIRouter;

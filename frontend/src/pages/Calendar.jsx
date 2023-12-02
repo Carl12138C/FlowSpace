@@ -4,7 +4,7 @@ import { useState } from "react";
 import CalendarComponent from "../components/CalendarComponent";
 import { CalendarDayHeader } from "../components/CalendarComponent";
 import { getUserContext } from "../context/AuthContext";
-import { getUserData,getUserTask,updateUserTask } from "../FirebaseUtil";
+import { getFriends, getUserData,getUserTask,updateUserTask } from "../FirebaseUtil";
 
 
 export default function Calendar() {
@@ -23,7 +23,7 @@ export default function Calendar() {
       />
       <button onClick={() =>handleSet(uid)}>Set Task</button>
       <button onClick={() => handleGetTask(uid)}>Get Task</button>
-      <button onClick = {() =>handleGetUserData(uid)}>Get UserData</button>
+      <button onClick = {() =>getFriends(uid)}>Get UserData</button>
 
     </>
   );
