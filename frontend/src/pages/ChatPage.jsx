@@ -13,11 +13,11 @@ import Channels from "../components/Chat/Channels";
 
 export default function ChatPage() {
     const { userData, streamChat } = getUserContext();
-    const [sort, setSort] = useState({ last_message_at: -1 });
-    const [filter, setFiler] = useState({
+    const sort = { last_message_at: -1 };
+    const filter = {
         type: "messaging",
         members: { $in: [userData.username] },
-    });
+    };
 
     if (!streamChat) return <LoadingIndicator />;
 

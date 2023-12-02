@@ -1,22 +1,18 @@
 import { useChatContext } from "stream-chat-react";
 import { getUserContext } from "../../context/AuthContext";
+import SelectFriends from "./SelectFriends";
 import { useEffect, useRef, useState } from "react";
 import {
     Box,
     Button,
-    Chip,
-    FormControl,
     IconButton,
-    InputLabel,
-    MenuItem,
     Modal,
-    OutlinedInput,
-    Select,
     Stack,
     TextField,
     Tooltip,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
+import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import CloseIcon from "@mui/icons-material/Close";
 
 const style = {
@@ -32,32 +28,44 @@ const style = {
     p: 4,
 };
 
-const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 8;
-const MenuProps = {
-    PaperProps: {
-        style: {
-            maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-            width: 250,
-        },
-    },
-};
-
 export default function Channels({ loadedChannels }) {
     const { channel: activeChannel, setActiveChannel } = useChatContext();
     const { userData, streamChat } = getUserContext();
 
-    const [open, setOpen] = useState(false);
+    const [modalDisplay, setModalDisplay] = useState({
+        modal: false,
+        friendOption: false,
+        groupOption: false,
+    });
+    const [selectedFriends, setSelectedFriends] = useState([]);
+    const [confirmModal, setConfirmModal] = useState(false);
     const memberRef = useRef("");
     const groupNameRef = useRef("");
 
     async function createChannel() {
-        const channel = await streamChat.channel("messaging", {
-            members: [userData.username, memberRef.current.value],
-            name: groupNameRef.current.value,
+        if (modalDisplay.groupOption) {
+            // const channel = await streamChat.channel("messaging", {
+            //     members: [userData.username].concat(selectedFriends),
+            //     name: groupNameRef.current.value,
+            // });
+            // await channel.create();
+            console.log([userData.username].concat(selectedFriends));
+        }
+
+        if (modalDisplay.friendOption) {
+            // const channel = await streamChat.channel("messaging", {
+            //     members: [userData.username, memberRef.current.value],
+            //     name: memberRef.current.value,
+            // });
+            // await channel.create();
+            console.log([userData.username, memberRef.current.value]);
+        }
+        setModalDisplay({
+            modal: false,
+            friendOption: false,
+            groupOption: false,
         });
-        await channel.create();
-        setOpen(false);
+        setSelectedFriends([]);
     }
 
     return (
@@ -65,45 +73,86 @@ export default function Channels({ loadedChannels }) {
             <div id="modal">
                 <div className="channelList-header">
                     <p>CONVERSATIONS</p>
-                    <Tooltip title="New Conversation" placement="right" arrow>
-                        <IconButton
-                            onClick={() => {
-                                setOpen(true);
-                                console.log("creating channel");
-                            }}
+                    <div className="flex">
+                        <Tooltip
+                            title="New Conversation"
+                            placement="bottom"
+                            arrow
                         >
-                            <AddIcon id="addIcon" />
-                        </IconButton>
-                    </Tooltip>
+                            <IconButton
+                                onClick={() => {
+                                    setModalDisplay({
+                                        modal: true,
+                                        friendOption: true,
+                                        groupOption: false,
+                                    });
+                                    console.log("creating channel");
+                                }}
+                            >
+                                <PersonAddIcon />
+                            </IconButton>
+                        </Tooltip>
+                        <Tooltip title="New Group" placement="bottom" arrow>
+                            <IconButton
+                                onClick={() => {
+                                    setModalDisplay({
+                                        modal: true,
+                                        friendOption: false,
+                                        groupOption: true,
+                                    });
+                                    console.log("creating channel");
+                                }}
+                            >
+                                <AddIcon />
+                            </IconButton>
+                        </Tooltip>
+                    </div>
                 </div>
                 <Modal
-                    open={open}
+                    open={modalDisplay.modal}
                     onClose={() => {
-                        setOpen(false);
+                        setModalDisplay({
+                            modal: false,
+                            friendOption: false,
+                            groupOption: false,
+                        });
                     }}
                     aria-labelledby="child-modal-title"
                     aria-describedby="child-modal-description"
                 >
                     <Box sx={{ ...style }}>
-                        <h2 id="child-modal-title">Create New Group Chat</h2>
+                        {modalDisplay.friendOption ? (
+                            <h2 id="child-modal-title">New Conversation</h2>
+                        ) : (
+                            <h2 id="child-modal-title">New Group Chat</h2>
+                        )}
                         <Stack sx={{ alignItems: "center" }} spacing={2}>
-                            <TextField
-                                sx={{ minWidth: 450 }}
-                                label="Group Chat Name"
-                                inputRef={groupNameRef}
-                            />
-                            <TextField
-                                sx={{ minWidth: 450 }}
-                                label="Member(s) to Add"
-                                inputRef={memberRef}
-                            />
-                            <SelectFriends />
+                            {modalDisplay.groupOption && (
+                                <TextField
+                                    sx={{ minWidth: 450 }}
+                                    label="Group Chat Name"
+                                    inputRef={groupNameRef}
+                                />
+                            )}
+                            {modalDisplay.friendOption && (
+                                <TextField
+                                    sx={{ minWidth: 450 }}
+                                    label="Add Friend"
+                                    inputRef={memberRef}
+                                />
+                            )}
+                            {modalDisplay.groupOption && (
+                                <SelectFriends
+                                    selectedFriends={selectedFriends}
+                                    setSelectedFriends={setSelectedFriends}
+                                />
+                            )}
                             <Button
                                 onClick={function () {
                                     createChannel();
                                 }}
                             >
-                                Create Group Chat
+                                Done
                             </Button>
                         </Stack>
                     </Box>
@@ -117,7 +166,7 @@ export default function Channels({ loadedChannels }) {
                               ? "channel-active"
                               : "channel-notActive";
                           return (
-                              <button
+                              <div
                                   onClick={() => {
                                       setActiveChannel(channel);
                                   }}
@@ -142,74 +191,27 @@ export default function Channels({ loadedChannels }) {
                                           {channel.data?.name || "Channel"}
                                       </div>
                                   </div>
-
-                                  <Tooltip
-                                      title="Remove Conversation"
-                                      placement="right"
-                                      arrow
-                                  >
-                                      <CloseIcon
-                                          className="channel-remove"
-                                          onClick={() => {
-                                              console.log("removing channel");
-                                          }}
-                                      />
-                                  </Tooltip>
-                              </button>
+                                  {channel === activeChannel && (
+                                      <Tooltip
+                                          title="Remove Conversation"
+                                          placement="right"
+                                          arrow
+                                      >
+                                          <IconButton
+                                              onClick={() => {
+                                                  setConfirmModal(true);
+                                                  console.log("removing channel");
+                                              }}
+                                          >
+                                              <CloseIcon className="channel-remove" />
+                                          </IconButton>
+                                      </Tooltip>
+                                  )}
+                              </div>
                           );
                       })
                     : "No Conversations"}
             </div>
         </div>
-    );
-}
-
-function SelectFriends() {
-    console.log("I ran");
-    const [friendList, setFriendList] = useState([]);
-    const [selectedFriends, setSelectedFriends] = useState([]);
-
-    useEffect(() => {
-        setFriendList([
-            "Friend 1",
-            "Friend 2",
-            "Friend 3",
-        ]);
-    }, [])
-
-    function handleChange(e) {
-        setSelectedFriends(e.target.value);
-    }
-
-    return (
-        <FormControl sx={{ m: 1, width: 300 }}>
-            <InputLabel>Friends</InputLabel>
-            <Select
-                multiple
-                value={selectedFriends}
-                onChange={handleChange}
-                input={<OutlinedInput label="Chip" />}
-                renderValue={(selected) => (
-                    <Box
-                        sx={{
-                            display: "flex",
-                            flexWrap: "wrap",
-                            gap: 0.5,
-                        }}
-                    >
-                        {selected.map((value) => (
-                            <Chip key={value} label={value} />
-                        ))}
-                    </Box>
-                )}
-                MenuProps={MenuProps}
-            >
-                {friendList.map((friend) => (
-                    <MenuItem key={friend} value={friend}>
-                        {friend}
-                    </MenuItem>
-                ))}
-            </Select>
-        </FormControl>
     );
 }
