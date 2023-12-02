@@ -11,7 +11,6 @@ export default function Calendar() {
   const [yearAndMonth, setYearAndMonth] = useState([2023, 10]);
   const [userTask, setUserTask] = useState(getUserContext().userData.userTask ?? {data:[], dateTask:{}});
   const [isOpen, setIsOpen] = useState(false);
-  console.log(userTask);
 
   async function fetchData() {
     const userTaskData = await getUserTask(uid);
