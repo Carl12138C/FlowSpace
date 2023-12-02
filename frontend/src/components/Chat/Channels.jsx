@@ -191,22 +191,46 @@ export default function Channels({ loadedChannels }) {
                                           {channel.data?.name || "Channel"}
                                       </div>
                                   </div>
-                                  {channel === activeChannel && (
-                                      <Tooltip
-                                          title="Remove Conversation"
-                                          placement="right"
-                                          arrow
+                                  <Tooltip
+                                      title="Remove Conversation"
+                                      placement="right"
+                                      arrow
+                                      className="channel-remove"
+                                  >
+                                      <IconButton
+                                          onClick={() => {
+                                              setConfirmModal(true);
+                                              console.log("removing channel");
+                                          }}
                                       >
-                                          <IconButton
+                                          <CloseIcon />
+                                      </IconButton>
+                                  </Tooltip>
+                                  <Modal
+                                      open={confirmModal}
+                                      onClose={() => setConfirmModal(false)}
+                                      aria-labelledby="modal-modal-title"
+                                      aria-describedby="modal-modal-description"
+                                  >
+                                      <Box sx={{ ...style }}>
+                                          Are you sure you want to remove this channel?
+                                          <Button
                                               onClick={() => {
-                                                  setConfirmModal(true);
-                                                  console.log("removing channel");
+                                                  console.log("Idk");
+                                                  setConfirmModal(false);
                                               }}
                                           >
-                                              <CloseIcon className="channel-remove" />
-                                          </IconButton>
-                                      </Tooltip>
-                                  )}
+                                              Confirm
+                                          </Button>
+                                          <Button
+                                              onClick={() =>
+                                                  setConfirmModal(false)
+                                              }
+                                          >
+                                              Cancel
+                                          </Button>
+                                      </Box>
+                                  </Modal>
                               </div>
                           );
                       })
