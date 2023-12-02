@@ -66,13 +66,13 @@ Introducing FlowSpace, our application will consolidate the processes involved i
 
 * [Sprint planning](https://docs.google.com/spreadsheets/d/1Wbs6DIA65byChgVr_F-rV9t5BU84cUO6A8Wg8sxLSMg/edit#gid=2008869608)
 * [Scrums](https://docs.google.com/document/d/1BN__wVh9CegJbTzvGOroZXg6wD0czr8wNKAvgQ8I1_A/edit)
-* [Sprint demo video]()
+* [Sprint demo video](https://youtu.be/-dBXfACCjNg)
 * [Sprint retrospective](https://docs.google.com/document/d/1XtOvxcaEDbpP_AJnMTQynZZJVQ7YZeqAtpYbGaK4_Tc/edit)
 
 ### Sprint 3
 
-* [Sprint planning]()
-* [Scrums]()
+* [Sprint planning](https://docs.google.com/spreadsheets/d/1Wbs6DIA65byChgVr_F-rV9t5BU84cUO6A8Wg8sxLSMg/edit#gid=8)
+* [Scrums](https://docs.google.com/document/d/1BN__wVh9CegJbTzvGOroZXg6wD0czr8wNKAvgQ8I1_A/edit)
 * [Sprint demo video]()
 * [Sprint retrospective]()
 
