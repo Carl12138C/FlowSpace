@@ -132,15 +132,15 @@ export default function Home() {
                             Welcome to FlowSpace
                         </Typography>
                         <Stack spacing={2}>
-                            <TextField label="Userame" inputRef={usernameRef} />
+                            <TextField label="Username" inputRef={usernameRef} />
                             <TextField
                                 label="Email"
                                 inputRef={emailRef}
                                 error={error}
                                 onBlur={() => {
-                                    setError(
-                                        !emailRegex.test(emailRef.current.value)
-                                    );
+                                    setError(() => {
+                                        !(emailRegex.test(emailRef.current.value))
+                                    });
                                 }}
                             />
                             <TextField
