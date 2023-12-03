@@ -6,6 +6,7 @@ import AddIcon from "@mui/icons-material/Add";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import CloseIcon from "@mui/icons-material/Close";
 import NewGroupModal from "./NewGroupModal";
+import { getUserContext } from "../../context/AuthContext";
 
 const style = {
     position: "absolute",
@@ -22,6 +23,7 @@ const style = {
 
 export default function Channels({ loadedChannels }) {
     const { channel: activeChannel, setActiveChannel } = useChatContext();
+    const { userData } = getUserContext();
 
     const [modalDisplay, setModalDisplay] = useState({
         friendOption: false,
@@ -69,8 +71,14 @@ export default function Channels({ loadedChannels }) {
                         </Tooltip>
                     </div>
                 </div>
-                <AddFriendModal modalDisplay={modalDisplay} setModalDisplay={setModalDisplay} />
-                <NewGroupModal modalDisplay={modalDisplay} setModalDisplay={setModalDisplay} />
+                <AddFriendModal
+                    modalDisplay={modalDisplay}
+                    setModalDisplay={setModalDisplay}
+                />
+                <NewGroupModal
+                    modalDisplay={modalDisplay}
+                    setModalDisplay={setModalDisplay}
+                />
             </div>
             <div className="channelList-container">
                 {loadedChannels != null && loadedChannels.length > 0
@@ -97,12 +105,16 @@ export default function Channels({ loadedChannels }) {
                                       ) : (
                                           <div className="channelList-default_image">
                                               <p id="default_image_letter">
-                                                  {channel.data?.name.charAt(0)}
+                                                  {channel.data?.name[userData.username]
+                                                      ? (channel.data?.name[userData.username]).charAt(0)
+                                                      : channel.data?.name.charAt(0)}
                                               </p>
                                           </div>
                                       )}
                                       <div className="channelList-channel-name">
-                                          {channel.data?.name || "Channel"}
+                                          {(channel.data?.name[userData.username]
+                                                      ? channel.data?.name[userData.username]
+                                                      : channel.data?.name) || "Channel"}
                                       </div>
                                   </div>
                                   <Tooltip

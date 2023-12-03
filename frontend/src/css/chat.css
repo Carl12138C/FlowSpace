@@ -129,3 +129,32 @@
   display: flex;
   align-items: center;
 }
+
+.channelHeader-title {
+  font: var(--str-chat__subtitle-medium-text);
+  font-size: 19px;
+}
+
+.channelHeader-info {
+  font: var(--str-chat__body-text);
+  color: var(--str-chat__channel-header-info-color);
+}
+
+.channelHeader-details{
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+}
+
+.str-chat__avatar {
+  margin: 7px !important;
+}
+
+.channelHeader {
+  align-items: center;
+  background-color: white;
+  width: 100%;
+  opacity: 90%;
+  display: flex;
+
+}
