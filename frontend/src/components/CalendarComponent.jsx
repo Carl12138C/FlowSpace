@@ -29,7 +29,6 @@ export default function CalendarComponent({
   fetchData,
 }) {
   const [year, month] = yearAndMonth;
-  console.log(userTask);
   let currentMonthDays = createDaysForCurrentMonth(year, month);
   let previousMonthDays = createDaysForPreviousMonth(
     year,

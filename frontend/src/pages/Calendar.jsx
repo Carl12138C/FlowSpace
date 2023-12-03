@@ -36,7 +36,6 @@ export default function Calendar() {
             onClick={() => {
               setIsOpen(true);
               modalData.current = taskObject;
-              console.log(modalData);
             }}
           >
             {taskObject.title}
