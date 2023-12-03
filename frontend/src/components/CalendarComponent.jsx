@@ -21,7 +21,9 @@ export default function CalendarComponent({
   yearAndMonth = [2021, 6],
   onYearAndMonthChange,
   renderDay = () => null,
+  renderTask = () => null,
   userTask = null,
+  modalData = null,
   isOpen = null,
   setIsOpen,
   fetchData,
@@ -123,22 +125,40 @@ export default function CalendarComponent({
               "weekend-day": isWeekendDay(day.dateString),
               "current-month": day.isCurrentMonth,
             })}
-            onClick={() => {
-              setIsOpen(true);
-            }}
           >
-            <div className="day-content-wrapper">{renderDay(day)} {userTask.dateTask[day.dateString]?.titles}</div>
+            <div className="day-content-wrapper">
+              {renderDay(day)}{" "}
+              {userTask.dateTask[day.dateString]?.task.map((task) =>
+                renderTask(task)
+              )}
+            </div>
           </div>
         ))}
       </div>
       {isOpen && (
         <div className="modal">
-          <div className="overlay" onClick={() => setIsOpen(false)}></div>
+          <div
+            className="overlay"
+            onClick={() => {
+              setIsOpen(false);
+              modalData.current = null;
+            }}
+          ></div>
           <div className="modal-content">
-            <button className="close-modal" onClick={() => setIsOpen(false)}>
-              {" "}
-              Close{" "}
+            <button
+              className="close-modal"
+              onClick={() => {
+                setIsOpen(false);
+                modalData.current = null;
+              }}
+            >
+              Close
             </button>
+            <div className="modal-data-container">
+            <h2>{modalData.current?.title}</h2>
+            <h3>{modalData.current?.deadline}</h3>
+            <h4>{modalData.current?.description}</h4>
+            </div>
           </div>
         </div>
       )}
