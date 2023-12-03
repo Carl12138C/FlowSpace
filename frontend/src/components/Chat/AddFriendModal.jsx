@@ -30,7 +30,7 @@ export default function AddFriendModal({ modalDisplay, setModalDisplay }) {
                     })
                     .then((channel) => {
                         channel.create().then((channelResponse) => {
-                            console.log(streamResponse);
+                            console.log(channelResponse);
                         });
                     });
                 setModalDisplay({
@@ -38,7 +38,9 @@ export default function AddFriendModal({ modalDisplay, setModalDisplay }) {
                     groupOption: false,
                 });
             } else {
-                console.log(response.text());
+                response.text().then(text => {
+                    console.log(text);
+                });
             }
         });
     }
