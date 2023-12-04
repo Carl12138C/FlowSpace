@@ -23,95 +23,95 @@ firebaseRouter.get("/user/:id", function incoming(req, res) {
 });
 
 firebaseRouter.post("/login", async function incoming(req, res) {
-    var email = req.body.email;
-    var password = req.body.password;
-    var username = req.body.username;
-    try {
-        const existingUsers = await client.queryUsers({
-            id: { $eq: username },
-        });
-        if (existingUsers.users.length == 0) {
-            return res.status(400).send("Invalid Username");
-        }
-
-        const loginUser = await firebaseAuth.signInWithEmailAndPassword(
-            auth,
-            email,
-            password
-        );
-
-        const token = client.createToken(username);
-        TOKEN_MAP.set(token, username);
-
-        return res.json({
-            user: loginUser.user,
-            streamToken: token,
-            errorCode: "",
-            errorMessage: "",
-        });
-    } catch (error) {
-        return res.json({
-            user: "",
-            errorCode: error.code,
-            errorMessage: error.message,
-        });
+  var email = req.body.email;
+  var password = req.body.password;
+  var username = req.body.username;
+  try {
+    const existingUsers = await client.queryUsers({
+      id: { $eq: username },
+    });
+    if (existingUsers.users.length == 0) {
+      return res.status(400).send("Invalid Username");
     }
+
+    const loginUser = await firebaseAuth.signInWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+
+    const token = client.createToken(username);
+    TOKEN_MAP.set(token, username);
+
+    return res.json({
+      user: loginUser.user,
+      streamToken: token,
+      errorCode: "",
+      errorMessage: "",
+    });
+  } catch (error) {
+    return res.json({
+      user: "",
+      errorCode: error.code,
+      errorMessage: error.message,
+    });
+  }
 });
 
 firebaseRouter.post("/signup", async function incoming(req, res) {
-    var email = req.body.email;
-    var password = req.body.password;
-    var username = req.body.username;
-    try {
-        const existingUsers = await client.queryUsers({
-            id: { $eq: username },
-        });
-        if (existingUsers.users.length > 0) {
-            return res.status(400).send("UserID taken");
-        }
-
-        const newUser = await firebaseAuth.createUserWithEmailAndPassword(
-            auth,
-            email,
-            password
-        );
-
-        client.upsertUser({ id: username, name: username });
-        const token = client.createToken(username);
-        const channel = client.channel(
-            "messaging",
-            "personal-channel" + newUser.user.uid,
-            {
-                members: [username],
-                name: "Personnel Channel",
-                created_by_id: username,
-            }
-        );
-        await channel.create();
-
-        TOKEN_MAP.set(token, username);
-
-        return res.json({
-            user: newUser.user,
-            streamToken: token,
-            errorCode: "",
-            errorMessage: "",
-        });
-    } catch (error) {
-        return res.json({
-            user: "",
-            errorCode: error.code,
-            errorMessage: error.message,
-        });
+  var email = req.body.email;
+  var password = req.body.password;
+  var username = req.body.username;
+  try {
+    const existingUsers = await client.queryUsers({
+      id: { $eq: username },
+    });
+    if (existingUsers.users.length > 0) {
+      return res.status(400).send("UserID taken");
     }
+
+    const newUser = await firebaseAuth.createUserWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+
+    client.upsertUser({ id: username, name: username });
+    const token = client.createToken(username);
+    const channel = client.channel(
+      "messaging",
+      "personal-channel" + newUser.user.uid,
+      {
+        members: [username],
+        name: "Personnel Channel",
+        created_by_id: username,
+      }
+    );
+    await channel.create();
+
+    TOKEN_MAP.set(token, username);
+
+    return res.json({
+      user: newUser.user,
+      streamToken: token,
+      errorCode: "",
+      errorMessage: "",
+    });
+  } catch (error) {
+    return res.json({
+      user: "",
+      errorCode: error.code,
+      errorMessage: error.message,
+    });
+  }
 });
 
 firebaseRouter.post("/registerdata", async function (req, res) {
-    var reference = database.ref(db, "users/" + req.body.uid);
-    database.set(reference, { friendslist: [{ default: "default" }] });
-    reference = database.ref(db, "tasklist/" + req.body.uid);
-    database.set(reference, { tasklist: [{ default: "default" }] });
-    return res.status(201).json();
+  var reference = database.ref(db, "users/" + req.body.uid);
+  database.set(reference, { friendslist: [] });
+  reference = database.ref(db, "tasklist/" + req.body.uid);
+  database.set(reference, { tasklist: [] });
+  return res.status(201).json();
 });
 
 firebaseRouter.get("/getuserdata", async function incoming(req, res) {
@@ -133,9 +133,9 @@ firebaseRouter.get("/getuserdata", async function incoming(req, res) {
 });
 
 firebaseRouter.put("/updatetask", async function (req, res) {
-    const reference = database.ref(db, "tasklist/" + req.body.uid);
-    database.set(reference, req.body.data);
-    return res.status(201).json();
+  const reference = database.ref(db, "tasklist/" + req.body.uid);
+  database.set(reference, req.body.data);
+  return res.status(201).json();
 });
 
 firebaseRouter.get("/getusertask", async function incoming(req, res) {

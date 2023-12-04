@@ -1,5 +1,5 @@
 export async function addFriend(uid, friendName) {
-    return setter(uid, "friends/add", {friendName: friendName});
+    return setter(uid, "friends/add", { friendName: friendName });
 }
 
 export async function getFriends(uid) {
@@ -62,7 +62,6 @@ async function setter(uid, route, data = "", isPost = true) {
                 body: JSON.stringify(body),
             }
         );
-        return response;
     } catch (error) {
         console.log(error);
     }
