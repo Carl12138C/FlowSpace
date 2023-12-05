@@ -69,47 +69,6 @@ export default function Home() {
         }
     }
 
-    async function signUp() {
-        try {
-            const body = {
-                email: emailRef.current.value,
-                password: passwordRef.current.value,
-                username: usernameRef.current.value,
-            };
-            const response = await fetch(
-                import.meta.env.VITE_SERVER + "/firebase/signup",
-                {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                        "Accept-type": "application/json",
-                    },
-                    body: JSON.stringify(body),
-                }
-            );
-
-            if (response.ok) {
-                const newUser = await response.json();
-
-                if (newUser.user == "") {
-                    console.log("User Already Exists");
-                    return;
-                }
-                UserContext.setUserData({
-                    email: emailRef.current.value,
-                    uid: newUser.user.uid,
-                    streamToken: newUser.streamToken,
-                    username: usernameRef.current.value,
-                });
-                
-                navigate("/chat");
-            }
-        } catch (error) {
-            console.log(error.code);
-            console.log(error.message);
-        }
-    }
-
     return (
         <>
             <Box
@@ -149,7 +108,7 @@ export default function Home() {
                                 inputRef={passwordRef}
                             />
                             <button
-                                onClick={signUp}
+                                onClick={()=>{navigate("/register")}}
                                 style={{ height: "20px" }}
                                 disabled={error}
                             >

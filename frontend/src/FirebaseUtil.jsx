@@ -1,5 +1,5 @@
-export async function RegisterData(uid) {
-  setter(uid, "registerdata");
+export async function RegisterData(uid,username) {
+  setter(uid,"registerdata",username,true);
 }
 export async function getUserData(uid) {
   return await getter(uid, "getuserdata");
