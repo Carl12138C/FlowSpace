@@ -117,7 +117,7 @@ export default function Channels({ loadedChannels }) {
                                                       : channel.data?.name) || "Channel"}
                                       </div>
                                   </div>
-                                  <Tooltip
+                                  {/* <Tooltip
                                       title="Remove Conversation"
                                       placement="right"
                                       arrow
@@ -157,7 +157,7 @@ export default function Channels({ loadedChannels }) {
                                               Cancel
                                           </Button>
                                       </Box>
-                                  </Modal>
+                                  </Modal> */}
                               </div>
                           );
                       })
