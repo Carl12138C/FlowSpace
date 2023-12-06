@@ -7,10 +7,6 @@ const firebaseRouter = express.Router();
 
 const TOKEN_MAP = new Map();
 
-// firebaseRouter.use(function incoming(req, res, next) {
-//     console.log('Current Time: ' + Date.now());
-//     next();
-// });
 /**
 // Example of using backend router.
 // @param: 'route you want to go to'
@@ -67,7 +63,10 @@ firebaseRouter.post("/signup", async function incoming(req, res) {
       id: { $eq: username },
     });
     if (existingUsers.users.length > 0) {
-      return res.status(400).send("UserID taken");
+      return res.status(400).json({
+        user: "",
+        errorCode: "Username Already Taken",
+      });
     }
 
     const newUser = await firebaseAuth.createUserWithEmailAndPassword(
@@ -91,6 +90,10 @@ firebaseRouter.post("/signup", async function incoming(req, res) {
 
     TOKEN_MAP.set(token, username);
 
+    const reference = database.ref(db, "users/" + newUser.user.uid);
+    var data = { username:username };
+    database.set(reference, data);
+
     return res.json({
       user: newUser.user,
       streamToken: token,
@@ -98,20 +101,15 @@ firebaseRouter.post("/signup", async function incoming(req, res) {
       errorMessage: "",
     });
   } catch (error) {
-    return res.json({
-      user: "",
-      errorCode: error.code,
-      errorMessage: error.message,
+    var errorCode;
+    if (error.code == "auth/invalid-email") {
+      errorCode = "Invalid Email Address";
+    }
+    console.log(error.message);
+    return res.status(400).json({
+      errorCode: "Invalid Email Address",
     });
   }
-});
-
-firebaseRouter.post("/registerdata", async function (req, res) {
-  var reference = database.ref(db, "users/" + req.body.uid);
-  database.set(reference, { friendslist: [] });
-  reference = database.ref(db, "tasklist/" + req.body.uid);
-  database.set(reference, { tasklist: [] });
-  return res.status(201).json();
 });
 
 firebaseRouter.get("/getuserdata", async function incoming(req, res) {
@@ -123,12 +121,12 @@ firebaseRouter.get("/getuserdata", async function incoming(req, res) {
         return res.status(200).json({ data: snapshot.val() });
       } else {
         console.log("No data available");
-        return res.status(204).json({ data: null });
+        return res.status(204).json({ data: null});
       }
     })
     .catch((error) => {
       console.error(error);
-      next(error);
+      return res.status(400).json({errorCode: error.code})
     });
 });
 
@@ -144,28 +142,29 @@ firebaseRouter.get("/getusertask", async function incoming(req, res) {
     .get(database.child(reference, "tasklist/" + req.query.uid))
     .then((snapshot) => {
       if (snapshot.exists()) {
-        var userTask = (snapshot.val()==='')?{}:snapshot.val();
+        var userTask = snapshot.val() === "" ? {} : snapshot.val();
         var dateTask = {};
         for (let i = 0; i < userTask.length; i++) {
           var date = userTask[i].deadline;
           if (dateTask[date] == null) {
-            dateTask[date] = {task: [], titles:""};
+            dateTask[date] = { task: [], titles: "" };
             dateTask[date].task.push(userTask[i]);
             dateTask[date].titles = userTask[i].title;
           } else {
             dateTask[date].task.push(userTask[i]);
-            dateTask[date].titles = dateTask[date].titles + "\n"+userTask[i].title;
+            dateTask[date].titles =
+              dateTask[date].titles + "\n" + userTask[i].title;
           }
         }
         return res.status(200).json({ data: userTask, dateTask: dateTask });
       } else {
         console.log("No data available");
-        return res.status(204).json({ data:null});
+        return res.status(204).json({ data: null });
       }
     })
     .catch((error) => {
       console.error(error);
-      next(error);
+      return res.status(400).json({errorCode: error.code})
     });
 });
 
