@@ -306,7 +306,7 @@ firebaseRouter.post("/friends/accept", async function incoming(req, res) {
             if (snapshot.exists()) {
                 return res.status(403).send("Friend Already Added");
             } else {
-                // Add friend username to friendRequest queue
+                // Add friend to friends path in backend and remove friendrequest
                 const newFriendsRef = database.ref(
                     db,
                     `users/${req.body.data.friendUid}/friends`
