@@ -1,10 +1,10 @@
 import "../css/calendar.css";
-import { useEffect, useState, useRef } from "react";
+import { useState, useRef } from "react";
 import dayjs from "dayjs";
 import CalendarComponent from "../components/CalendarComponent";
 import { CalendarDayHeader } from "../components/CalendarComponent";
 import { getUserContext } from "../context/AuthContext";
-import { getUserData, getUserTask, updateUserTask } from "../FirebaseUtil";
+import { getUserData, getUserTask} from "../FirebaseUtil";
 
 export default function Calendar() {
   const uid = getUserContext().userData.uid;

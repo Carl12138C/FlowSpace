@@ -3,15 +3,20 @@ export async function fbGetFriendRequest(uid) {
 }
 
 export async function fbSendFriendRequest(uid, username, friendName) {
-    return setter(uid, "friends/request", {
+    return setter({uid:uid}, "friends/request", {
         username: username,
         uid: uid,
         friendName: friendName,
     });
 }
 
-export async function fbAcceptFriendRequest(uid, username, friendUid, friendName) {
-    return setter(uid, "friends/accept", {
+export async function fbAcceptFriendRequest(
+    uid,
+    username,
+    friendUid,
+    friendName
+) {
+    return setter({uid:uid}, "friends/accept", {
         uid: uid,
         username: username,
         friendUid: friendUid,
@@ -23,12 +28,8 @@ export async function getFriends(uid) {
     return await getter({ uid: uid }, "friends");
 }
 
-export async function RegisterData(uid) {
-    setter(uid, "registerdata");
-}
-
 export async function getUserData(uid) {
-    return await getter(uid, "getuserdata");
+    return await getter({ uid: uid }, "getuserdata");
 }
 
 export async function updateUserTask(uid, tasklist) {
@@ -36,10 +37,11 @@ export async function updateUserTask(uid, tasklist) {
         console.log("tasklist is not an array!");
         return;
     }
-    setter(uid, "updatetask", tasklist, false);
+    setter({ uid: uid }, "updatetask", tasklist, false);
 }
+
 export async function getUserTask(uid) {
-    return await getter(uid, "getusertask");
+    return await getter({ uid: uid }, "getusertask");
 }
 
 async function getter(data, route) {
@@ -51,20 +53,23 @@ async function getter(data, route) {
                 "?" +
                 new URLSearchParams(data)
         );
+
         if(response.status == 204) {
             return {data: null};
         }
+
         if (response.ok) {
-            return await response.json();
+            const data = await response.json();
+            console.log(data);
+            return data;
         }
     } catch (error) {
         console.log(error);
     }
 }
-
-async function setter(uid, route, data = "", isPost = true) {
+async function setter(params, route, data = "", isPost = true) {
     try {
-        var body = { uid: uid };
+        var body = params;
         if (data != "") {
             body.data = data;
         }

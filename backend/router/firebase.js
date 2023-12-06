@@ -7,10 +7,6 @@ const firebaseRouter = express.Router();
 
 const TOKEN_MAP = new Map();
 
-// firebaseRouter.use(function incoming(req, res, next) {
-//     console.log('Current Time: ' + Date.now());
-//     next();
-// });
 /**
 // Example of using backend router.
 // @param: 'route you want to go to'
@@ -25,8 +21,18 @@ firebaseRouter.get("/user/:id", function incoming(req, res) {
 firebaseRouter.post("/login", async function incoming(req, res) {
     var email = req.body.email;
     var password = req.body.password;
-    var username = req.body.username;
     try {
+        const loginUser = await firebaseAuth.signInWithEmailAndPassword(
+            auth,
+            email,
+            password
+        );
+
+        const usernameSnapshot = database.get(
+            database.ref(db, `users/${loginUser.user.uid}/username`)
+        );
+        const username = (await usernameSnapshot).val();
+
         const existingUsers = await client.queryUsers({
             id: { $eq: username },
         });
@@ -34,22 +40,18 @@ firebaseRouter.post("/login", async function incoming(req, res) {
             return res.status(400).send("Invalid Username");
         }
 
-        const loginUser = await firebaseAuth.signInWithEmailAndPassword(
-            auth,
-            email,
-            password
-        );
-
         const token = client.createToken(username);
         TOKEN_MAP.set(token, username);
 
         return res.json({
             user: loginUser.user,
+            username: username,
             streamToken: token,
             errorCode: "",
             errorMessage: "",
         });
     } catch (error) {
+        console.log(error);
         return res.json({
             user: "",
             errorCode: error.code,
@@ -67,7 +69,10 @@ firebaseRouter.post("/signup", async function incoming(req, res) {
             id: { $eq: username },
         });
         if (existingUsers.users.length > 0) {
-            return res.status(400).send("UserID taken");
+            return res.status(400).json({
+                user: "",
+                errorCode: "Username Already Taken",
+            });
         }
 
         const newUser = await firebaseAuth.createUserWithEmailAndPassword(
@@ -91,6 +96,10 @@ firebaseRouter.post("/signup", async function incoming(req, res) {
 
         TOKEN_MAP.set(token, username);
 
+        const reference = database.ref(db, "users/" + newUser.user.uid);
+        var data = { username: username };
+        database.set(reference, data);
+
         return res.json({
             user: newUser.user,
             streamToken: token,
@@ -98,20 +107,17 @@ firebaseRouter.post("/signup", async function incoming(req, res) {
             errorMessage: "",
         });
     } catch (error) {
-        return res.json({
-            user: "",
-            errorCode: error.code,
-            errorMessage: error.message,
+        var errorCode;
+        if (error.code == "auth/invalid-email") {
+            errorCode = "Invalid Email Address";
+        } else if (error.code == "auth/email-already-in-use") {
+            errorCode = "Email Already in Use";
+        }
+        console.log(error.code);
+        return res.status(400).json({
+            errorCode: errorCode,
         });
     }
-});
-
-firebaseRouter.post("/registerdata", async function (req, res) {
-    var reference = database.ref(db, "users/" + req.body.uid);
-    database.set(reference, { friendslist: [] });
-    reference = database.ref(db, "tasklist/" + req.body.uid);
-    database.set(reference, { tasklist: [] });
-    return res.status(201).json();
 });
 
 firebaseRouter.get("/getuserdata", async function incoming(req, res) {
@@ -128,7 +134,7 @@ firebaseRouter.get("/getuserdata", async function incoming(req, res) {
         })
         .catch((error) => {
             console.error(error);
-            next(error);
+            return res.status(400).json({ errorCode: error.code });
         });
 });
 
@@ -144,7 +150,23 @@ firebaseRouter.get("/getusertask", async function incoming(req, res) {
         .get(database.child(reference, "tasklist/" + req.query.uid))
         .then((snapshot) => {
             if (snapshot.exists()) {
-                return res.status(200).json({ data: snapshot.val() });
+                var userTask = snapshot.val() === "" ? {} : snapshot.val();
+                var dateTask = {};
+                for (let i = 0; i < userTask.length; i++) {
+                    var date = userTask[i].deadline;
+                    if (dateTask[date] == null) {
+                        dateTask[date] = { task: [], titles: "" };
+                        dateTask[date].task.push(userTask[i]);
+                        dateTask[date].titles = userTask[i].title;
+                    } else {
+                        dateTask[date].task.push(userTask[i]);
+                        dateTask[date].titles =
+                            dateTask[date].titles + "\n" + userTask[i].title;
+                    }
+                }
+                return res
+                    .status(200)
+                    .json({ data: userTask, dateTask: dateTask });
             } else {
                 console.log("No data available");
                 return res.status(204).json({ data: null });
@@ -152,7 +174,7 @@ firebaseRouter.get("/getusertask", async function incoming(req, res) {
         })
         .catch((error) => {
             console.error(error);
-            next(error);
+            return res.status(400).json({ errorCode: error.code });
         });
 });
 
@@ -171,10 +193,11 @@ firebaseRouter.get("/friends", async function incoming(req, res) {
         })
         .catch((error) => {
             console.error(error);
-            next(error);
+            return res.status(400).json({ errorCode: error.code });
         });
 });
 
+// FRIENDS
 firebaseRouter.get("/friendrequest", async function incoming(req, res) {
     const reference = database.ref(db, `users/${req.query.uid}/friendrequest`);
 
@@ -190,7 +213,7 @@ firebaseRouter.get("/friendrequest", async function incoming(req, res) {
         })
         .catch((error) => {
             console.error(error);
-            next(error);
+            return res.status(400).json({ errorCode: error.code });
         });
 });
 
@@ -259,7 +282,7 @@ firebaseRouter.post("/friends/request", async function incoming(req, res) {
             }
         })
         .catch((error) => {
-            console.log(error);
+            return res.status(400).json({ errorCode: error.code });
         });
 });
 

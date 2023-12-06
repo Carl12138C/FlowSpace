@@ -43,7 +43,7 @@ export default function AddFriendModal({ modalDisplay, setModalDisplay }) {
                 userData.username,
                 friendToAdd
             );
-            console.log(response);
+            console.log(await response.text());
         }
     }
 
@@ -94,7 +94,6 @@ function FriendRequestList({ setModalDisplay }) {
     }, []);
 
     async function acceptRequest(uid) {
-        console.log("acceptFriendRequest " + friendRequest[uid]);
 
         const response = await fbAcceptFriendRequest(
             userData.uid,
@@ -121,9 +120,7 @@ function FriendRequestList({ setModalDisplay }) {
                 groupOption: false,
             });
         } else {
-            response.text().then((text) => {
-                console.log(text);
-            });
+            console.log(await response.json())
         }
     }
 

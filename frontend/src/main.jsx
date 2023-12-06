@@ -7,6 +7,7 @@ import "./index.css";
 import "./app.css";
 import Login from "./pages/Login.jsx";
 import MainLayout from "./layouts/MainLayout.jsx";
+import Register from "./pages/Register.jsx";
 import { AuthContext } from "./context/AuthContext.jsx";
 
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
@@ -16,6 +17,11 @@ const routes = createBrowserRouter([
     path: "/",
     // errorElement: <Error />,
     children: [
+      // Index = default main page
+      {
+        path: "register",
+        element: <Register />,
+      },
       {
         index: true,
         element: <Login />,
@@ -35,7 +41,7 @@ const routes = createBrowserRouter([
           {
             path: "calendar",
             element: <Calendar />,
-          },
+          }
         ],
       },
     ],
@@ -47,5 +53,5 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     <AuthContext>
       <RouterProvider router={routes} />
     </AuthContext>
-  </React.StrictMode> 
+  </React.StrictMode>
 );
