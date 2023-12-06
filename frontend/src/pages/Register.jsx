@@ -24,6 +24,9 @@ export default function Register() {
   const passwordRef = useRef();
   const confirmPasswordRef = useRef();
 
+  const regEx =
+    /^[a-zA-Z0-9.!#$%&’+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:.[a-zA-Z0-9-]+)$/;
+
   async function registerUser() {
     try {
       const body = {
@@ -81,37 +84,49 @@ export default function Register() {
               color="text.secondary"
               gutterBottom
             >
-              Welcome to FlowSpace
+              Create New Account
             </Typography>
 
             <p>{errorCode}</p>
 
             <Stack spacing={2}>
               <TextField
-                label="Userame"
+                label="Username"
                 inputRef={usernameRef}
-                onKeyUp={() =>
+                onKeyUp={() => {
                   setDisabled(
-                    !(
-                      passwordRef.current.value ==
-                      confirmPasswordRef.current.value
-                    ) || passwordRef.current.value.length < 8
-                  )
-                }
+                    passwordRef.current.value !=
+                      confirmPasswordRef.current.value ||
+                      passwordRef.current.value.length < 8 ||
+                      usernameRef.current.value.length < 4 ||
+                      !regEx.test(emailRef.current.value)
+                  );
+                }}
               />
-              <TextField label="Email" inputRef={emailRef} />
+              <TextField
+                label="Email"
+                inputRef={emailRef}
+                onKeyUp={() => {
+                  setDisabled(
+                    passwordRef.current.value !=
+                      confirmPasswordRef.current.value ||
+                      passwordRef.current.value.length < 8 ||
+                      usernameRef.current.value.length < 4 ||
+                      !regEx.test(emailRef.current.value)
+                  );
+                }}
+              />
               <TextField
                 label="Password"
                 type="password"
                 inputRef={passwordRef}
                 onKeyUp={() => {
                   setDisabled(
-                    !(
-                      passwordRef.current.value ==
-                      confirmPasswordRef.current.value
-                    ) ||
+                    passwordRef.current.value !=
+                      confirmPasswordRef.current.value ||
                       passwordRef.current.value.length < 8 ||
-                      usernameRef.current.value.length <= 4
+                      usernameRef.current.value.length < 4 ||
+                      !regEx.test(emailRef.current.value)
                   );
                 }}
               />
@@ -121,12 +136,11 @@ export default function Register() {
                 inputRef={confirmPasswordRef}
                 onKeyUp={() => {
                   setDisabled(
-                    !(
-                      passwordRef.current.value ==
-                      confirmPasswordRef.current.value
-                    ) ||
+                    passwordRef.current.value !=
+                      confirmPasswordRef.current.value ||
                       passwordRef.current.value.length < 8 ||
-                      usernameRef.current.value.length <= 4
+                      usernameRef.current.value.length < 4 ||
+                      !regEx.test(emailRef.current.value)
                   );
                 }}
               />

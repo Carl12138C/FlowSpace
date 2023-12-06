@@ -90,8 +90,8 @@ firebaseRouter.post("/signup", async function incoming(req, res) {
 
     TOKEN_MAP.set(token, username);
 
-    const reference = database.ref(db, "users/" + req.body.username);
-    var data = { uid: newUser.user.uid };
+    const reference = database.ref(db, "users/" + newUser.user.uid);
+    var data = { username:username };
     database.set(reference, data);
 
     return res.json({
@@ -110,12 +110,6 @@ firebaseRouter.post("/signup", async function incoming(req, res) {
       errorCode: "Invalid Email Address",
     });
   }
-});
-
-firebaseRouter.post("/registerdata", async function (req, res) {
-  var reference = database.ref(db, "users/" + req.body.uid + "/username");
-  database.set(reference, req.data.username);
-  return res.status(201).json();
 });
 
 firebaseRouter.get("/getuserdata", async function incoming(req, res) {

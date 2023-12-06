@@ -1,28 +1,25 @@
-export async function RegisterData(uid,username) {
-  setter(uid,"registerdata",username,true);
-}
 export async function getUserData(uid) {
-  return await getter(uid, "getuserdata");
+  return await getter({uid:uid}, "getuserdata");
 }
 export async function updateUserTask(uid, tasklist) {
   if (!Array.isArray(tasklist)) {
     console.log("tasklist is not an array!");
     return;
   }
-  setter(uid, "updatetask", tasklist, false);
+  setter({uid:uid}, "updatetask", tasklist, false);
 }
 export async function getUserTask(uid) {
-  return await getter(uid, "getusertask");
+  return await getter({uid:uid}, "getusertask");
 }
 
-async function getter(uid, route) {
+async function getter(data, route) {
   try {
     const response = await fetch(
       import.meta.env.VITE_SERVER +
         "/firebase/" +
         route +
         "?" +
-        new URLSearchParams({ uid: uid })
+        new URLSearchParams(data)
     );
     if (response.ok) {
       const data = await response.json();
@@ -34,9 +31,9 @@ async function getter(uid, route) {
   }
 }
 
-async function setter(uid, route, data = "", isPost = true) {
+async function setter(params, route, data = "", isPost = true) {
   try {
-    var body = { uid: uid };
+    var body = params;
     if (data != "") {
       body.data = data;
     }
