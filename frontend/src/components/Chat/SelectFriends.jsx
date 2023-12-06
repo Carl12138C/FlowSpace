@@ -28,15 +28,16 @@ export default function SelectFriends({ selectedFriends, setSelectedFriends }) {
 
     useEffect(() => {
         var isInterrupted = false;
-        console.log("calling firebase");
 
-        async function setFriends() {
-            const response = await getFriends(userData.uid);
-            return response;
-        }
-        setFriends().then((res) => {
-            setFriendList(Object.keys(res.data));
-        })
+        getFriends(userData.uid)
+            .then((res) => {
+                if (res.data != null) {
+                    setFriendList(res.data);
+                }
+            })
+            .catch((error) => {
+                setFriendList([]);
+            });
 
         return () => {
             isInterrupted = true;
@@ -70,10 +71,10 @@ export default function SelectFriends({ selectedFriends, setSelectedFriends }) {
                 )}
                 MenuProps={MenuProps}
             >
-                {friendList.length > 0 ? (
-                    friendList.map((friendName) => (
-                        <MenuItem key={friendName} value={friendName}>
-                            {friendName}
+                {friendList != [] ? (
+                    Object.keys(friendList).map((key) => (
+                        <MenuItem key={key} value={friendList[key]}>
+                            {friendList[key]}
                         </MenuItem>
                     ))
                 ) : (

@@ -5,13 +5,18 @@ import {
     List,
     ListItem,
     ListItemText,
+    MenuItem,
     Modal,
     Stack,
     TextField,
 } from "@mui/material";
 import { getUserContext } from "../../context/AuthContext";
 import { useEffect, useState } from "react";
-import { addFriend } from "../../FirebaseUtil";
+import {
+    fbAcceptFriendRequest,
+    fbGetFriendRequest,
+    fbSendFriendRequest,
+} from "../../FirebaseUtil";
 import AddIcon from "@mui/icons-material/Add";
 
 const style = {
@@ -28,10 +33,18 @@ const style = {
 };
 
 export default function AddFriendModal({ modalDisplay, setModalDisplay }) {
+    const { userData } = getUserContext();
     const [friendToAdd, setFriendToAdd] = useState("");
 
-    function sendFriendRequest() {
-        console.log("Sending Friend Request");
+    async function sendFriendRequest() {
+        if (friendToAdd != userData.username) {
+            const response = await fbSendFriendRequest(
+                userData.uid,
+                userData.username,
+                friendToAdd
+            );
+            console.log(response);
+        }
     }
 
     return (
@@ -75,44 +88,43 @@ function FriendRequestList({ setModalDisplay }) {
     const [friendRequest, setFriendRequest] = useState([]);
 
     useEffect(() => {
-        console.log("Getting Friend Request");
-        setFriendRequest([
-            "Name1",
-            "name2",
-            "name3",
-            "name4",
-            "Name1",
-            "name2",
-            "name3",
-            "name4",
-        ]);
+        fbGetFriendRequest(userData.uid).then((response) => {
+            setFriendRequest(response.data);
+        });
     }, []);
 
-    async function acceptFriendRequest(index) {
-        console.log("acceptFriendRequest" + friendRequest.at(index));
+    async function acceptRequest(uid) {
+        console.log("acceptFriendRequest " + friendRequest[uid]);
 
-        // addFriend(userData.uid, friendToAdd).then(async (response) => {
-        //     if (response.ok) {
-        //         var name = {};
-        //         name[userData.username] = friendToAdd;
-        //         name[friendToAdd] = userData.username;
+        const response = await fbAcceptFriendRequest(
+            userData.uid,
+            userData.username,
+            uid,
+            friendRequest[uid]
+        );
 
-        //         const channel = streamChat.channel("messaging", {
-        //             members: [userData.username, friendToAdd],
-        //             name: name,
-        //         });
-        //         await channel.create();
+        if (response.ok) {
+            var name = {};
+            name[userData.username] = friendRequest[uid];
+            name[friendRequest[uid]] = userData.username;
 
-        //         setModalDisplay({
-        //             friendOption: false,
-        //             groupOption: false,
-        //         });
-        //     } else {
-        //         response.text().then((text) => {
-        //             console.log(text);
-        //         });
-        //     }
-        // });
+            //So that the display channel name for two memeber group is
+            //the other member's name
+            const channel = streamChat.channel("messaging", {
+                members: [userData.username, friendRequest[uid]],
+                name: name,
+            });
+            await channel.create();
+
+            setModalDisplay({
+                friendOption: false,
+                groupOption: false,
+            });
+        } else {
+            response.text().then((text) => {
+                console.log(text);
+            });
+        }
     }
 
     return (
@@ -120,23 +132,32 @@ function FriendRequestList({ setModalDisplay }) {
             <h3> Friend Requests</h3>
             <Box sx={{ overflow: "scroll", height: "250px" }}>
                 <List>
-                    {friendRequest.map((value, index) => {
-                        return (
-                            <ListItem
-                                secondaryAction={
-                                    <IconButton
-                                        edge="end"
-                                        aria-label="delete"
-                                        onClick={(e) => acceptFriendRequest(index)}
-                                    >
-                                        <AddIcon />
-                                    </IconButton>
-                                }
-                            >
-                                <ListItemText primary={value} />
-                            </ListItem>
-                        );
-                    })}
+                    {friendRequest != null ? (
+                        Object.keys(friendRequest).map((uid) => {
+                            return (
+                                <ListItem
+                                    key={uid}
+                                    secondaryAction={
+                                        <IconButton
+                                            edge="end"
+                                            aria-label="delete"
+                                            onClick={(e) => acceptRequest(uid)}
+                                        >
+                                            <AddIcon />
+                                        </IconButton>
+                                    }
+                                >
+                                    <ListItemText
+                                        primary={friendRequest[uid]}
+                                    />
+                                </ListItem>
+                            );
+                        })
+                    ) : (
+                        <MenuItem disabled>
+                            <i>No Friend Request Yet</i>
+                        </MenuItem>
+                    )}
                 </List>
             </Box>
         </>

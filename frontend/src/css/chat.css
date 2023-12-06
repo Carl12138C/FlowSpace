@@ -144,10 +144,7 @@
   display: flex;
   flex-direction: column;
   flex-wrap: nowrap;
-}
-
-.str-chat__avatar {
-  margin: 7px !important;
+  margin-left: 7px;
 }
 
 .channelHeader {
@@ -156,5 +153,5 @@
   width: 100%;
   opacity: 90%;
   display: flex;
-
+  margin: 7px;
 }

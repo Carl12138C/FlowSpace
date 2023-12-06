@@ -13,7 +13,8 @@ streamAPIRouter.get("/users", async function incoming(req, res) {
         { last_active: -1 },
     ]);
 
-    res.json(users);
+    const user = users.users;
+
 });
 
 streamAPIRouter.post(

@@ -23,95 +23,95 @@ firebaseRouter.get("/user/:id", function incoming(req, res) {
 });
 
 firebaseRouter.post("/login", async function incoming(req, res) {
-  var email = req.body.email;
-  var password = req.body.password;
-  var username = req.body.username;
-  try {
-    const existingUsers = await client.queryUsers({
-      id: { $eq: username },
-    });
-    if (existingUsers.users.length == 0) {
-      return res.status(400).send("Invalid Username");
+    var email = req.body.email;
+    var password = req.body.password;
+    var username = req.body.username;
+    try {
+        const existingUsers = await client.queryUsers({
+            id: { $eq: username },
+        });
+        if (existingUsers.users.length == 0) {
+            return res.status(400).send("Invalid Username");
+        }
+
+        const loginUser = await firebaseAuth.signInWithEmailAndPassword(
+            auth,
+            email,
+            password
+        );
+
+        const token = client.createToken(username);
+        TOKEN_MAP.set(token, username);
+
+        return res.json({
+            user: loginUser.user,
+            streamToken: token,
+            errorCode: "",
+            errorMessage: "",
+        });
+    } catch (error) {
+        return res.json({
+            user: "",
+            errorCode: error.code,
+            errorMessage: error.message,
+        });
     }
-
-    const loginUser = await firebaseAuth.signInWithEmailAndPassword(
-      auth,
-      email,
-      password
-    );
-
-    const token = client.createToken(username);
-    TOKEN_MAP.set(token, username);
-
-    return res.json({
-      user: loginUser.user,
-      streamToken: token,
-      errorCode: "",
-      errorMessage: "",
-    });
-  } catch (error) {
-    return res.json({
-      user: "",
-      errorCode: error.code,
-      errorMessage: error.message,
-    });
-  }
 });
 
 firebaseRouter.post("/signup", async function incoming(req, res) {
-  var email = req.body.email;
-  var password = req.body.password;
-  var username = req.body.username;
-  try {
-    const existingUsers = await client.queryUsers({
-      id: { $eq: username },
-    });
-    if (existingUsers.users.length > 0) {
-      return res.status(400).send("UserID taken");
+    var email = req.body.email;
+    var password = req.body.password;
+    var username = req.body.username;
+    try {
+        const existingUsers = await client.queryUsers({
+            id: { $eq: username },
+        });
+        if (existingUsers.users.length > 0) {
+            return res.status(400).send("UserID taken");
+        }
+
+        const newUser = await firebaseAuth.createUserWithEmailAndPassword(
+            auth,
+            email,
+            password
+        );
+
+        client.upsertUser({ id: username, name: username });
+        const token = client.createToken(username);
+        const channel = client.channel(
+            "messaging",
+            "personal-channel" + newUser.user.uid,
+            {
+                members: [username],
+                name: "Personnel Channel",
+                created_by_id: username,
+            }
+        );
+        await channel.create();
+
+        TOKEN_MAP.set(token, username);
+
+        return res.json({
+            user: newUser.user,
+            streamToken: token,
+            errorCode: "",
+            errorMessage: "",
+        });
+    } catch (error) {
+        return res.json({
+            user: "",
+            errorCode: error.code,
+            errorMessage: error.message,
+        });
     }
-
-    const newUser = await firebaseAuth.createUserWithEmailAndPassword(
-      auth,
-      email,
-      password
-    );
-
-    client.upsertUser({ id: username, name: username });
-    const token = client.createToken(username);
-    const channel = client.channel(
-      "messaging",
-      "personal-channel" + newUser.user.uid,
-      {
-        members: [username],
-        name: "Personnel Channel",
-        created_by_id: username,
-      }
-    );
-    await channel.create();
-
-    TOKEN_MAP.set(token, username);
-
-    return res.json({
-      user: newUser.user,
-      streamToken: token,
-      errorCode: "",
-      errorMessage: "",
-    });
-  } catch (error) {
-    return res.json({
-      user: "",
-      errorCode: error.code,
-      errorMessage: error.message,
-    });
-  }
 });
 
 firebaseRouter.post("/registerdata", async function (req, res) {
-  var reference = database.ref(db, "users/" + req.body.uid);
-  database.set(reference, { friendslist: [] });
-  reference = database.ref(db, "tasklist/" + req.body.uid);
-  database.set(reference, { tasklist: [] });
-  return res.status(201).json();
+    var reference = database.ref(db, "users/" + req.body.uid);
+    database.set(reference, { friendslist: [] });
+    reference = database.ref(db, "tasklist/" + req.body.uid);
+    database.set(reference, { tasklist: [] });
+    return res.status(201).json();
 });
 
 firebaseRouter.get("/getuserdata", async function incoming(req, res) {
@@ -133,9 +133,9 @@ firebaseRouter.get("/getuserdata", async function incoming(req, res) {
 });
 
 firebaseRouter.put("/updatetask", async function (req, res) {
-  const reference = database.ref(db, "tasklist/" + req.body.uid);
-  database.set(reference, req.body.data);
-  return res.status(201).json();
+    const reference = database.ref(db, "tasklist/" + req.body.uid);
+    database.set(reference, req.body.data);
+    return res.status(201).json();
 });
 
 firebaseRouter.get("/getusertask", async function incoming(req, res) {
@@ -156,12 +156,11 @@ firebaseRouter.get("/getusertask", async function incoming(req, res) {
         });
 });
 
+// Get List of friends
 firebaseRouter.get("/friends", async function incoming(req, res) {
-    const reference = database.ref(db);
+    const reference = database.ref(db, "users");
     database
-        .get(
-            database.child(reference, "users/" + req.query.uid + "/friendslist")
-        )
+        .get(database.child(reference, `${req.query.uid}/friends`))
         .then((snapshot) => {
             if (snapshot.exists()) {
                 return res.status(200).json({ data: snapshot.val() });
@@ -176,9 +175,95 @@ firebaseRouter.get("/friends", async function incoming(req, res) {
         });
 });
 
-firebaseRouter.post("/friends/add", async function incoming(req, res) {
-    var reference = database.ref(db, "users/" + req.body.uid + "/friendslist");
+firebaseRouter.get("/friendrequest", async function incoming(req, res) {
+    const reference = database.ref(db, `users/${req.query.uid}/friendrequest`);
 
+    database
+        .get(reference)
+        .then((snapshot) => {
+            if (snapshot.exists()) {
+                return res.status(200).json({ data: snapshot.val() });
+            } else {
+                console.log("No data available");
+                return res.status(201).json({ data: null });
+            }
+        })
+        .catch((error) => {
+            console.error(error);
+            next(error);
+        });
+});
+
+// Send friend request
+firebaseRouter.post("/friends/request", async function incoming(req, res) {
+    const existingUsers = await client.queryUsers({
+        id: { $eq: req.body.data.friendName },
+    });
+    if (existingUsers.users.length == 0) {
+        return res.status(400).send("User doesn't exist");
+    }
+
+    const usersRef = database.ref(db, "users");
+    const usernameRef = database.query(
+        usersRef,
+        database.orderByChild("username"),
+        database.equalTo(req.body.data.friendName)
+    );
+
+    // uid of friend
+    var friendUid = undefined;
+    database
+        .get(usernameRef)
+        .then((snapshot) => {
+            if (snapshot.exists()) {
+                friendUid = Object.keys(snapshot.val())[0];
+                return friendUid;
+            } else {
+                return null;
+            }
+        })
+        .then((friendUid) => {
+            if (friendUid) {
+                database
+                    .get(
+                        database.child(
+                            usersRef,
+                            `/${req.body.data.uid}/friends/${friendUid}`
+                        )
+                    )
+                    .then((snapshot) => {
+                        //If friend exist
+                        if (snapshot.exists()) {
+                            return res.status(403).send("Friend Already Added");
+                        } else {
+                            // Add friend username to friendRequest queue
+                            const friendRequestRef = database.ref(
+                                db,
+                                `users/${friendUid}/friendrequest`
+                            );
+
+                            var data = {};
+                            data[req.body.uid] = req.body.data.username;
+                            database.update(friendRequestRef, data);
+
+                            return res.status(201).send("Successfully added");
+                        }
+                    })
+                    .catch((error) => {
+                        console.error(error);
+                    });
+            } else {
+                return res
+                    .status(400)
+                    .json({ errorCode: "User doesn't exist." });
+            }
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+});
+
+firebaseRouter.post("/friends/accept", async function incoming(req, res) {
     const existingUsers = await client.queryUsers({
         id: { $eq: req.body.data.friendName },
     });
@@ -187,22 +272,45 @@ firebaseRouter.post("/friends/add", async function incoming(req, res) {
     }
 
     database
-        .get(database.child(reference, "/" + req.body.data.friendName))
+        .get(
+            database.child(
+                database.ref(db),
+                `users/${req.body.data.uid}/friends/${req.body.data.friendUid}`
+            )
+        )
         .then((snapshot) => {
+            //If friend exist
             if (snapshot.exists()) {
-                if (snapshot.val()) {
-                    return res.status(403).send("Friend Already Added");
-                }
+                return res.status(403).send("Friend Already Added");
             } else {
+                // Add friend username to friendRequest queue
+                const newFriendsRef = database.ref(
+                    db,
+                    `users/${req.body.data.friendUid}/friends`
+                );
+                const selfFriendsRef = database.ref(
+                    db,
+                    `users/${req.body.data.uid}/friends`
+                );
+                const selfFriendRequestRef = database.ref(
+                    db,
+                    `users/${req.body.data.uid}/friendrequest/${req.body.data.friendUid}`
+                );
+
                 var data = {};
-                data[req.body.data.friendName] = true;
-                database.update(reference, data);
+                data[req.body.data.uid] = req.body.data.username;
+                database.update(newFriendsRef, data);
+
+                data = {};
+                data[req.body.data.friendUid] = req.body.data.friendName;
+                database.update(selfFriendsRef, data);
+
+                database.remove(selfFriendRequestRef);
                 return res.status(201).send("Successfully added");
             }
         })
         .catch((error) => {
             console.error(error);
-            next(error);
         });
 });
 
