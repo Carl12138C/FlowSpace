@@ -121,12 +121,12 @@ firebaseRouter.get("/getuserdata", async function incoming(req, res) {
         return res.status(200).json({ data: snapshot.val() });
       } else {
         console.log("No data available");
-        return res.status(204).json({ data: null });
+        return res.status(204).json({ data: null});
       }
     })
     .catch((error) => {
       console.error(error);
-      next(error);
+      return res.status(400).json({errorCode: error.code})
     });
 });
 
@@ -164,7 +164,7 @@ firebaseRouter.get("/getusertask", async function incoming(req, res) {
     })
     .catch((error) => {
       console.error(error);
-      next(error);
+      return res.status(400).json({errorCode: error.code})
     });
 });
 
