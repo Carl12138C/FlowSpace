@@ -169,7 +169,7 @@ firebaseRouter.get("/getusertask", async function incoming(req, res) {
                     .json({ data: userTask, dateTask: dateTask });
             } else {
                 console.log("No data available");
-                return res.status(204).json({ data: null });
+                return res.status(204).json();
             }
         })
         .catch((error) => {

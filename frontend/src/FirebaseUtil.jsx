@@ -55,7 +55,7 @@ async function getter(data, route) {
         );
 
         if(response.status == 204) {
-            return {data: null};
+            return null;
         }
 
         if (response.ok) {
