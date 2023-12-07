@@ -127,7 +127,7 @@ function FriendRequestList({ setModalDisplay }) {
     return (
         <>
             <h3> Friend Requests</h3>
-            <Box sx={{ overflow: "scroll", height: "250px" }}>
+            <Box sx={{ height: "250px", overflowY: "auto" }}>
                 <List>
                     {friendRequest != null ? (
                         Object.keys(friendRequest).map((uid) => {
@@ -145,6 +145,10 @@ function FriendRequestList({ setModalDisplay }) {
                                     }
                                 >
                                     <ListItemText
+                                        sx={{
+                                            width: "250px",
+                                            overflow: "hidden",
+                                        }}
                                         primary={friendRequest[uid]}
                                     />
                                 </ListItem>

@@ -29,6 +29,7 @@ const CustomChannelHeader = () => {
         <div>
             <div className="channelHeader">
                 <Avatar
+                    className="avatar"
                     image={channel?.data?.image}
                     name={
                         (channel.data?.name[userData.username]
