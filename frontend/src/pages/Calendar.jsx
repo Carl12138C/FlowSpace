@@ -1,15 +1,24 @@
-// import ";
-import "../css/calendar.css"
-import { useState } from "react";
+import "../css/calendar.css";
+import { useState, useRef } from "react";
+import dayjs from "dayjs";
 import CalendarComponent from "../components/CalendarComponent";
 import { CalendarDayHeader } from "../components/CalendarComponent";
 import { getUserContext } from "../context/AuthContext";
-import { getUserData,getUserTask,updateUserTask } from "../FirebaseUtil";
-
+import { getUserData, getUserTask} from "../FirebaseUtil";
 
 export default function Calendar() {
-  const [yearAndMonth, setYearAndMonth] = useState([2023, 10]);
   const uid = getUserContext().userData.uid;
+  const [yearAndMonth, setYearAndMonth] = useState([dayjs().year(), dayjs().month()+1]);
+  const [userTask, setUserTask] = useState(
+    getUserContext().userData.userTask ?? { data: [], dateTask: {} }
+  );
+  const [isOpen, setIsOpen] = useState(false);
+  const modalData = useRef();
+
+  async function fetchData() {
+    const userTaskData = await getUserTask(uid);
+    setUserTask(userTaskData);
+  }
   return (
     <>
       <CalendarComponent
@@ -20,22 +29,24 @@ export default function Calendar() {
             <CalendarDayHeader calendarDayObject={calendarDayObject} />
           </div>
         )}
+        renderTask={(taskObject) => (
+          <div
+            key = {taskObject.title}
+            className="calendar-task"
+            onClick={() => {
+              setIsOpen(true);
+              modalData.current = taskObject;
+            }}
+          >
+            {taskObject.title}
+          </div>
+        )}
+        userTask={userTask}
+        modalData={modalData}
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
+        fetchData={fetchData}
       />
-      <button onClick={() =>handleSet(uid)}>Set Task</button>
-      <button onClick={() => handleGetTask(uid)}>Get Task</button>
-      <button onClick = {() =>handleGetUserData(uid)}>Get UserData</button>
-
     </>
   );
-}
-async function handleSet(uid){
-  const response = await updateUserTask(uid,[{title: "Writing Assignment", description:"Complete Writing assignment for Operating System", deadline: "11/29/2023", isdone: false },{title: "Coding Assignment", description:"Complete Coding Assignment for Programmin Language and Implementation", deadline: "11/29/2023", isdone: false}]);
-}
-async function handleGetTask(uid){
-  const response = await getUserTask(uid);
-  console.log(response.data);
-}
-async function handleGetUserData(uid){
-  const response = await getUserData(uid);
-  console.log(response.data);
 }

@@ -7,23 +7,28 @@ import {
   createDaysForPreviousMonth,
   isWeekendDay,
   getMonthDropdownOptions,
-  getYearDropdownOptions
+  getYearDropdownOptions,
 } from "./CalendarHelpers";
 
 CalendarComponent.propTypes = {
   className: PropTypes.string,
   yearAndMonth: PropTypes.arrayOf(PropTypes.number).isRequired, // e.g. [2021, 6] for June 2021
   onYearAndMonthChange: PropTypes.func.isRequired,
-  renderDay: PropTypes.func
+  renderDay: PropTypes.func,
 };
 export default function CalendarComponent({
   className = "",
   yearAndMonth = [2021, 6],
   onYearAndMonthChange,
-  renderDay = () => null
+  renderDay = () => null,
+  renderTask = () => null,
+  userTask = null,
+  modalData = null,
+  isOpen = null,
+  setIsOpen,
+  fetchData,
 }) {
   const [year, month] = yearAndMonth;
-
   let currentMonthDays = createDaysForCurrentMonth(year, month);
   let previousMonthDays = createDaysForPreviousMonth(
     year,
@@ -34,7 +39,7 @@ export default function CalendarComponent({
   let calendarGridDayObjects = [
     ...previousMonthDays,
     ...currentMonthDays,
-    ...nextMonthDays
+    ...nextMonthDays,
   ];
 
   const handleMonthNavBackButtonClick = () => {
@@ -73,8 +78,8 @@ export default function CalendarComponent({
     <div className="calendar-root">
       <div className="navigation-header">
         <div className="month-nav-arrow-buttons">
-          <button onClick={handleMonthNavBackButtonClick}> prev </button>
-          <button onClick={handleMonthNavForwardButtonClick}>next</button>
+          <button onClick={handleMonthNavBackButtonClick}> Prev </button>
+          <button onClick={handleMonthNavForwardButtonClick}> Next</button>
         </div>
         <select
           className="month-select"
@@ -104,7 +109,7 @@ export default function CalendarComponent({
           <div
             key={day}
             className={classNames("day-of-week-header-cell", {
-              "weekend-day": [6, 0].includes(index)
+              "weekend-day": [6, 0].includes(index),
             })}
           >
             {day}
@@ -117,19 +122,51 @@ export default function CalendarComponent({
             key={day.dateString}
             className={classNames("day-grid-item-container", {
               "weekend-day": isWeekendDay(day.dateString),
-              "current-month": day.isCurrentMonth
+              "current-month": day.isCurrentMonth,
             })}
           >
-            <div className="day-content-wrapper">{renderDay(day)}</div>
+            <div className="day-content-wrapper">
+              {renderDay(day)}{" "}
+              {userTask.dateTask[day.dateString]?.task.map((task) =>
+                renderTask(task)
+              )}
+            </div>
           </div>
         ))}
       </div>
+      {isOpen && (
+        <div className="modal">
+          <div
+            className="overlay"
+            onClick={() => {
+              setIsOpen(false);
+              modalData.current = null;
+            }}
+          ></div>
+          <div className="modal-content">
+            <button
+              className="close-modal"
+              onClick={() => {
+                setIsOpen(false);
+                modalData.current = null;
+              }}
+            >
+              Close
+            </button>
+            <div className="modal-data-container">
+            <h2>{modalData.current?.title}</h2>
+            <h3>{modalData.current?.deadline}</h3>
+            <h4>{modalData.current?.description}</h4>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
 
 CalendarDayHeader.propTypes = {
-  calendarDayObject: PropTypes.object.isRequired
+  calendarDayObject: PropTypes.object.isRequired,
 };
 export function CalendarDayHeader({ calendarDayObject }) {
   return (

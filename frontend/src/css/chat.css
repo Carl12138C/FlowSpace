@@ -70,7 +70,8 @@
   text-overflow: ellipsis;
   white-space: nowrap;
   font-weight: 500;
-  width: 8vw;
+  width: calc(11vw - 24px);
+  overflow: auto;
   text-align: left;
   padding-left: 10px;
 }
@@ -127,4 +128,30 @@
 .flex {
   display: flex;
   align-items: center;
+}
+
+.channelHeader-title {
+  font: var(--str-chat__subtitle-medium-text);
+  font-size: 19px;
+}
+
+.channelHeader-info {
+  font: var(--str-chat__body-text);
+  color: var(--str-chat__channel-header-info-color);
+}
+
+.channelHeader-details{
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  margin-left: 7px;
+}
+
+.channelHeader {
+  align-items: center;
+  background-color: white;
+  width: 100%;
+  opacity: 90%;
+  display: flex;
+  margin: 7px;
 }

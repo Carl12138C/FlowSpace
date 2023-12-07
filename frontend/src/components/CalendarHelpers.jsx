@@ -38,9 +38,9 @@ export function getNumberOfDaysInMonth(year, month) {
 export function createDaysForCurrentMonth(year, month) {
   return [...Array(getNumberOfDaysInMonth(year, month))].map((_, index) => {
     return {
-      dateString: dayjs(`${year}-${month}-${index + 1}`).format("YYYY-MM-DD"),
+      dateString: dayjs(`${year}-${month}-${index + 1}`).format("MM/DD/YYYY"),
       dayOfMonth: index + 1,
-      isCurrentMonth: true
+      isCurrentMonth: true,
     };
   });
 }
@@ -63,10 +63,10 @@ export function createDaysForPreviousMonth(year, month, currentMonthDays) {
         `${previousMonth.year()}-${previousMonth.month() + 1}-${
           previousMonthLastMondayDayOfMonth + index
         }`
-      ).format("YYYY-MM-DD"),
+      ).format("MM/DD/YYYY"),
       dayOfMonth: previousMonthLastMondayDayOfMonth + index,
       isCurrentMonth: false,
-      isPreviousMonth: true
+      isPreviousMonth: true,
     };
   });
 }
@@ -82,10 +82,10 @@ export function createDaysForNextMonth(year, month, currentMonthDays) {
     return {
       dateString: dayjs(
         `${nextMonth.year()}-${nextMonth.month() + 1}-${index + 1}`
-      ).format("YYYY-MM-DD"),
+      ).format("MM/DD/YYYY"),
       dayOfMonth: index + 1,
       isCurrentMonth: false,
-      isNextMonth: true
+      isNextMonth: true,
     };
   });
 }

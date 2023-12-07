@@ -8,6 +8,8 @@ import {
     Select,
 } from "@mui/material";
 import { useEffect, useState } from "react";
+import { getFriends } from "../../FirebaseUtil";
+import { getUserContext } from "../../context/AuthContext";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -21,13 +23,21 @@ const MenuProps = {
 };
 
 export default function SelectFriends({ selectedFriends, setSelectedFriends }) {
+    const { userData } = getUserContext();
     const [friendList, setFriendList] = useState([]);
 
     useEffect(() => {
         var isInterrupted = false;
-        console.log("calling firebase");
-        if (isInterrupted) return;
-        setFriendList(["Friend 1", "Friend 2", "Friend 3"]);
+
+        getFriends(userData.uid)
+            .then((res) => {
+                if (res.data != null) {
+                    setFriendList(res.data);
+                }
+            })
+            .catch((error) => {
+                setFriendList([]);
+            });
 
         return () => {
             isInterrupted = true;
@@ -61,10 +71,10 @@ export default function SelectFriends({ selectedFriends, setSelectedFriends }) {
                 )}
                 MenuProps={MenuProps}
             >
-                {friendList.length > 0 ? (
-                    friendList.map((friend) => (
-                        <MenuItem key={friend} value={friend}>
-                            {friend}
+                {friendList != [] ? (
+                    Object.keys(friendList).map((key) => (
+                        <MenuItem key={key} value={friendList[key]}>
+                            {friendList[key]}
                         </MenuItem>
                     ))
                 ) : (
