@@ -36,7 +36,6 @@ export default function Tasklist() {
     // console.log(updatedData);
     taskRef.userTask = updatedData;
   }
-  console.log(userTask);
 
   async function addTask(taskInfo) {
     const newTask = {

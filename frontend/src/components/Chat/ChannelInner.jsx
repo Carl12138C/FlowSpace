@@ -16,7 +16,6 @@ function ChannelInner() {
                 <MessageList hideDeletedMessages />
                 <MessageInput focus />
             </Window>
-            <Thread />
         </>
     );
 }
