@@ -57,7 +57,7 @@ export default function Home() {
                   uid: newUser.user.uid,
                   username: newUser.username,
                   streamToken: newUser.streamToken,
-                  userTask: newUserTask,
+                  userTask: newUserTask ?? {data: [], dateTask:{}},
                 });
 
                 navigate("/chat");

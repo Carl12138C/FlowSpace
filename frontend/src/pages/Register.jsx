@@ -49,10 +49,11 @@ export default function Register() {
       const data = await response.json();
       if (response.ok) {
         setUserData({
-          username: usernameRef.current.value,
           email: emailRef.current.value,
           uid: data.user.uid,
+          username: usernameRef.current.value,
           streamToken: data.streamToken,
+          userTask: { data: [], dateTask: {} },
         });
 
         navigate("/chat");
