@@ -4,6 +4,7 @@ import { styled } from "@mui/material/styles";
 import TaskItem from "../components/TaskItem";
 import TaskInput from "../components/TaskInput";
 import { getUserContext } from "../context/AuthContext";
+import { createUserTask, getUserTask, getTasks } from "../FirebaseUtil";
 
 const StyledDiv = styled("div")({
     // backgroundColor: 'aliceblue',
@@ -13,21 +14,27 @@ const StyledDiv = styled("div")({
 });
 
 export default function Tasklist() {
-    const { userData } = getUserContext();
-    const [itemList, setItems] = React.useState([
-        { id: 1, title: "Get Coffee", completed: false },
-        { id: 2, title: "Team Meeting", completed: false },
-        { id: 3, title: "Presentation", completed: false },
-        { id: 4, title: "Lunch", completed: false },
-    ]);
 
-    const addTask = (taskInfo) => {
+    const { userData } = getUserContext();
+    const uid = userData.uid;
+    const [itemList, setItems] = React.useState([]);
+
+    React.useEffect(() => {
+      const fetchTasks = async () => {
+        const tasks = await getTasks(uid);
+        setItems(Object.values(tasks.data));
+      }
+      fetchTasks()
+    },[]);
+
+    const addTask = async (taskInfo) => {
         const newTask = {
             id: taskInfo.id,
             title: taskInfo.title,
             completed: false,
         };
         setItems([...itemList, newTask]);
+        await createUserTask(uid, newTask);
     };
 
     const editTask = (taskInfo) => {
@@ -41,6 +48,7 @@ export default function Tasklist() {
         const newList = [...itemList].filter((anItem) => anItem.id !== taskId);
         setItems(newList);
     };
+
 
     function generateTaskItem(itemProps) {
         return (

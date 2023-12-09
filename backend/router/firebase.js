@@ -138,10 +138,32 @@ firebaseRouter.get("/getuserdata", async function incoming(req, res) {
         });
 });
 
+firebaseRouter.post("/updatetask", async function (req, res) {
+    const reference = database.ref(db, "tasklist/" + req.body.uid);
+    database.push(reference, req.body.data);
+    console.log(req.body.data);
+    return res.status(201).json();
+});
+
 firebaseRouter.put("/updatetask", async function (req, res) {
     const reference = database.ref(db, "tasklist/" + req.body.uid);
     database.set(reference, req.body.data);
     return res.status(201).json();
+});
+
+firebaseRouter.get("/tasks", async function (req, res) {
+  const reference = database.ref(db); 
+  database.get(database.child(reference, "tasklist/" + req.query.uid)).then((snapshot) => {
+    if (snapshot.exists()) {
+      const tasks = snapshot.val() === "" ? {} : snapshot.val()
+      return res.status(200).json({ data: tasks });
+    } else {
+      console.log("No data available");
+    }
+  }).catch((error) => {
+    console.error(error);
+    return res.status(204).json();
+  });
 });
 
 firebaseRouter.get("/getusertask", async function incoming(req, res) {
