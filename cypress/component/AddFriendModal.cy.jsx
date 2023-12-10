@@ -1,15 +1,33 @@
-import AddFriendModal from "../../frontend/src/components/Chat/AddFriendModal";
-import { getUserContext } from "../../frontend/src/context/AuthContext";
 import { AuthContext } from "../../frontend/src/context/AuthContext";
+import { MemoryRouter } from "react-router-dom";
+import Register from "../../frontend/src/pages/Register";
+import { useState } from "react";
+import { StreamChat } from "stream-chat";
 
-describe("AddFriendModal.cy.jsx", () => {
-    before(() => {});
-
-    it("playground", () => {
-        cy.mount(
-            <AuthContext>
-                <AddFriendModal/>
+const ComponentWrapper = ({ children }) => {
+    const [userData, setUserData] = useState();
+    return (
+        <MemoryRouter initialEntries={["/"]}>
+            <AuthContext value={{ userData, setUserData }}>
+                {children}
             </AuthContext>
-        );
+        </MemoryRouter>
+    );
+};
+
+describe("Register.cy.jsx", () => {
+    beforeEach(() => {
+        cy.mount(<ComponentWrapper>
+            <Register/>
+        </ComponentWrapper>)
+    })
+
+    it("Input New Username", () => {
+        cy.get()
     });
+
+    it("Input New User email", () => {
+        cy.get()
+    });
+
 });

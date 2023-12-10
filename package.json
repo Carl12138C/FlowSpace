@@ -1,7 +1,7 @@
 {
   "scripts": {
     "cypress:open": "cypress open",
-    "cypress:record" : "npx cypress run --record --key 7c7e4406-6d31-4ac2-bb10-d59fbed29c14",
+    "cypress:run" : "npx cypress run --record --key 7c7e4406-6d31-4ac2-bb10-d59fbed29c14 --browser chrome",
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",

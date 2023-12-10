@@ -56,6 +56,7 @@ export default function TaskInput({addTask}) {
   return (
     <div>
       <Button
+        data-cy="button-add-task"
         onClick={handleOpen}
         color="primary"
         aria-label="add to task list"
@@ -77,6 +78,7 @@ export default function TaskInput({addTask}) {
               Create A Task
             </Typography>
             <TextField
+              data-cy="input-task-title"
               fullWidth
               label="Title"
               id="task-title"
@@ -92,6 +94,7 @@ export default function TaskInput({addTask}) {
               required
             />
             <TextField
+              data-cy="input-task-description"
               fullWidth
               id="task-des"
               name="task-des"
@@ -104,6 +107,7 @@ export default function TaskInput({addTask}) {
               mt={0}
               control={
                 <Checkbox
+                data-cy="checkbox-task-completed"
                   checked={localIsDone}
                   onClick={() => {
                     setLocalIsDone(!localIsDone);
@@ -112,7 +116,7 @@ export default function TaskInput({addTask}) {
               }
               label={"Completed?"}
             />
-            <Button type="submit">Create</Button>
+            <Button data-cy="button-submit" type="submit">Create</Button>
           </Stack>
         </Box>
       </Modal>

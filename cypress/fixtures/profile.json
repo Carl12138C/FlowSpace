@@ -1,10 +1,13 @@
 {
-    "email": "carltest2@gmail.com",
-    "streamToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiQ2FybDIifQ.CkCPgy0AuunRbNIXdLAm34_sil3J0-BHoU7HjMtFNrM",
-    "uid": "THvWkkWxrvbkgp8CG60xjeVkrbJ2",
-    "username": "Carl2",
-    "userTask": {
-        "data": [],
-        "dateTask": {}
+    "user1": {
+        "email": "carltest2@gmail.com",
+        "streamToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiQ2FybDIifQ.CkCPgy0AuunRbNIXdLAm34_sil3J0-BHoU7HjMtFNrM",
+        "uid": "THvWkkWxrvbkgp8CG60xjeVkrbJ2",
+        "username": "Carl2",
+        "password": "1234567890",
+        "userTask": {
+            "data": [],
+            "dateTask": {}
+        }
     }
 }

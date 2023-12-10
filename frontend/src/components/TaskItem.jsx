@@ -36,7 +36,7 @@ export default function TaskItem({ info, updateTask, removeTask}) {
   return (
     <>
       <Item>
-        <Grid container spacing={2}>
+        <Grid container spacing={2} data-cy="item-task">
           <Grid item xs={10}>
             <FormControlLabel
               control={
@@ -56,7 +56,7 @@ export default function TaskItem({ info, updateTask, removeTask}) {
                 setLocalIsDone={setLocalIsDone}
                 editTask = {editTask}
               />
-              <IconButton onClick={() => {removeTask(info)} /* removeTask(info.id)*/}>
+              <IconButton data-cy="button-remove-task" onClick={() => {removeTask(info)}}>
                 <DeleteIcon />
               </IconButton>
             </Grid>
