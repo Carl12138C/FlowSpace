@@ -49,9 +49,10 @@ export default function Tasklist() {
 
   function removeTask(index) {
     console.log(index);
-    userTask.splice(index, 1);
-    console.log(userTask);
-    setUserTask(userTask.splice(userTask));
+    var result = [...userTask];
+    result.splice(index,1);
+    console.log(result);
+    setUserTask(result);
   }
 
   function generateTaskItem(itemProps, index) {
