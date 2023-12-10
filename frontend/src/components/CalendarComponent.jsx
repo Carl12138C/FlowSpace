@@ -26,7 +26,6 @@ export default function CalendarComponent({
   modalData = null,
   isOpen = null,
   setIsOpen,
-  fetchData,
 }) {
   const [year, month] = yearAndMonth;
   let currentMonthDays = createDaysForCurrentMonth(year, month);

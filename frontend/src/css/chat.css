@@ -157,3 +157,6 @@
 .str-chat__avatar{
   margin: 10px 5px 0px 10px;
 }
+.str-chat__message-simple__actions__action--thread{
+  display: none !important;
+}

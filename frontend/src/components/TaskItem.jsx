@@ -3,6 +3,7 @@ import { styled } from "@mui/material/styles";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import Grid from "@mui/material/Grid";
+import { useState } from "react";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditTask from "../components/EditTask";
@@ -19,18 +20,43 @@ const Item = styled(Paper)(({ theme }) => ({
 
 // };
 
-export default function TaskItem({ info, editTask, removeTask }) {
+export default function TaskItem({ info, updateTask, removeTask}) {
+  const [isDone, setIsDone] = useState(info.isDone);
+  const [localIsDone, setLocalIsDone] = useState(info.isDone);
+  const [userTask,setUserTask] = useState(info)
+
+  function editTask(newTask){
+    setUserTask(newTask);
+    info.deadline = newTask.deadline;
+    info.description = newTask.description;
+    info.isDone = newTask.isDone;
+    info.title = newTask.title;
+    updateTask();
+  }
   return (
     <>
       <Item>
         <Grid container spacing={2}>
           <Grid item xs={10}>
-            <FormControlLabel control={<Checkbox />} label={info.title} />
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={isDone}
+                />
+              }
+              label={info.title}
+            />
           </Grid>
           <Grid item xs={2}>
             <Grid container justifyContent="flex-end">
-              <EditTask taskInfo={info} editTask={editTask}/>
-              <IconButton onClick={() => removeTask(info.id)}>
+              <EditTask
+                taskInfo={info}
+                setisDone={setIsDone}
+                localIsDone={localIsDone}
+                setLocalIsDone={setLocalIsDone}
+                editTask = {editTask}
+              />
+              <IconButton onClick={() => {removeTask(info)} /* removeTask(info.id)*/}>
                 <DeleteIcon />
               </IconButton>
             </Grid>
