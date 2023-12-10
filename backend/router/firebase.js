@@ -141,8 +141,8 @@ firebaseRouter.get("/getuserdata", async function incoming(req, res) {
 firebaseRouter.put("/updatetask", async function (req, res) {
   const reference = database.ref(db, "tasklist/" + req.body.uid);
   try {
-    if(req.body.data == []){
-      console.log("this is empty")
+    if(req.body.data == undefined){
+      req.body.data = [];
     }
     database.set(reference, req.body.data);
     return res.status(201).json();
