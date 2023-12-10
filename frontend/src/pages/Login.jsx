@@ -91,6 +91,7 @@ export default function Home() {
                         </Typography>
                         <Stack spacing={2}>
                             <TextField
+                                data-cy="input-email"
                                 label="Email"
                                 inputRef={emailRef}
                                 error={error}
@@ -101,11 +102,13 @@ export default function Home() {
                                 }}
                             />
                             <TextField
+                                data-cy="input-password"
                                 label="Password"
                                 type="password"
                                 inputRef={passwordRef}
                             />
                             <button
+                                data-cy="button-login"
                                 onClick={login}
                                 style={{ height: "20px" }}
                                 disabled={error}
