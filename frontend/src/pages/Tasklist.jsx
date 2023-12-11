@@ -21,12 +21,6 @@ export default function Tasklist() {
   );
 
   useEffect(() => {
-    if (import.meta.env.DEV ? firstUpdate.current < 2 : firstUpdate.current) {
-      import.meta.env.DEV
-        ? (firstUpdate.current += 1)
-        : (firstUpdate.current = false);
-      return;
-    }
     updateTask();
   }, [userTask]);
 

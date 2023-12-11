@@ -24,9 +24,9 @@ export default function Calendar() {
             <CalendarDayHeader calendarDayObject={calendarDayObject} />
           </div>
         )}
-        renderTask={(taskObject) => (
+        renderTask={(taskObject,index) => (
           <div
-            key = {taskObject.title}
+            key = {"" + index}
             className="calendar-task"
             onClick={() => {
               setIsOpen(true);
