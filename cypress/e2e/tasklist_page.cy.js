@@ -1,5 +1,5 @@
-import user from "../../fixtures/profile.json";
-import tasks from "../../fixtures/task.json";
+import user from "../fixtures/profile.json";
+import tasks from "../fixtures/task.json";
 
 const randUser = user.user1;
 const task = tasks[Math.floor(Math.random() * tasks.length)];
