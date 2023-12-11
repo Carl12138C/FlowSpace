@@ -35,7 +35,7 @@ export default function Channels({ loadedChannels }) {
         <div className="channelList">
             <div id="modal">
                 <div className="channelList-header">
-                    <p>CONVERSATIONS</p>
+                    <p data-cy="chat-page-header">CONVERSATIONS</p>
                     <div className="flex">
                         <Tooltip
                             title="New Conversation"
@@ -88,7 +88,7 @@ export default function Channels({ loadedChannels }) {
                               ? "channel-active"
                               : "channel-notActive";
                           return (
-                              <div
+                              <button
                                   onClick={() => {
                                       setActiveChannel(channel);
                                   }}
@@ -96,7 +96,7 @@ export default function Channels({ loadedChannels }) {
                                   className={`channelList-channel ${extraClass}`}
                                   key={channel.id}
                               >
-                                  <div className="flex">
+                                  <div className="flex" data-qa="button-channel">
                                       {channel.data?.image != null ? (
                                           <img
                                               className="channelList-channel_image"
@@ -111,7 +111,7 @@ export default function Channels({ loadedChannels }) {
                                               </p>
                                           </div>
                                       )}
-                                      <div className="channelList-channel-name">
+                                      <div className="channelList-channel-name" data-qa="text-channel-name">
                                           {(channel.data?.name[userData.username]
                                                       ? channel.data?.name[userData.username]
                                                       : channel.data?.name) || "Channel"}
@@ -158,7 +158,7 @@ export default function Channels({ loadedChannels }) {
                                           </Button>
                                       </Box>
                                   </Modal> */}
-                              </div>
+                              </button>
                           );
                       })
                     : "No Conversations"}

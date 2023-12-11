@@ -139,7 +139,7 @@
   color: var(--str-chat__channel-header-info-color);
 }
 
-.channelHeader-details{
+.channelHeader-details {
   display: flex;
   flex-direction: column;
   flex-wrap: nowrap;
@@ -154,9 +154,14 @@
   display: flex;
 }
 
-.str-chat__avatar{
+.str-chat__avatar {
   margin: 10px 5px 0px 10px;
 }
-.str-chat__message-simple__actions__action--thread{
+
+.str-chat__message-simple__actions__action--thread {
   display: none !important;
+}
+
+.str-chat__message-actions-box {
+  left: 0px !important;
 }

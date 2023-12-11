@@ -65,7 +65,7 @@ export default function EditTask({
 
   return (
     <div>
-      <IconButton onClick={handleOpen}>
+      <IconButton onClick={handleOpen} data-cy="button-edit-task">
         <EditIcon />
       </IconButton>
       <Modal
@@ -80,6 +80,7 @@ export default function EditTask({
               Edit Task
             </Typography>
             <TextField
+              data-cy="input-edit-title"
               fullWidth
               defaultValue={taskInfo.title}
               label="Title"
@@ -95,6 +96,7 @@ export default function EditTask({
             />
 
             <TextField
+              data-cy="input-edit-description"
               fullWidth
               defaultValue={taskInfo.description}
               id="task-des"
@@ -116,7 +118,7 @@ export default function EditTask({
               }
               label={"Completed?"}
             />
-            <Button type="submit">Save</Button>
+            <Button data-cy="button-edit-submit" type="submit">Save</Button>
           </Stack>
         </Box>
       </Modal>
