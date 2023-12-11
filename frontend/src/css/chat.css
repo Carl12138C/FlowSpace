@@ -165,3 +165,7 @@
 .str-chat__message-actions-box {
   left: 0px !important;
 }
+
+.str-chat__list {
+  overflow: visible;
+}
