@@ -48,10 +48,8 @@ export default function Tasklist() {
   }
 
   function removeTask(index) {
-    console.log(index);
     var result = [...userTask];
     result.splice(index,1);
-    console.log(result);
     setUserTask(result);
   }
 
