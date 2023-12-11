@@ -20,7 +20,7 @@ const Item = styled(Paper)(({ theme }) => ({
 
 // };
 
-export default function TaskItem({ info, updateTask, removeTask}) {
+export default function TaskItem({ info, updateTask, removeTask, index}) {
   const [isDone, setIsDone] = useState(info.isDone);
   const [localIsDone, setLocalIsDone] = useState(info.isDone);
   const [userTask,setUserTask] = useState(info)
@@ -56,7 +56,7 @@ export default function TaskItem({ info, updateTask, removeTask}) {
                 setLocalIsDone={setLocalIsDone}
                 editTask = {editTask}
               />
-              <IconButton data-cy="button-remove-task" onClick={() => {removeTask(info)}}>
+              <IconButton data-cy="button-remove-task" onClick={() => {removeTask(index)} /* removeTask(info.id)*/}>
                 <DeleteIcon />
               </IconButton>
             </Grid>

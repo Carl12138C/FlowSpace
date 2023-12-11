@@ -37,7 +37,7 @@ export default function Tasklist() {
     taskRef.userTask = updatedData;
   }
 
-  async function addTask(taskInfo) {
+  function addTask(taskInfo) {
     const newTask = {
       deadline: taskInfo.deadline,
       description: taskInfo.description,
@@ -46,26 +46,21 @@ export default function Tasklist() {
     };
     setUserTask([...userTask, newTask]);
   }
-  function isTarget(taskInfo, task) {
-    return !(
-      taskInfo.deadline == task.deadline &&
-      taskInfo.description == task.description &&
-      taskInfo.isDone == task.isDone &&
-      taskInfo.title == task.title
-    );
-  }
-  async function removeTask(taskInfo) {
-    const result = userTask.filter((task)=> isTarget(taskInfo,task));
-    setUserTask(result);
-  };
 
-  function generateTaskItem(itemProps) {
+  function removeTask(index) {
+    var result = [...userTask];
+    result.splice(index,1);
+    setUserTask(result);
+  }
+
+  function generateTaskItem(itemProps, index) {
     return (
       <TaskItem
-        key={itemProps.title}
+        key={"" + index}
         info={itemProps}
         updateTask={updateTask}
-        removeTask = {removeTask}
+        removeTask={removeTask}
+        index={index}
       />
     );
   }
@@ -83,7 +78,9 @@ export default function Tasklist() {
             <TaskInput addTask={addTask} />
           </Grid>
           <Grid item xs={12}>
-            <Stack spacing={2}>{userTask?.map(generateTaskItem)}</Stack>
+            <Stack spacing={2}>
+              {userTask?.map((task, index) => generateTaskItem(task, index))}
+            </Stack>
           </Grid>
         </Grid>
       </Box>
