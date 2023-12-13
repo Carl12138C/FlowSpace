@@ -97,7 +97,7 @@ Introducing FlowSpace, our application will consolidate the processes involved i
 ## Final delivery
 
 * [Final presentation](https://docs.google.com/presentation/d/1zDiUYkjRjxpbw7jfUBawRC2l38aSAP5N908t5zzbDXU/edit?usp=sharing)
-* [Poster]()
+* [Poster](image/FLOWSPACE.png)
 
 Currently, two official plugins are available:
 
