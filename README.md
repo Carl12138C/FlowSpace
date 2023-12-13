@@ -10,6 +10,7 @@
 Carl Cai, Andre D’sa, Kevin Liu
 
 ![Team Picture](https://github.com/paceuniversity/cs389f2023team4/blob/main/image/AC35EDAA-A47A-42B1-B2D7-7CADDB3724ED.jpg)
+
 Left to right: Andre, Carl, Kevin
 
 ## App description
