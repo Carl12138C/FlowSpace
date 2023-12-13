@@ -24,9 +24,7 @@ Introducing FlowSpace, our application will consolidate the processes involved i
   * View your assigned task
   
   * Create task for people within your group
-  
-  * Create polls
-  
+    
   * Use Artifical Intelligence to have a more efficient flow.
   
   * View a Calendar with all your task.
@@ -64,6 +62,11 @@ Introducing FlowSpace, our application will consolidate the processes involved i
 
 ### Sprint 2
 
+![Sprint 2 Chat page](/image/FlowSpaceSprint2-ChatPage.jpg)
+![Sprint 2 Task page](/image/FlowSpaceSprint2-TaskPage.jpg)
+![Sprint 2 Firebase backend](/image/FlowSpaceSprint2-Firebase.jpg)
+
+
 * [Sprint planning](https://docs.google.com/spreadsheets/d/1Wbs6DIA65byChgVr_F-rV9t5BU84cUO6A8Wg8sxLSMg/edit#gid=2008869608)
 * [Scrums](https://docs.google.com/document/d/1BN__wVh9CegJbTzvGOroZXg6wD0czr8wNKAvgQ8I1_A/edit)
 * [Sprint demo video](https://youtu.be/-dBXfACCjNg)
@@ -71,21 +74,28 @@ Introducing FlowSpace, our application will consolidate the processes involved i
 
 ### Sprint 3
 
+![Sprint 3 Register Page](/image/FlowSpaceSprint3-Register.jpg)
+![Sprint 3 Chat page](/image/FlowSpaceSprint3-ChatPage.jpg)
+![Sprint 3 Task page](/image/FlowSpaceSprint3-TaskPage.jpg)
+![Sprint 3 Calendar Page](/image/FlowSpaceSprint3-CalendarPage.jpg)
+![Sprint 3 Cypress](/image/FlowSpaceSprint3-Cypress.jpg)
+
+
+
 * [Sprint planning](https://docs.google.com/spreadsheets/d/1Wbs6DIA65byChgVr_F-rV9t5BU84cUO6A8Wg8sxLSMg/edit#gid=8)
 * [Scrums](https://docs.google.com/document/d/1BN__wVh9CegJbTzvGOroZXg6wD0czr8wNKAvgQ8I1_A/edit)
-* [Sprint demo video]()
-* [Sprint retrospective]()
+* [Sprint demo video](https://youtu.be/8c_fQbyvw1M)
+* [Sprint retrospective](https://docs.google.com/document/d/13WGrOSgWfQYIKS2lrThxhMyOKjikR0f0yc0YWZK0ikQ/edit)
 
 ## Tools & APIs
 * FrontEnd: ReactJS, ViteJS
-* Backend: NodeJS, FireBase
-* Real Time Communication API: [WebSocket API](https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API)
+* Backend: NodeJS, Express, FireBase
+* StreamAPI, MUI, DayJS, Cypress
 
 ## Final delivery
 
-* [Final presentation]()
+* [Final presentation](https://docs.google.com/presentation/d/1zDiUYkjRjxpbw7jfUBawRC2l38aSAP5N908t5zzbDXU/edit?usp=sharing)
 * [Poster]()
-* [Process description]()
 
 Currently, two official plugins are available:
 
