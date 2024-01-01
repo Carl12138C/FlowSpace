@@ -16,7 +16,10 @@ function ChannelInner() {
                 <MessageList hideDeletedMessages />
                 <MessageInput focus />
             </Window>
+<<<<<<< HEAD
             <Thread />
+=======
+>>>>>>> a963207f9066cf1da7741daa4f1838daff73db94
         </>
     );
 }

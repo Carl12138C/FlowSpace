@@ -35,7 +35,11 @@ export default function Channels({ loadedChannels }) {
         <div className="channelList">
             <div id="modal">
                 <div className="channelList-header">
+<<<<<<< HEAD
                     <p>CONVERSATIONS</p>
+=======
+                    <p data-cy="chat-page-header">CONVERSATIONS</p>
+>>>>>>> a963207f9066cf1da7741daa4f1838daff73db94
                     <div className="flex">
                         <Tooltip
                             title="New Conversation"
@@ -88,7 +92,11 @@ export default function Channels({ loadedChannels }) {
                               ? "channel-active"
                               : "channel-notActive";
                           return (
+<<<<<<< HEAD
                               <div
+=======
+                              <button
+>>>>>>> a963207f9066cf1da7741daa4f1838daff73db94
                                   onClick={() => {
                                       setActiveChannel(channel);
                                   }}
@@ -96,7 +104,11 @@ export default function Channels({ loadedChannels }) {
                                   className={`channelList-channel ${extraClass}`}
                                   key={channel.id}
                               >
+<<<<<<< HEAD
                                   <div className="flex">
+=======
+                                  <div className="flex" data-qa="button-channel">
+>>>>>>> a963207f9066cf1da7741daa4f1838daff73db94
                                       {channel.data?.image != null ? (
                                           <img
                                               className="channelList-channel_image"
@@ -111,7 +123,11 @@ export default function Channels({ loadedChannels }) {
                                               </p>
                                           </div>
                                       )}
+<<<<<<< HEAD
                                       <div className="channelList-channel-name">
+=======
+                                      <div className="channelList-channel-name" data-qa="text-channel-name">
+>>>>>>> a963207f9066cf1da7741daa4f1838daff73db94
                                           {(channel.data?.name[userData.username]
                                                       ? channel.data?.name[userData.username]
                                                       : channel.data?.name) || "Channel"}
@@ -158,7 +174,11 @@ export default function Channels({ loadedChannels }) {
                                           </Button>
                                       </Box>
                                   </Modal> */}
+<<<<<<< HEAD
                               </div>
+=======
+                              </button>
+>>>>>>> a963207f9066cf1da7741daa4f1838daff73db94
                           );
                       })
                     : "No Conversations"}

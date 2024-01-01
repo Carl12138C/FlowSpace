@@ -11,6 +11,8 @@ Carl Cai, Andre D’sa, Kevin Liu
 
 ![Team Picture](https://github.com/paceuniversity/cs389f2023team4/blob/main/image/AC35EDAA-A47A-42B1-B2D7-7CADDB3724ED.jpg)
 
+Left to right: Andre, Carl, Kevin
+
 ## App description
 
 Working environments can be disorganized and frustrating when there is a lack of management. It is essential to maintain an organized and convenient workspace to promote better and faster workflow. In our case, we find a lack of technology that supports all functions and needs in a workspace such as task delegation, team communication, and polls for decision-making. We want to create an app that supports multiple features such that everything will be consolidated and organized. 
@@ -24,9 +26,7 @@ Introducing FlowSpace, our application will consolidate the processes involved i
   * View your assigned task
   
   * Create task for people within your group
-  
-  * Create polls
-  
+    
   * Use Artifical Intelligence to have a more efficient flow.
   
   * View a Calendar with all your task.
@@ -64,6 +64,11 @@ Introducing FlowSpace, our application will consolidate the processes involved i
 
 ### Sprint 2
 
+![Sprint 2 Chat page](/image/FlowSpaceSprint2-ChatPage.jpg)
+![Sprint 2 Task page](/image/FlowSpaceSprint2-TaskPage.jpg)
+![Sprint 2 Firebase backend](/image/FlowSpaceSprint2-Firebase.jpg)
+
+
 * [Sprint planning](https://docs.google.com/spreadsheets/d/1Wbs6DIA65byChgVr_F-rV9t5BU84cUO6A8Wg8sxLSMg/edit#gid=2008869608)
 * [Scrums](https://docs.google.com/document/d/1BN__wVh9CegJbTzvGOroZXg6wD0czr8wNKAvgQ8I1_A/edit)
 * [Sprint demo video](https://youtu.be/-dBXfACCjNg)
@@ -71,21 +76,28 @@ Introducing FlowSpace, our application will consolidate the processes involved i
 
 ### Sprint 3
 
+![Sprint 3 Register Page](/image/FlowSpaceSprint3-Register.jpg)
+![Sprint 3 Chat page](/image/FlowSpaceSprint3-ChatPage.jpg)
+![Sprint 3 Task page](/image/FlowSpaceSprint3-TaskPage.jpg)
+![Sprint 3 Calendar Page](/image/FlowSpaceSprint3-CalendarPage.jpg)
+![Sprint 3 Cypress](/image/FlowSpaceSprint3-Cypress.jpg)
+
+
+
 * [Sprint planning](https://docs.google.com/spreadsheets/d/1Wbs6DIA65byChgVr_F-rV9t5BU84cUO6A8Wg8sxLSMg/edit#gid=8)
 * [Scrums](https://docs.google.com/document/d/1BN__wVh9CegJbTzvGOroZXg6wD0czr8wNKAvgQ8I1_A/edit)
-* [Sprint demo video]()
-* [Sprint retrospective]()
+* [Sprint demo video](https://youtu.be/8c_fQbyvw1M)
+* [Sprint retrospective](https://docs.google.com/document/d/13WGrOSgWfQYIKS2lrThxhMyOKjikR0f0yc0YWZK0ikQ/edit)
 
 ## Tools & APIs
 * FrontEnd: ReactJS, ViteJS
-* Backend: NodeJS, FireBase
-* Real Time Communication API: [WebSocket API](https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API)
+* Backend: NodeJS, Express, FireBase
+* StreamAPI, MUI, DayJS, Cypress
 
 ## Final delivery
 
-* [Final presentation]()
-* [Poster]()
-* [Process description]()
+* [Final presentation](https://docs.google.com/presentation/d/1zDiUYkjRjxpbw7jfUBawRC2l38aSAP5N908t5zzbDXU/edit?usp=sharing)
+* [Poster](image/FLOWSPACE.png)
 
 Currently, two official plugins are available:
 

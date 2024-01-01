@@ -57,7 +57,11 @@ export default function Home() {
                   uid: newUser.user.uid,
                   username: newUser.username,
                   streamToken: newUser.streamToken,
+<<<<<<< HEAD
                   userTask: newUserTask,
+=======
+                  userTask: newUserTask ?? {data: [], dateTask:{}},
+>>>>>>> a963207f9066cf1da7741daa4f1838daff73db94
                 });
 
                 navigate("/chat");
@@ -91,6 +95,10 @@ export default function Home() {
                         </Typography>
                         <Stack spacing={2}>
                             <TextField
+<<<<<<< HEAD
+=======
+                                data-cy="input-email"
+>>>>>>> a963207f9066cf1da7741daa4f1838daff73db94
                                 label="Email"
                                 inputRef={emailRef}
                                 error={error}
@@ -101,11 +109,19 @@ export default function Home() {
                                 }}
                             />
                             <TextField
+<<<<<<< HEAD
+=======
+                                data-cy="input-password"
+>>>>>>> a963207f9066cf1da7741daa4f1838daff73db94
                                 label="Password"
                                 type="password"
                                 inputRef={passwordRef}
                             />
                             <button
+<<<<<<< HEAD
+=======
+                                data-cy="button-login"
+>>>>>>> a963207f9066cf1da7741daa4f1838daff73db94
                                 onClick={login}
                                 style={{ height: "20px" }}
                                 disabled={error}

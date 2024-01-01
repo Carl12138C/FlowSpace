@@ -1,8 +1,10 @@
-import * as React from "react";
+import { useState, useRef, useEffect } from "react";
 import {
   Box,
   Button,
+  Checkbox,
   FormControl,
+  FormControlLabel,
   InputLabel,
   MenuItem,
   Modal,
@@ -14,6 +16,8 @@ import {
 } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import EditIcon from "@mui/icons-material/Edit";
+import { DatePicker } from "@mui/x-date-pickers";
+import dayjs from "dayjs";
 
 const style = {
   position: "absolute",
@@ -27,39 +31,41 @@ const style = {
   p: 4,
 };
 
-const names = ["Andre", "Carl", "Kevin"];
-
-export default function EditTask({ editTask, taskInfo }) {
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
-  const [personName, setPersonName] = React.useState([]);
-
-  const handleChange = (event) => {
-    const {
-      target: { value },
-    } = event;
-    setPersonName(
-      // On autofill we get a stringified value.
-      typeof value === "string" ? value.split(",") : value
-    );
+export default function EditTask({
+  taskInfo,
+  setisDone,
+  localIsDone,
+  setLocalIsDone,
+  editTask,
+}) {
+  const [deadline, setDeadline] = useState(taskInfo.deadline); //date as a string rn
+  const [open, setOpen] = useState(false);
+  
+  const handleOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setLocalIsDone(taskInfo.isDone);
+    setDeadline(taskInfo.deadline);
+    setOpen(false);
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     editTask({
-      id: taskInfo.id,
-      title: data.get("task-title"),
+      deadline: deadline,
       description: data.get("task-des"),
+      isDone: localIsDone,
+      title: data.get("task-title"),
     });
-
+    setisDone(taskInfo.isDone);
     setOpen(false);
   };
 
   return (
     <div>
-      <IconButton onClick={handleOpen}>
+      <IconButton onClick={handleOpen} data-cy="button-edit-task">
         <EditIcon />
       </IconButton>
       <Modal
@@ -73,39 +79,46 @@ export default function EditTask({ editTask, taskInfo }) {
             <Typography id="modal-modal-title" variant="h6" component="h2">
               Edit Task
             </Typography>
-            <FormControl fullWidth sx={{ m: 1 }}>
-              <InputLabel id="name-selector-label">Assignees</InputLabel>
-              <Select
-                labelId="name-selector-label"
-                id="name-selector"
-                multiple
-                value={personName}
-                onChange={handleChange}
-                input={<OutlinedInput label="Assignees" />}
-              >
-                {names.map((name) => (
-                  <MenuItem key={name} value={name}>
-                    {name}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
             <TextField
+              data-cy="input-edit-title"
               fullWidth
               defaultValue={taskInfo.title}
               label="Title"
               id="task-title"
               name="task-title"
             />
+            <DatePicker
+              label="Deadline"
+              defaultValue={dayjs(deadline)}
+              onChange={(event) => {
+                setDeadline(event.format("MM/DD/YYYY"));
+              }}
+            />
+
             <TextField
+              data-cy="input-edit-description"
               fullWidth
+              defaultValue={taskInfo.description}
               id="task-des"
               name="task-des"
               label="Description"
               multiline
               rows={4}
             />
-            <Button type="submit">Edit</Button>
+            <FormControlLabel
+              mt={0}
+              control={
+                <Checkbox
+                  checked={localIsDone}
+                  onClick={() => {
+                    // info.current.isDone = !info.current.isDone;
+                    setLocalIsDone(!localIsDone);
+                  }}
+                />
+              }
+              label={"Completed?"}
+            />
+            <Button data-cy="button-edit-submit" type="submit">Save</Button>
           </Stack>
         </Box>
       </Modal>

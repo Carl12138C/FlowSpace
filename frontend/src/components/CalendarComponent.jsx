@@ -26,7 +26,6 @@ export default function CalendarComponent({
   modalData = null,
   isOpen = null,
   setIsOpen,
-  fetchData,
 }) {
   const [year, month] = yearAndMonth;
   let currentMonthDays = createDaysForCurrentMonth(year, month);
@@ -127,8 +126,8 @@ export default function CalendarComponent({
           >
             <div className="day-content-wrapper">
               {renderDay(day)}{" "}
-              {userTask.dateTask[day.dateString]?.task.map((task) =>
-                renderTask(task)
+              {userTask.dateTask[day.dateString]?.task.map((task,index) =>
+                renderTask(task,index)
               )}
             </div>
           </div>

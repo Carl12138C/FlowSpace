@@ -139,7 +139,11 @@
   color: var(--str-chat__channel-header-info-color);
 }
 
+<<<<<<< HEAD
 .channelHeader-details{
+=======
+.channelHeader-details {
+>>>>>>> a963207f9066cf1da7741daa4f1838daff73db94
   display: flex;
   flex-direction: column;
   flex-wrap: nowrap;
@@ -154,6 +158,23 @@
   display: flex;
 }
 
+<<<<<<< HEAD
 .str-chat__avatar{
   margin: 10px 5px 0px 10px;
+=======
+.str-chat__avatar {
+  margin: 10px 5px 0px 10px;
+}
+
+.str-chat__message-simple__actions__action--thread {
+  display: none !important;
+}
+
+.str-chat__message-actions-box {
+  left: 0px !important;
+}
+
+.str-chat__list {
+  overflow: visible;
+>>>>>>> a963207f9066cf1da7741daa4f1838daff73db94
 }

@@ -9,8 +9,9 @@ import Login from "./pages/Login.jsx";
 import MainLayout from "./layouts/MainLayout.jsx";
 import Register from "./pages/Register.jsx";
 import { AuthContext } from "./context/AuthContext.jsx";
-
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import {LocalizationProvider} from "@mui/x-date-pickers";
+import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs"
 
 const routes = createBrowserRouter([
   {
@@ -51,7 +52,9 @@ const routes = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <AuthContext>
+      <LocalizationProvider dateAdapter={AdapterDayjs}>
       <RouterProvider router={routes} />
+      </LocalizationProvider>
     </AuthContext>
   </React.StrictMode>
 );

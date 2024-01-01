@@ -4,7 +4,6 @@ import dayjs from "dayjs";
 import CalendarComponent from "../components/CalendarComponent";
 import { CalendarDayHeader } from "../components/CalendarComponent";
 import { getUserContext } from "../context/AuthContext";
-import { getUserData, getUserTask} from "../FirebaseUtil";
 
 export default function Calendar() {
   const uid = getUserContext().userData.uid;
@@ -15,10 +14,6 @@ export default function Calendar() {
   const [isOpen, setIsOpen] = useState(false);
   const modalData = useRef();
 
-  async function fetchData() {
-    const userTaskData = await getUserTask(uid);
-    setUserTask(userTaskData);
-  }
   return (
     <>
       <CalendarComponent
@@ -29,9 +24,9 @@ export default function Calendar() {
             <CalendarDayHeader calendarDayObject={calendarDayObject} />
           </div>
         )}
-        renderTask={(taskObject) => (
+        renderTask={(taskObject,index) => (
           <div
-            key = {taskObject.title}
+            key = {"" + index}
             className="calendar-task"
             onClick={() => {
               setIsOpen(true);
@@ -45,7 +40,6 @@ export default function Calendar() {
         modalData={modalData}
         isOpen={isOpen}
         setIsOpen={setIsOpen}
-        fetchData={fetchData}
       />
     </>
   );
